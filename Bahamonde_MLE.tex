@@ -1,0 +1,725 @@
+%LaTeX Curriculum Vitae Template
+%
+% Copyright (C) 2004-2009 Jason Blevins <jrblevin@sdf.lonestar.org>
+% http://jblevins.org/projects/cv-template/
+%
+% You may use use this document as a template to create your own CV
+% and you may redistribute the source code freely. No attribution is
+% required in any resulting documents. I do ask that you please leave
+% this notice and the above URL in the source code if you choose to
+% redistribute this file.
+
+\documentclass[letterpaper]{article}
+
+\usepackage{hyperref}
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=true,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={My title},    % title
+    pdfauthor={Author},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={keyword1} {key2} {key3}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=blue,          % color of internal links (change box color with linkbordercolor)
+    citecolor=blue,        % color of links to bibliography
+    filecolor=blue,      % color of file links
+    urlcolor=blue           % color of external links
+}
+
+
+
+\usepackage{geometry}
+\usepackage{import} % To import email.
+\usepackage{marvosym} % face package
+%\usepackage{xcolor,color}
+\usepackage{fontawesome}
+\usepackage{amssymb} % for bigstar
+\usepackage{epigraph}
+\usepackage{enumitem} % roman numbers
+\usepackage[svgnames]{xcolor}
+
+
+% Comment the following lines to use the default Computer Modern font
+% instead of the Palatino font provided by the mathpazo package.
+% Remove the 'osf' bit if you don't like the old style figures.
+\usepackage[T1]{fontenc}
+\usepackage[sc,osf]{mathpazo}
+
+% Set your name here
+\def\name{M\'etodos Cuantitativos II - Pendiente Sigla}
+
+% Replace this with a link to your CV if you like, or set it empty
+% (as in \def\footerlink{}) to remove the link in the footer:
+\def\footerlink{}
+% \href{http://www.hectorbahamonde.com}{www.HectorBahamonde.com}
+
+% The following metadata will show up in the PDF properties
+\hypersetup{
+  colorlinks = true,
+  urlcolor = blue,
+  pdfauthor = {\name},
+  pdfkeywords = {intro to social sciences},
+  pdftitle = {\name: Syllabus},
+  pdfsubject = {Syllabus},
+  pdfpagemode = UseNone
+}
+
+\geometry{
+  body={6.5in, 8.5in},
+  left=1.0in,
+  top=1.25in
+}
+
+% Customize page headers
+\pagestyle{myheadings}
+\markright{{\tiny \name}}
+\thispagestyle{empty}
+
+% Custom section fonts
+\usepackage{sectsty}
+\sectionfont{\rmfamily\mdseries\Large}
+\subsectionfont{\rmfamily\mdseries\itshape\large}
+
+% Don't indent paragraphs.
+\setlength\parindent{0em}
+
+% Make lists without bullets
+\renewenvironment{itemize}{
+  \begin{list}{}{
+    \setlength{\leftmargin}{1.5em}
+  }
+}{
+  \end{list}
+}
+
+
+% email input begin
+\newread\fid
+\newcommand{\readfile}[1]% #1 = filename
+{\bgroup
+  \endlinechar=-1
+  \openin\fid=#1
+  \read\fid to\filetext
+  \loop\ifx\empty\filetext\relax% skip over comments
+    \read\fid to\filetext
+  \repeat
+  \closein\fid
+  \global\let\filetext=\filetext
+\egroup}
+\readfile{/Users/hectorbahamonde/RU/Bibliografia_PoliSci/email.txt}
+% email input end
+
+
+%%% bib begin
+\usepackage[american]{babel}
+\usepackage{csquotes}
+%\usepackage[style=chicago-authordate,doi=false,isbn=false,url=false,eprint=false]{biblatex}
+
+\usepackage[authordate,isbn=false,doi=false,url=false,eprint=false]{biblatex-chicago}
+\DeclareFieldFormat[article]{title}{\mkbibquote{#1}} % make article titles in quotes
+\DeclareFieldFormat[thesis]{title}{\mkbibemph{#1}} % make theses italics
+
+\AtEveryBibitem{\clearfield{month}}
+\AtEveryCitekey{\clearfield{month}}
+
+\addbibresource{/Users/hectorbahamonde/RU/Bibliografia_PoliSci/library.bib} 
+\addbibresource{/Users/hectorbahamonde/RU/Bibliografia_PoliSci/Bahamonde_BibTex2013.bib} 
+
+% USAGES
+%% use \textcite to cite normal
+%% \parencite to cite in parentheses
+%% \footcite to cite in footnote
+%% the default can be modified in autocite=FOO, footnote, for ex. 
+%%% bib end
+
+
+
+
+\begin{document}
+
+% Place name at left
+%{\huge \name}
+
+% Alternatively, print name centered and bold:
+\centerline{\huge \bf \name}
+
+\epigraph{\emph{Statistics: ``science dealing with data about the condition of a state or community''}}{Gottfried Aschenwall, 1770}
+
+
+\vspace{0.25in}
+
+\begin{minipage}{0.45\linewidth}
+ Universidad de O$'$Higgins \\
+  Instituto de Ciencias Sociales \\
+  Rancagua, Chile\\
+  \\
+  \\
+
+\end{minipage}
+\hspace{4cm}\begin{minipage}{0.45\linewidth}
+  \begin{tabular}{ll}
+{\bf \'Ultima actualizaci\'on}: \today. \\
+ {\bf Descarga la \'ultima versi\'on} \href{https://github.com/hbahamonde/MLE/raw/master/Bahamonde_MLE.pdf}{aqu\'i}.%\\
+   %{\bf {\color{red}{\scriptsize Not intended as a definitive version}}} %\\
+    \\
+    \\
+    \\
+    \\
+    \\
+  \end{tabular}
+\end{minipage}
+
+
+
+\subsection*{Aspectos Log\'isticos}
+
+
+\vspace{1mm}
+{\bf Profesor}: H\'ector Bahamonde, PhD.\\
+\texttt{e:}\href{mailto:hector.bahamonde@uoh.cl}{\texttt{hector.bahamonde@uoh.cl}}\\
+\texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.HectorBahamonde.com}}\\
+\texttt{Zoom ID:} \href{https://us02web.zoom.us/j/9513261038?pwd=S3BSWXQxZW11NC9CRjRoMmd0TkpEZz09}{\texttt{951-326-1038}}.\\
+{\bf Office Hours (Zoom)}: Toma una hora \href{https://calendly.com/bahamonde/officehours}{\texttt{aqu\'i}}.
+
+
+\vspace{5mm}
+{\bf Hora de c\'atedra}: {\color{red}Pending.}\\
+{\bf Lugar de c\'atedra}: Zoom (no hay clases presenciales este semestre).\\
+
+{\bf Acceso a materiales del curso}: \href{https://ucampus.uoh.cl/uoh/2020/1/ICE3201/1}{\texttt{{\color{red}Pending}}}.
+
+\vspace{5mm}
+{\bf Ayudante de c\'atedra (TA)}: Gonzalo Barr\'ia.\\
+\texttt{e:}\href{mailto:gonzalo.barria@uoh.cl}{\texttt{gonzalo.barria@uoh.cl}}\\
+\texttt{Zoom ID:} 988-891-7227.\\
+{\bf TA Bio}: Gonzalo Barr\'ia es Cientista Pol\'itico (PUC) y Mag\'ister en Ciencia Pol\'itica (PUC).\\
+{\bf Hora de ayudant\'ia}: \emph{On-demand}.\\
+{\bf Lugar de ayudant\'ia}: Zoom (no hay ayudant\'ias presenciales este semestre).\\
+
+
+\vspace{5mm}
+{\bf Carrera}:  Ingenier\'ia Comercial.\\
+{\bf Eje de Formaci\'on}: M\'etodos Cuantitativos.\\
+{\bf Semestre/A\~no}: Sexto Semestre/2020.\\
+{\bf Pre-requisitos}: Metodos Cuanti I.\\
+{\bf SCT}: 6.\\
+{\bf Horas semanales}: C\'atedra (45-60 minutos v\'ia Zoom), Ayudant\'ia  (45-60 minutos v\'ia Zoom). \\
+{\bf Semanas}:  12.\\
+
+
+
+\subsection*{Motivaci\'on: ¿Por qu\'e tomar este curso?}
+
+Muchas de las preguntas que nos hacemos como cientistas sociales tienen que ver con variables ``especiales''. Los m\'etodos lineales como el OLS suponen variables continuas (por ej., GDP, ingresos, desigualdad). Sin embargo, existen otras variables igualmente interesantes como participaci\'on electoral (si la persona vot\'o o no). Esta variable, por ejemplo, es binaria. Existen otras que son categ\'oricas. Imag\'inate est\'as estudiando el tipo de transporte usado para llegar a tu lugar de trabajo: bus, auto, taxi. C\'omo puedes estimar un modelo cuya variable dependiente no tiene un orden? Es imposible ordenar las categor\'ias ``bus'', ``auto'' y ``taxi'' en una escala. En estos y otros casos es necesario usar otro m\'etodo de estimaci\'on diferente al que hab\'iamos visto antes. Este semestre aprenderemos como estimar modelos generalizados GLMs (\emph{generalized linear models})  v\'ia MLE (\emph{maximum likelihood estimation}).
+\\
+\\
+Si la tarea de antes (OLS) era {\bf minimizar} los errores cuadrados, la tarea de este semestre ser\'a {\bf maximizar} el \emph{likelihood}.
+\\
+\\
+Qu\'e diferencias existen entre la ``probabilidad'' y el ``\emph{likelihood}''? Qu\'e diferencias matem\'aticas existen entre OLS y MLE? C\'omo seleccionar el modelo adecuado para cada tipo de variable?
+\\
+\\
+Este semestre, adem\'as, prestaremos especial atenci\'on a inferencia causal.
+\\
+\\
+\emph{Bienvenid$@$s al mundo de los modelos generalizados y estimados v\'ia maximum likelihood estimation!}
+
+
+\subsection*{Prop\'osito Formativo}
+
+El objetivo de este curso es profundizar los conocimientos introducidos por M\'etodos Cuantitativos I, partucularmente, inferencia causal. Este curso proporciona los fundamentos te\'oricos y pr\'acticos de la econometr\'ia tradicional. El principal objetivo es profundizar los conceptos y construir un conocimiento s\'olido sobre los fundamentos inducidos por cursos anteriores. Adem\'as, el enfoque es entregar otro tipo de estimaciones que permitan solucionar los problemas estad\'isticos pr\'acticos.
+\\
+\\
+Se espera que el alumno logre:
+\begin{enumerate}
+\item Logre establecer una pregunta econ\'omica y un m\'etodo de identificaci\'on que permita verificar la hip\'otesis de forma causal.
+\item Poder \emph{testear} hip\'otesis y tengan las herramientas para analizar pol\'iticas de forma cr\'itica.
+\item Entender las limitaciones de los trabajos emp\'iricos y los \emph{trade offs} existentes al establecer supuestos.
+\item Manejar distintas bases de datos con un prop\'osito de investigaci\'on.
+\item Pleno manejo en alg\'un software estad\'istico.
+\end{enumerate}
+
+
+
+%\subsection*{Objetivos Generales del Curso}
+%{\color{red}Pendiente}
+
+
+\subsection*{Software}
+
+En este curso usaremos principalmente \texttt{R}. Sin embargo, y debido a que \texttt{Stata} sigue siendo uno de los programas usados en la disciplina, tambi\'en lo abordaremos.
+
+\begin{itemize}
+  
+  \item[$\circ$] Instalaci\'on de \texttt{R}: Primero, instala \texttt{R} desde el \href{https://www.r-project.org/}{sitio Web} oficial. Click en ``CRAN'' (extremo superior izquierdo). Selecciona cualquier \emph{mirror}. Por ejemplo, b\'ajalo desde el \emph{0-Cloud}. Despu\'es, baja la interfaz m\'as utilizada, llamada R-Studio. Para esto, anda al \href{https://www.rstudio.com}{sitio Web} oficial, despu\'es \emph{Download R-Studio}, \emph{FREE}, selecciona la versi\'on que sea compatible con tu sistema operativo (Windows, Mac, Ubuntu). Es importante saber si tu m\'aquina es de 32 bits o 64 bits. Escoge el tipo de versi\'on de \texttt{R} seg\'un esto.
+
+  \item[$\circ$] Instalaci\'on de \texttt{Stata}: la Escuela de Ciencias Sociales proveer\'a un servidor donde podr\'as conectarte desde tu casa a la versi\'on online de \texttt{Stata}. M\'as noticias: TBA.
+\end{itemize}
+
+
+	%\begin{itemize}
+	%	\item[{\color{red}\Pointinghand}] Si tu \emph{laptop} no puede cargar \texttt{R}, nuestros laboratorios de computaci\'on UOH disponen del \emph{software}. No tener el software (o un computador para cargarlo) no ser\'an excusa para no presentar tus trabajos. Si debes ocupar el laboratorio, planea tu trabajo de manera eficiente. Por cada trabajo que no entregues, tendr\'as un 1.
+	%\end{itemize}
+
+
+\subsection*{Integridad Acad\'emica}
+
+
+\begin{itemize}
+	\item[$\circ$] El plagio y la copia ser\'an sancionadas con un 1. En caso de duda pregunta a tu profesor/ayudante. Procura citar todo lo que no sea de tu propiedad intelectual.
+	\item[$\circ$] No se aceptan trabajos atrasados. Si tienes problemas de conectividad, planifica tus env\'ios con anticipaci\'on. S\'olo se revisar\'a lo que est\'e subido a uCampus (aunque est\'e incompleto). Si no hay nada, tendr\'as un 1.
+	\item[$\circ$] Ni el ayudante ni el profesor est\'an obligados a responder preguntas (a) despu\'es de las 5 pm durante d\'ias de semana, (b) durante fines de semana, (c) festivos.
+\end{itemize}
+
+\begin{itemize}
+\item[{\color{red}\Pointinghand}] No existir\'an excepciones. Planifica tu trabajo responsablemente. 
+\end{itemize}
+
+\subsection*{Pol\'itica sobre Trabajo Cooperativo}
+
+{\bf Yo recomiendo el trabajo cooperativo}. Es saludable que consultes con tus compa\~neros/as de curso, y que traten, en la medida de lo posible, de encontrar las soluciones en conjunto. Sin embargo, salvo por el trabajo final y la presentaci\'on final (m\'as sobre esto abajo), todos los trabajos (y sus evaluaciones) ser\'an individuales.
+
+
+\subsection*{Evaluaciones}
+
+\begin{enumerate}
+
+	% Participation
+	\item {\bf Participaci\'on (c\'atedra, foro \texttt{uCampus} y ayudant\'ia)}: 5\%. \\
+	Es fundamental que participes en clases, env\'ies preguntas por escrito y/o te juntes con el profesor/ayudante v\'ia \texttt{Zoom}.
+
+		\begin{itemize}
+    		\item[{\color{red}\Pointinghand}] Se espera que los estudiantes hagan sus respectivas lecturas \emph{antes} de cada clase para poder participar en el debate cr\'itico que haremos en cada una de ellas. %Tambi\'en se espera que los/las estudiantes hagan los ejercicios pr\'acticos clase a clase.
+    	\end{itemize}
+
+	\item {\bf Control de lectura}: 15\%. \\
+	Como ver\'as en el programa, la primera secci\'on es fil\'osofica y conceptual. En el control de lectura se medir\'a cu\'an bien pudiste comprender los conceptos. Si tienes dudas, no dudes en contactar al ayudante/profesor.
+
+
+	\item {\bf \emph{Problem Sets}}: 15\% cada uno, 50\% en total.\\
+	En estos ejercicios deber\'as resolver un problema pr\'actico. Seg\'un lo estipula el programa, recibir\'as una base de datos, y una serie de preguntas de car\'acter aplicado. El producto (i.e. lo que tienes que entregar), ser\'a un \emph{script} de \texttt{R}. Un \emph{script} es un texto que contiene l\'ineas de programaci\'on (de \texttt{R}), que al ser ejecutadas, me llevar\'an a tu respuesta. El plazo para entregar el \emph{script} de una semana una vez recibidas las intrucciones. Se entrega v\'ia \texttt{uCampus}.
+
+
+		\begin{enumerate}
+		    \item[$\circ$] {\bf Aunque no es necesario, s\'i puedes ocupar recursos externos, como Internet}.
+		    \item[$\circ$] Es importante que estas l\'ineas corran bien: el usuario (yo) tiene que ser cap\'az de ver como \texttt{R} ejecuta cada l\'inea, sin ``estancarse''.
+		    \item[$\circ$] Es importante que vayas guiando al usuario (yo) sobre tu raciocinio. Aseg\'urate de comentar (usando el s\'imbolo \texttt{\#}).
+		\end{enumerate}
+
+
+	\item {\bf Un trabajo final obligatorio/no-eximible (15\%) y una presentaci\'on final (15\%, v\'ia Zoom)}: 35\% en total.\\
+
+		En este curso, la actividad final es un trabajo final (15\%) que tiene formato de trabajo grupal. Usando una base de datos, t\'u y tu grupo deber\'an responder una serie de preguntas. El producto final (i.e. lo que debes entregar) consiste en un \emph{script} de \texttt{R}. La nota es grupal (i.e. todo el grupo recibir\'a la misma nota). {\bf Los grupos ser\'an de 2 personas}.
+\\
+\\
+		El paper (\emph{script}) se puede entregar antes, pero una vez cerrado el plazo, no se recibir\'an trabajos. Los \emph{scripts} que se entreguen tarde o v\'ia \emph{email} tendr\'an un 1 (sin opci\'on a reclamo). {\bf No hay excepciones}. 
+\\
+\\
+		En un formato muy parecido a una conferencia acad\'emica (virtual, no presencial), tendr\'as (junto a tu grupo) que presentar los principales hallazgos (10\%). Todos/as presentan. Cada presentaci\'on debe durar no menos de 15 minutos, pero nunca m\'as de 20 minutos. Las presentaciones se realizar\'an virtualmente (i.e. v\'ia Zoom) el \'ultimo d\'ia de clases. Tendr\'as que ocupar \emph{slides} (``Power Point''). Para tales efectos, tendr\'as que compartir pantalla desde tu casa, y hacer tu presentaci\'on de esa manera.
+
+
+
+%\\
+%\\
+Les recomiendo ``verme'' (v\'ia Zoom) en \href{https://calendly.com/bahamonde/officehours}{mis office hours} \emph{antes} del plazo de entrega. Si quieres, \href{mailto:\filetext}{env\'iame un email} con tu borrador, y yo te devolver\'e comentarios. V\'elo como una pre-correcci\'on. Esto es voluntario. Tambi\'en puedes contactar al/la TA. {\bf No se procesar\'an preguntas durante fines de semana, y/o festivos}.
+
+
+\end{enumerate}
+
+
+\underline{En resumen}:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ccc}
+							& \textbf{Porcentaje} 		& {\bf Porcentaje Acumulado} \\
+							\hline
+Participaci\'on (c\'atedra y ayudant\'ia) 	& 5\%       & 5\%                 \\
+\hline
+Problem Set \#1 							              & 10\% 		& 15\%                 \\
+Problem Set \#2 							              & 10\% 		& 25\%                 \\
+Problem Set \#3 							              & 15\% 		& 40\%                 \\
+Problem Set \#4                             & 15\%    & 55\%                 \\
+\hline
+Control de lectura 							            & 15\% 		& 70\% \\
+\hline
+Trabajo final grupal                        & 15\%    & 85\% \\
+Presentaci\'on grupal                       & 15\%    & 100\% \\
+\hline             
+\end{tabular}
+\end{table}
+
+\subsection*{Ayudant\'ia}
+
+Las ayudant\'ias se har\'an por \emph{Zoom}. Y se har\'an a pedido de los ayudantes. Pero en general, espera tener al menos dos ayudant\'ias al mes.
+
+
+\subsection*{Textos M\'inimos}
+
+\begin{itemize}
+  \item[$\bullet$] Michael Ward and John Ahlquist (2001). \href{https://github.com/hbahamonde/MLE/raw/master/Readings/Ward_Ahlquist.pdf}{\emph{Maximum Likelihood for Social Science: Strategies for Analysis}}.\phantom{\textcite{Ward2018}}
+  \item[$\bullet$] Gary King (1998). \href{https://github.com/hbahamonde/MLE/raw/master/Readings/King.pdf}{\emph{Unifying Political Methodology: The Likelihood Theory of Statistical Inference}}.\phantom{\textcite{King1998}}
+  \item[$\bullet$] Scott Long (1998). \href{https://github.com/hbahamonde/MLE/raw/master/Readings/Long.pdf}{\emph{Regression Models for Categorical and Limited Dependent Variables}}.\phantom{\textcite{Long1997}}
+  \item[$\bullet$] Guido Imbens and Donald Rubin (1998). \href{https://github.com/hbahamonde/MLE/raw/master/Readings/Imbens_Rubin.pdf}{\emph{Causal Inference for Statistics, Social, and Biomedical Sciences}}.\phantom{\textcite{Imbens2015}}
+  \item[$\bullet$] Joshua Angrist and Jorn-Steffen Pischke (2009). \href{https://github.com/hbahamonde/MLE/raw/master/Readings/MHE.pdf}{\emph{Mostly Harmless Econometrics: An Empiricist's Companion}}.\phantom{\textcite{Angrist2009}}
+
+\end{itemize}
+
+\subsection*{Textos Recomendados}
+
+\begin{itemize}
+	\item[$\bullet$] Scott Long and Jeremmy Freese (2001). \href{https://github.com/hbahamonde/MLE/raw/master/Readings/Long_Freese_STATA.pdf}{\emph{Regression Models for Categorical Dependent Variables using Stata}}.\phantom{\textcite{Long2001}}
+	\item[$\bullet$] Paul Rosenbaum (2010). \href{https://github.com/hbahamonde/MLE/raw/master/Readings/Rosenbaum.pdf}{\emph{Design of Observational Studies}}.\phantom{\textcite{Rosenbaum2010a}}
+\end{itemize}
+
+
+\begin{itemize}
+\item[{\color{red}\Pointinghand}] Tambi\'en se considerar\'an algunos \emph{papers}. Estos estar\'an se\~nalados en las fechas indicadas y en la secci\'on de Bibliograf\'ia.
+\end{itemize}
+
+
+\subsection*{Calendario}
+
+
+\begin{enumerate}[label=\roman*.] % [label=\roman*.]
+
+
+  \item {\bf {\color{ForestGreen}\underline{Introducci\'on}}}
+
+			\begin{itemize} 
+				\item[1.] {\bf Introducciones y Motivaci\'on: Por qu\'e necesitamos MLE e Inferencia Causal?}
+				\begin{itemize} 
+					\item[$\circ$] Introducciones: programa de curso, requerimientos y expectativas. Motivaci\'on.
+					\item[$\circ$] \emph{Qu\'e es \texttt{R}?} Instalaci\'on de \texttt{R} y \texttt{RStudio}.
+					\item[$\circ$] \emph{Qu\'e es \texttt{Stata}?}
+					\item[$\circ$] \emph{Por qu\'e necesitamos MLE e Inferencia Causal?}
+					\item[$\circ$] {\bf No hay lecturas}.
+				\end{itemize}
+			\end{itemize}
+
+  \item {\bf {\color{ForestGreen}\underline{Inferencia Causal}}}
+
+            \begin{itemize} 
+            \item[2.] {\bf Inferencia Causal: El \emph{Problema Fundamental} en Inferencia Causal, el Supuesto de la ``Ignorabilidad'' y el ``\emph{Potential Outcomes Framework}''.}
+                \begin{itemize} 
+                \item[$\circ$] {\bf Lecturas}: 
+                  \begin{itemize} 
+                    \item[$\diamond$] \textcite{Imbens2015}: Ch. 1.
+                  \end{itemize}
+                \end{itemize}
+            \end{itemize}
+
+                        \begin{itemize} 
+            \item[3.] {\bf Variables instrumentales y \emph{two-stage least squares}. }
+                \begin{itemize} 
+                \item[$\circ$] {\bf Lecturas}: 
+                  \begin{itemize} 
+                    \item[$\diamond$] \textcite{Angrist2009}: 4.1---4.2.
+                  \end{itemize}
+                \end{itemize}
+            \end{itemize}
+
+          \begin{itemize} 
+            \item[4.] {\bf Regression discontinuity designs: \emph{Sharp Designs}}.
+                \begin{itemize} 
+                \item[$\circ$] {\bf Lecturas}: 
+                  \begin{itemize} 
+                    \item[$\diamond$] \textcite{Angrist2009}: 6---6.1.
+                  \end{itemize}
+                \end{itemize}
+            \end{itemize}
+
+
+            \begin{itemize} 
+            \item[5.] {\bf Regression discontinuity designs: \emph{Fuzzy Designs}}.
+                \begin{itemize} 
+                \item[$\circ$] {\bf Lecturas}: 
+                  \begin{itemize} 
+                    \item[$\diamond$] \textcite{Angrist2009}: 6.2.
+                  \end{itemize}
+                \end{itemize}
+            \end{itemize}
+
+
+            \begin{itemize} 
+            \item[6.] {\bf Incorporando el elemento \emph{tiempo}: fixed effects, differences-in-differences}.
+                \begin{itemize} 
+                \item[$\circ$] {\bf Lecturas}: 
+                  \begin{itemize} 
+                    \item[$\diamond$] \textcite{Angrist2009}: Ch. 5.
+                  \end{itemize}
+                \end{itemize}
+            \end{itemize}
+
+\item[{\color{red}\Pointinghand}] Entrega temario del \emph{Problem set} \#1. Una semana de plazo. Prep\'arate para responder preguntas tipo ensayo breve tambi\'en.
+
+	\item {\bf {\color{ForestGreen}\underline{Introducci\'on a MLE: Probabilidad y \emph{Likelihood}}}}
+
+
+      \begin{itemize} 
+        \item[7.] {\bf Probabilidad y \emph{Likelihood}.}
+        \begin{itemize} 
+          \item[$\circ$] Diferencias filos\'oficas y matem\'aticas.
+          \item[$\circ$] {\bf Lecturas}: 
+            \begin{itemize} 
+              \item[$\diamond$] \textcite{Ward2018}: Ch. 1.
+              \item[$\diamond$] \textcite{King1998}: Ch. 2.
+            \end{itemize}
+        \end{itemize}
+      \end{itemize}
+
+
+      \begin{itemize} 
+        \item[8.] {\bf Probabilidad e Incertidumbre.}
+        \begin{itemize} 
+          \item[$\circ$] El enfoque de la probabilidad.
+          \item[$\circ$] {\bf Lecturas}: 
+            \begin{itemize} 
+              \item[$\diamond$] \textcite{King1998}: Ch. 3.
+            \end{itemize}
+        \end{itemize}
+      \end{itemize}
+
+
+      \begin{itemize} 
+        \item[9.] {\bf \emph{Likelihood} e Inferencia.}
+        \begin{itemize} 
+          \item[$\circ$] El enfoque del \emph{likelihood}.
+          \item[$\circ$] {\bf Lecturas}: 
+            \begin{itemize} 
+              \item[$\diamond$] \textcite{King1998}: Ch. 4.1---4.3. 
+              \item[$\diamond$] \textcite{Ward2018}: Ch. 4.
+            \end{itemize}
+        \end{itemize}
+      \end{itemize}
+
+
+      \begin{itemize} 
+        \item[10.] {\bf Propiedades Estad\'isticas y Num\'ericas del \emph{Likelihood}.}
+        \begin{itemize} 
+          \item[$\circ$] Derivando el MLE (``\emph{likelihood function}''). Finite sample problems. Precisi\'on estad\'istica. \emph{OLS} v\'ia \emph{MLE}?
+          \item[$\circ$] {\bf Lecturas}: 
+            \begin{itemize} 
+              \item[$\diamond$] \textcite{Ward2018}: Ch. 2.1---2.2. 
+              \item[$\diamond$] \textcite{King1998}: Ch. 4.4---4.6.
+              \item[$\diamond$] \textcite{Long2001}: Ch. 2.6.
+            \end{itemize}
+        \end{itemize}
+      \end{itemize}
+
+\item[{\color{red}\Pointinghand}] Control de lectura. Entrada todo lo visto hasta este momento hasta el \'ultimo control/\emph{problem set}.
+
+
+\item {\bf {\color{ForestGreen}\underline{\emph{Maximum Likelihood Estimation} para Outcomes Binarios: El Modelo Logit}}}
+
+
+        \begin{itemize} 
+        \item[11.] {\bf Derivaci\'on.}
+        \begin{itemize} 
+          \item[$\circ$] Derivando el \emph{likelihood} del modelo logit: dos llegadas (lineal y no-lineal).
+          \item[$\circ$] {\bf Lecturas}: 
+            \begin{itemize} 
+              \item[$\diamond$] \textcite{Long2001}: Ch. 3.1---3.6.
+              \item[$\diamond$] \textcite{Ward2018}: Ch. 3.1---3.4.1
+            \end{itemize}
+        \end{itemize}
+      \end{itemize}
+
+     
+       \begin{itemize} 
+        \item[12.] {\bf Estimaci\'on.}
+        \begin{itemize} 
+          \item[$\circ$] \emph{Hypothesis testing} (Wald test, Likelihood Ratio, Lagrange Multiplier).
+          \item[$\circ$] {\bf Lecturas}: 
+            \begin{itemize} 
+              \item[$\diamond$] \textcite{Ward2018}: Ch. 5---5.1.2; 5.1.4---5.2.
+              \item[$\diamond$] \textcite{Long2001}: Ch. 4.1.---4.1.5.
+            \end{itemize}
+        \end{itemize}
+      \end{itemize}
+
+
+        \begin{itemize} 
+        \item[13.] {\bf Inferencia e Interpretaci\'on.}
+        \begin{itemize} 
+          \item[$\circ$] Intervalos de confianza, \emph{odds ratios}, \emph{partial changes}.
+          \item[$\circ$] {\bf Lecturas}: 
+            \begin{itemize} 
+              \item[$\diamond$] \textcite{Long2001}: Ch. 3.7---3.9
+              \item[$\diamond$] \textcite{Ward2018}: Ch. 6.
+            \end{itemize}
+        \end{itemize}
+      \end{itemize}
+
+
+       \begin{itemize} 
+        \item[14.] {\bf Diagn\'osticos.}
+        \begin{itemize} 
+          \item[$\circ$] Diagn\'osticos: an\'alisis de residuos y \emph{goodness of fit} (DFBETA, presudo-R$^{2}$). \emph{Information criteria} (BIC \& AIC).
+          \item[$\circ$] {\bf Lecturas}: 
+            \begin{itemize} 
+              \item[$\diamond$] \textcite{Ward2018}: Ch. 5---5.1.2; 5.1.4---5.2.
+              \item[$\diamond$] \textcite{Long2001}: Ch. 4.3.4.
+            \end{itemize}
+        \end{itemize}
+      \end{itemize}
+			
+
+\item[{\color{red}\Pointinghand}] Entrega temario del \emph{Problem set} \#2. Una semana de plazo.
+
+
+\item {\bf{\color{ForestGreen}\underline{\emph{Maximum Likelihood Estimation} (MLE) para Modelos Generalizados (GLMs)}}}
+
+       \begin{itemize} 
+        \item[15.] {\bf Presentando los GLMs. \emph{Outcomes} Ordenados: Ordered Logit/Probit.}
+        \begin{itemize} 
+          \item[$\circ$] Derivaci\'on. Estimaci\'on. Interpretaci\'on.
+          \item[$\circ$] {\bf Lecturas}: 
+            \begin{itemize} 
+              \item[$\diamond$] \textcite{Ward2018}: Ch. 7. 
+              \item[$\diamond$] \textcite{Long2001}: Ch. 5.
+              \item[$\diamond$] \textcite{Ward2018}: Ch. 8. 
+            \end{itemize}
+        \end{itemize}
+      \end{itemize}
+
+
+
+       \begin{itemize} 
+        \item[16.] {\bf \emph{Outcomes} Desordenados o ``Nominales'': Multi-Nomial Logit/Probit.}
+        \begin{itemize} 
+          \item[$\circ$] Derivaci\'on. Estimaci\'on. Interpretaci\'on.
+          \item[$\circ$] {\bf Lecturas}: 
+            \begin{itemize} 
+              \item[$\diamond$] \textcite{Long2001}: Ch. 6.
+              \item[$\diamond$] \textcite{Ward2018}: Ch. 9---9.3.2.
+            \end{itemize}
+        \end{itemize}
+      \end{itemize}
+
+
+
+\item[{\color{red}\Pointinghand}] Entrega temario del \emph{Problem set} \#3. Una semana de plazo.
+
+
+
+       \begin{itemize} 
+        \item[17.] {\bf \emph{Outcomes} de Cuentas: Modelos Poisson y Negative-Binomial.}
+        \begin{itemize} 
+          \item[$\circ$] Derivaci\'on. Estimaci\'on. Interpretaci\'on.
+          \item[$\circ$] {\bf Lecturas}: 
+            \begin{itemize} 
+              \item[$\diamond$] \textcite{Long2001}: Ch. 8---8.3.4.
+              \item[$\diamond$] \textcite{Ward2018}: Ch. 10.
+            \end{itemize}
+        \end{itemize}
+      \end{itemize}
+
+
+
+\item {\bf {\color{ForestGreen}\underline{Extensiones}}}
+
+      \begin{itemize} 
+        \item[18.] {\bf \emph{Outcomes} Poco Frecuentes: Rare Event Logistic y Zero-Inflated Poisson.}
+        \begin{itemize} 
+          \item[$\circ$] Derivaci\'on. Estimaci\'on. Interpretaci\'on.
+          \item[$\circ$] {\bf Lecturas}: 
+            \begin{itemize} 
+              \item[$\diamond$] \textcite{Long2001}: Ch. 8.5---8.6.
+              \item[$\diamond$] \href{https://github.com/hbahamonde/MLE/raw/master/Readings/King_2001.pdf}{\textcite{King2001}}.\phantom{\textcite{King2001}}
+            \end{itemize}
+        \end{itemize}
+      \end{itemize}
+
+
+\item[{\color{red}\Pointinghand}] Entrega temario del \emph{Problem set} \#4. Una semana de plazo.
+
+
+     \begin{itemize} 
+        \item[19.] {\bf \emph{Outcomes} Censurados/Truncados: Tobit Models.}
+        \begin{itemize} 
+          \item[$\circ$] Derivaci\'on. Estimaci\'on. Interpretaci\'on.
+          \item[$\circ$] {\bf Lecturas}: 
+            \begin{itemize} 
+              \item[$\diamond$] \textcite{Long2001}: Ch. 7.
+            \end{itemize}
+        \end{itemize}
+      \end{itemize}
+
+
+       \begin{itemize} 
+        \item[20.] {\bf MLE y Causal Inference: Matching, \emph{Covariate Balance}, y el \emph{Propensity Score}.}
+        \begin{itemize} 
+          \item[$\circ$] Derivaci\'on. Estimaci\'on. Interpretaci\'on.
+          \item[$\circ$] {\bf Lecturas}: 
+            \begin{itemize} 
+              \item[$\diamond$] \href{https://github.com/hbahamonde/MLE/raw/master/Readings/King_Preprocessing.pdf}{\textcite{Ho2006}}.\phantom{\textcite{Ho2006}}
+              \item[$\diamond$] \textcite{Imbens2015}: Ch. 13, 14 y 15.
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+
+
+\item[{\color{red}\Pointinghand}] Entrega del temario y asignaci\'on de bases de datos para el Trabajo Final. Dos semanas de plazo.
+
+
+\item {\bf {\color{ForestGreen}\underline{Sesiones Guiadas de Trabajo y Presentaciones Finales}}}
+
+
+
+     \begin{itemize} 
+        \item[21.] {\bf Sesi\'on Guiada de Trabajo \#1}
+        \begin{itemize} 
+          \item[$\circ$] Oportunidad para trabajar en grupo bajo la supervisi\'on del profesor/ayudante. Llevar dudas.
+        \end{itemize}
+      \end{itemize}
+
+
+       \begin{itemize} 
+        \item[22.] {\bf Sesi\'on Guiada de Trabajo \#2}
+        \begin{itemize} 
+          \item[$\circ$] Oportunidad para trabajar en grupo bajo la supervisi\'on del profesor/ayudante. Llevar dudas.
+        \end{itemize}
+      \end{itemize}
+
+
+       \begin{itemize} 
+        \item[23.] {\bf Sesi\'on Guiada de Trabajo \#3}
+        \begin{itemize} 
+          \item[$\circ$] Oportunidad para trabajar en grupo bajo la supervisi\'on del profesor/ayudante. Llevar dudas.
+        \end{itemize}
+      \end{itemize}
+
+
+      \begin{itemize} 
+        \item[24.] {\bf Presentaciones Finales}
+        \begin{itemize} 
+          \item[{\color{red}\Pointinghand}] Entrega de script en \texttt{uCampus} y presentaci\'on en formato conferencia ``online''. Todos presentan. Grupos de entre 2 y 3 personas (m\'aximo).
+        \end{itemize}
+      \end{itemize}
+
+\end{enumerate}
+
+
+\newpage
+\pagenumbering{roman}
+\setcounter{page}{1}
+\printbibliography
+
+
+
+\end{document}
+
+% https://faculty.washington.edu/cadolph/?page=21
+
+
+King, Gary, Michael Tomz, and Jason Wittenberg. 2000. “Making the Most of Sta- tistical Analyses: Interpretation and Presentation” American Journal of Political Science 44(2): 341–355.
+
+Brian Greenhill, Michael D. Ward, and Audrey Sacks. 2011. “The Separation Plot: A New Visual Method for Evaluating the Fit of Binary Models.” American Journal of Political Science. 55(4): 990–1002.
