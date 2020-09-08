@@ -174,6 +174,8 @@ if (!require("pacman")) install.packages("pacman"); library(pacman)
 p_load(knitr)
 set.seed(2020)
 options(scipen=9999999)
+if (!require("pacman")) install.packages("pacman"); library(pacman) 
+
 @
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -189,63 +191,61 @@ options(scipen=9999999)
 \hspace{-5mm}{\bf TA}: Gonzalo Barr\'ia.
 
 
-\section{Probabilidad e Incertidumbre}
+\section{Likelihood e Inferencia}
 
-Existen tres axiomas del modelo de probabilidad. Los axiomas no son ni verdaderos ni falsos, ``simplemente son''. Desde estos tres axiomas, se puede derivar todo el resto de la teor\'ia de probabilidad.
+Recuerda que \autoref{lik:model} es el ``axiom likelihood''. Lo que dice que likelihood es ``proporcional'' a la probabilidad \parencite[59]{King1998}. Y donde tambi\'en la constante $k(y)$ asegura que el likelihood es relativo al modelo, y no un absoluto como ocurre en el paradigma de la probabilidad.
 
-\begin{enumerate}
-  \item Para cualquier evento $z$, $Pr(z) \geq 0$. % For any event Zki, Pr(zki) 2:: O
-  \item  $Pr(\mathcal{C}) \;=\; 1$.  % Sample space
-  \item Si todos los eventos $K$ son mutuamente independientes, $Pr(z_{1} \;\cup\;  z_{2} \;\cup\; z_{3} \;\cup\; \;\ldots\; z_{K}) \;=\; Pr(z_{1}) \;+\; Pr(z_{2})  \;+\; Pr(z_{3}) \;\ldots\; Pr(z_{K})$
-\end{enumerate}
 
-\section{Distribuciones de Probabilidades Univariadas}
-
-En MLE, es fundamental pensar en el ``underlying process generating [the data]''. \emph{Qu\'e tipo de proceso est\'a generando los datos?} Por ej., que una moneda de cara (1) o sello (0), se puede mencionar con la siguiente notaci\'on:
-
-\begin{equation} 
+\begin{equation} \label{lik:model}
 \begin{split}
-Pr(Y_{i} \;=\; 1) & = \pi \\
-Pr(Y_{i} \;=\; 0) & = 1\;-\;\pi 
+L(\tilde{\theta}|y) & =  k(y)Pr(y|\tilde{\theta})\\
+& \propto Pr(y|\tilde{\theta})
+%\theta & = g(X, \beta)
 \end{split}
 \end{equation}
 
-donde $\pi$ es el par\'ametro (lo que estimamos) de la distribuci\'on (el mont\'on de 1's y 0's). Nuestro parametro en modelos lineales OLS era $\beta$. Ahora en MLE es $\pi$. El valor esperado de este evento $z$ (cuando la moneda no est\'a cargada) es $0.5$, o m\'as formalmente, $\pi\;=\;0.5$. {\color{red}Por qu\'e?}
 
-\paragraph{}Este proceso se llama ``Bernoulli''.
+Ahora, tratemos de estimar nuestro par\'ametro $\beta$ pero usando MLE. Es decir, en vez de estimar $\beta \;=\; (x^{\top}x)^{-1}x^{\top}y$, lo estimaremos usando la \autoref{lik:model} de la siguiente manera:
 
-\subsection{Bernoulli}
 
-Bernoulli es un tipo especial de distribuci\'on ``binomial'' (de dos resultados). En general, siempre son 1's o 0's (pero puede ser cualquier otro numero---al final del d\'ia, es una distribuci\'on ``categorica''). {\color{red}Ejemplos?} 
+\begin{equation} \label{lik:beta}
+\begin{split}
+L(\tilde{\beta}|y) & = k(y)Pr(y|\tilde{\beta})\\
+                   & = k(y) \prod_{i=1}^{n} f(y_{i}|\tilde{\beta})\\
+                   & \propto \prod_{i=1}^{n} f(y_{i}|\tilde{\beta})\\
+                   & = \prod_{i=1}^{n} (2\pi)^{-\frac{1}{2}} \exp\left[ \frac{-(y_{i}-\beta)^{2}}{2} \right]
+\end{split}
+\end{equation}
 
-Lo importante es que:
+
+
+Importantemente, \autoref{lik:beta} nos entrega el likelihood relativo de que {\bf el modelo (capturado por $\beta$) produzca los datos $y_{i}$}. Sobre esto, hay que rescatar los siguientes puntos:
 
 \begin{enumerate}
-\item La probabilidad de cada evento es mayor a 0. 
-\item Los posibles resultados son {\color{red}exhaustivos (?)}. O lo que es lo mismo, $Pr(Y\;=\;1 | Y\;=\;0)\;=\;0$.
+  \item MLE es inverso a la probabilidad: en MLE el modelo es construido, y los datos son ``dados''. 
+  \item Para hacer obtener el likelihood (que es simplemente un n\'umero), trabajaremos con el conocido ``log-likelihood function'', que es b\'asicamente sacar el log de \autoref{lik:beta} (tal como lo demuestra \autoref{log:lik:beta}).
+  \item Usamos \emph{product operators} ($\prod$) porque necesitamos multiplicar el likelihood de cada $i$ particular (cada fila en la columna $y$). Esto es una consecuencia de que por ejemplo $i_{1}$ es independiente a $i_{2}$ y asi para todos los $i_{n}$.
 \end{enumerate}
 
+Veamos ahora el ``log-likelihood function'':
 
 
-<<bernoulli, echo = TRUE, fig.pos='H', fig.cap=NULL, warning = FALSE, message = F, fig.align='center', fig.width=3, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
-# Normal 
-binomial.ok = rbinom(
-        100, # N
-        1, # pruebas (se tira la moneda una vez)
-        0.5 # probabilidad de obtener 1. 
-        )
-hist(binomial.ok, main = "")
-# Cargada 
-binomial.cargada = rbinom(
-        100, # N
-        1, # pruebas (se tira la moneda una vez)
-        0.1 # probabilidad de obtener 1. 
-)
-hist(binomial.cargada, main = "")
-@
+\begin{equation} \label{log:lik:beta}
+\begin{split}
+L(\tilde{\beta}|y) & = k(y)Pr(y|\tilde{\beta})\\
+ln \; L(\tilde{\beta}|y) & = ln \; \bigg\{  k(y)Pr(y|\tilde{\beta}) \bigg\} \\
+ln \; L(\tilde{\beta}|y) & = -\frac{1}{2} \sum_{i=1}^{n}(y_{i}-\tilde{\beta})^{2}
+\end{split}
+\end{equation}
 
+Debido a que el logaritmo de un producto ($k(y)Pr(y|\tilde{\beta})$) es la suma de los logaritmos, y adem\'as de que podemos usar el \emph{Fisher-Neyman Factorization Lemma}, la tercera l\'inea es la forma simplificada del ``log-likelihood function''. Nota que $ln \; L(\tilde{\beta}|y)$ depende de los errores cuadrados, es decir, la distancia entre lo predicho y lo observado, i.e. $(y_{i}-\tilde{\beta})^{2} \;=\; \epsilon^{2}_{i}$.
 
-
+% https://kevintshoemaker.github.io/NRES-746/LAB3.html
+% http://people.tamu.edu/~b-wood/Maximum%20Likelihood/RLesson%203.htm
+% http://www.maths.usyd.edu.au/u/UG/SM/STAT3022/r/current/Lecture/lecture03_2020JC.html#4
+% http://lib.stat.cmu.edu/datasets/sleep
+% https://daviddalpiaz.github.io/appliedstats/simple-linear-regression.html#maximum-likelihood-estimation-mle-approach 
+% https://www.r-bloggers.com/fitting-a-model-by-maximum-likelihood/
 \clearpage
 \newpage
 \pagenumbering{arabic}
