@@ -343,10 +343,12 @@ rbnbinom(20, # N
 
 F\'ijate como la varianza no es constante (hay n\'umeros m\'as grandes, como el ``38'').
 
-\clearpage
-\newpage
-\pagenumbering{arabic}
+%\newpage
+\paragraph{}
+\paragraph{}
+\pagenumbering{Roman}
 \setcounter{page}{1}
+\printbibliography
 
 
 

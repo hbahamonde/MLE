@@ -201,7 +201,7 @@ headpunct=:
 \pagestyle{fancy} % All pages have headers and footers
 \fancyhead{} % Blank out the default header
 \fancyfoot{} % Blank out the default footer
-\fancyhead[C]{Probabilidad e Incertidumbre} % Custom header text
+\fancyhead[C]{Propiedades Estad\'isticas y Num\'ericas del Likelihood} % Custom header text
 \fancyfoot[RO,LE]{\thepage} % Custom footer text
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
@@ -232,200 +232,22 @@ headpunct=:
 {\bf Curso}: MLE.\\
 \hspace{-5mm}{\bf TA}: Gonzalo Barr\'ia.
 
-
-\section{Probabilidad e Incertidumbre}
-
-Existen tres axiomas del modelo de probabilidad. Los axiomas no son ni verdaderos ni falsos, ``simplemente son''. Desde estos tres axiomas, se puede derivar todo el resto de la teor\'ia de probabilidad.
+\section{Propiedades de los Estimadores MLE}
 
 \begin{enumerate}
-  \item Para cualquier evento $z$, $Pr(z) \geq 0$. % For any event Zki, Pr(zki) 2:: O
-  \item  $Pr(\mathcal{C}) \;=\; 1$.  % Sample space
-  \item Si todos los eventos $K$ son mutuamente independientes, $Pr(z_{1} \;\cup\;  z_{2} \;\cup\; z_{3} \;\cup\; \;\ldots\; z_{K}) \;=\; Pr(z_{1}) \;+\; Pr(z_{2})  \;+\; Pr(z_{3}) \;\ldots\; Pr(z_{K})$
+	\item Invariance to reparameterization: estimaciones se pueden transformar y no alteran su valor substantivo. Por ej., tomar un log o elevar al cuadrado.
+	\item Invariance to sampling plans: debido a que los estimadores dependen de los datos usados (son particulares a ellos, y no son generales), Es por esto que variando el tama\~no de la muestra no var\'ia la calidad de los estimadores.
+	\item $\hat\theta$ no est\'a sesgado. Es decir, en la medida que se repitan los experimentos, $\hat\theta$ no cambia.
+	\item $\hat\theta$ es consistente. Dentro de todo el ``parameter space'', existe un ``spike'' (una punta) que representa el verdadero parametro $\hat\theta$.
+	\item El ``parameter space'' de $\hat\theta$ esta normalmente distribuido.
 \end{enumerate}
 
-\section{Distribuciones de Probabilidades Univariadas}
+\section{Precisi\'on de los Estimadores MLE}
 
-En MLE, es fundamental pensar en el ``underlying process generating [the data]''. \emph{Qu\'e tipo de proceso est\'a generando los datos?} Por ej., que una moneda de cara (1) o sello (0) no representa una distribucion contiunua. Se trata de otro ``data generating process'' y se podr\'ia explicar con la siguiente notaci\'on:
+Pensar en la presici\'on, es pensar en cu\'an bien (o mal) nuestro estimador $\hat\theta$ (i.e. ``nuestro $\beta$'') maximice el likelihood the que $E(y)=\pi$. Para esto, debemos recordar que la funci\'on del $LL$ es relativa (depende de los datos). No es como antes en OLS, donde pod\'iamos comparar \emph{p-values}, r$^{2}$ y otros \emph{entre modelos con distintos datasets}. Aqu\'i no. 
 
-\begin{equation} 
-\begin{split}
-Pr(Y_{i} \;=\; 1) & = \pi \\
-Pr(Y_{i} \;=\; 0) & = 1\;-\;\pi 
-\end{split}
-\end{equation}
+\paragraph{Likelihodd Ratio Test}
 
-donde $\pi$ es el par\'ametro (lo que estimamos) de la distribuci\'on (el mont\'on de 1's y 0's). Nuestro parametro en modelos lineales OLS era $\beta$. Ahora en MLE es $\pi$. El valor esperado de este evento $z$ (cuando la moneda no est\'a cargada) es $0.5$, o m\'as formalmente, $\pi\;=\;0.5$. {\color{red}Por qu\'e?}
-
-\paragraph{}Este proceso se llama ``Bernoulli''.
-
-\subsection{Bernoulli}
-
-Bernoulli es un tipo especial de distribuci\'on ``binomial'' (de dos resultados). En general, siempre son 1's o 0's (pero puede ser cualquier otro numero---al final del d\'ia, es una distribuci\'on ``categorica''). {\color{red}Ejemplos?} 
-
-Lo importante es que:
-
-\begin{enumerate}
-\item La probabilidad de cada evento es mayor a 0. 
-\item Los posibles resultados son {\color{red}exhaustivos (?)}. O lo que es lo mismo, $Pr(Y\;=\;1 | Y\;=\;0)\;=\;0$.
-\end{enumerate}
-
-M\'as formalmente, la {\bf f\'ormula de la distribuci\'on Bernoulli} es la siguiente:
-
-\begin{equation}\label{Bernoulli}
-\begin{split}
-f(y_{i}|\pi) =	\begin{Bmatrix} \pi^{y_{i}}(1-\pi)^{1-y_{i}} & \;\text{for}\; y_{i}=0,1, \\ 
-0 & \text{otherwise} \end{Bmatrix}
-\end{split}
-\end{equation}
-
-
-
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlcom{# Normal }
-\hlkwd{p_load}\hlstd{(extraDistr)}
-\hlstd{binomial.ok} \hlkwb{=}  \hlkwd{rbern}\hlstd{(}\hlnum{100}\hlstd{,} \hlcom{# N}
-                     \hlkwc{prob} \hlstd{=} \hlnum{0.5} \hlcom{# probabilidad de obtener 1}
-                     \hlstd{)}
-\hlkwd{hist}\hlstd{(binomial.ok,} \hlkwc{main} \hlstd{=} \hlstr{""}\hlstd{)}
-\end{alltt}
-\end{kframe}
-
-{\centering \includegraphics[width=\maxwidth]{figure/bernoulli-1} 
-
-}
-
-
-\begin{kframe}\begin{alltt}
-\hlcom{# Cargada }
-\hlstd{binomial.cargada} \hlkwb{=}  \hlkwd{rbern}\hlstd{(}\hlnum{100}\hlstd{,} \hlcom{# N}
-                     \hlkwc{prob} \hlstd{=} \hlnum{0.1} \hlcom{# probabilidad de obtener 1}
-                     \hlstd{)}
-\hlkwd{hist}\hlstd{(binomial.cargada,} \hlkwc{main} \hlstd{=} \hlstr{""}\hlstd{)}
-\end{alltt}
-\end{kframe}
-
-{\centering \includegraphics[width=\maxwidth]{figure/bernoulli-2} 
-
-}
-
-
-
-\end{knitrout}
-
-
-\subsection{Binomial}
-
-Proceso Bernoulli, pero donde s\'olo se observa la sumatoria. Por ejemplo, si preguntas si haz votado en las ultimas tres elecciones, seria algo asi:
-
-\begin{itemize}
-	\item Votaste en la eleccion 1: {\color{red}S\'i} (1) o No (0)? (proceso Bernoulli, pero {\bf no observas esto}).
-	\item Votaste en la eleccion 2: {\color{red}S\'i} (1) o No (0)? (proceso Bernoulli, pero {\bf no observas esto}).
-	\item Votaste en la eleccion 3: S\'i (1) o {\color{red}No} (0)? (proceso Bernoulli, pero {\bf no observas esto}).
-	\item {\bf Sumatoria}: ``2'' ({\bf s\'i observas esto}).
-	\end{itemize}
-
-Es importante tener en cuenta que el supuesto es que las tres decisiones son {\bf independientes}. {\color{red}Estamos dispuestos a creer en esto?} Es una conveniencia. Si es as\'i, podemos modelar este proceso usando el mismo $\pi$ para todo el proceso binomial (i.e. cada uno de los procesos Bernoulli).
-
-\begin{equation}\label{Binomial}
-\begin{split}
-f(y_{i}|\pi) =	\begin{Bmatrix} \frac{N!}{y_{i}!(N-y_{i})} \pi^{y_{i}}(1-\pi)^{N-y_{i}} & \;\text{for}\; y_{i}=0,1,\ldots,n, \\ 
-0 & \text{otherwise} \end{Bmatrix}
-\end{split}
-\end{equation}
-
-
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlcom{# 1 Eleccion (observas el total por cada individuo)}
-\hlkwd{rbbinom}\hlstd{(}\hlnum{20}\hlstd{,} \hlcom{# N}
-\hlkwc{size} \hlstd{=} \hlnum{1} \hlcom{# "Trials" o pruebas}
-\hlstd{)}
-\end{alltt}
-\begin{verbatim}
-##  [1] 1 0 1 0 0 0 0 0 0 1 1 0 0 1 1 1 1 0 0 0
-\end{verbatim}
-\begin{alltt}
-\hlcom{# 10 Elecciones (solo observas el total por cada individuo)}
-\hlkwd{rbbinom}\hlstd{(}\hlnum{20}\hlstd{,}\hlcom{#N}
-\hlkwc{size} \hlstd{=} \hlnum{10} \hlcom{# "Trials" o pruebas}
-\hlstd{)}
-\end{alltt}
-\begin{verbatim}
-##  [1]  4  2  7 10  0  4  9  2  0  8  8  0  0  1 10  1  4  5  4  0
-\end{verbatim}
-\end{kframe}
-\end{knitrout}
-
-Aqui usamos el comando \texttt{rbbinom} que es para \emph{beta-binomial} (no binomial). Esta distribuci\'on no asume que cada elecci\'on para cada individuo es independiente.
-
-\subsection{Poisson}
-
-Este proceso se refiere a cuentas positivas, discretas, y sin tope. Por ejemplo, la cantidad de veces que te haz comprado bebidas en tu vida. Si te pones a contar esas veces, har\'as una distribuci\'on Poisson (no puedes comprar negativas bebidas, no puedes en teor\'ia haber comprado una fracci\'on de vez, y no existe un tope al n\'umero que puedas comprar). {\bf Tiene los siguientes supuestos}:
-
-\begin{enumerate}
-\item Comienza en cero.
-\item Se asume que la ocurrencia de un evento es independiente de la ocurrencia de los otros eventos.
-\item S\'olo un evento ocurre a la vez.
-\item Los periodos de observaci\'on tienen el mismo largo. 
-\item {\color{red}{\bf Promedio y varianza son iguales}}.
-\end{enumerate}
-
-{\color{red}Ejemplos?}
-
-
-\begin{equation}\label{Poisson}
-\begin{split}
-f(y_{i}|\lambda) =	\begin{Bmatrix} \frac{\epsilon^{-\lambda}\lambda^{y_{i}}}{y_{i}!} & \;\text{for}\; \lambda > 0 \;\text{and}\;  y_{i}=0,1,\ldots, \\ 
-0 & \text{otherwise} \end{Bmatrix}
-\end{split}
-\end{equation}
-
-donde $\lambda$ es el evento, y donde $\epsilon^{-\lambda} \;=\; Pr(y_{i}\;=\;0)$, asumiendo que todos los $t$ tienen el mismo largo.
-
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlkwd{rtpois}\hlstd{(}\hlnum{20}\hlstd{,} \hlcom{# N}
-       \hlnum{5} \hlcom{# lambda (que es el promedio en una dist Poisson)}
-       \hlstd{)}
-\end{alltt}
-\begin{verbatim}
-##  [1] 6 2 4 5 7 4 5 7 1 6 8 1 6 7 3 5 1 4 7 5
-\end{verbatim}
-\end{kframe}
-\end{knitrout}
-
-Aqu\'i ocupamos \texttt{rtpois} que es para \emph{random truncated Poisson} (es truncada porque trunca los valores---desde menos infinito hasta infinito positivo---pero sigue siendo una distribuci\'on Poisson).
-
-\subsection{Negative Binomial}
-
-La distribuci\'on Poisson asume que el radio de ocurrencia del evento $\lambda$ es constante (``promedio y varianza son iguales''). Es decir, siempre tienes en expectativa, m\'as o menos los mismos valores (o ellos no est\'an dispersos). Poisson tambi\'en asume que observas todos los periodos. Qu\'e haces cuando estos dos supuestos no se cumplen? Usas Negative-Binomial. {\color{red}Ejemplos}? % cantidad de veces que publicas al año. cantidad de robos (en septiembre aumenta). En otros procesos que solo observas una parte?? O procesos que tienen contagio.
-
-\begin{equation}\label{Neg.Bin}
-%\begin{split}
-f_{nb}(y_{i}|\lambda,\sigma^{2})  =	\frac{\Gamma(\frac{\lambda}{\sigma^{2}-1}+y_{i})}{y_{i}!\Gamma (\frac{\lambda}{\sigma^{2}})} (\frac{\sigma^{2}-1}{\sigma^{2}})^{y_{i}}(\sigma^{2})^{\frac{-\lambda}{\sigma^{2}-1}}
-%\end{split}
-\end{equation}
-
-donde $\Gamma$ es la funci\'on Gamma donde $\Gamma(n) \;=\; (n-1)!$, y donde $\lambda$ sigue siendo la ocurrencia de un evento.
-
-
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlkwd{rbnbinom}\hlstd{(}\hlnum{20}\hlstd{,} \hlcom{# N}
-\hlnum{1}\hlstd{)} \hlcom{# "Trials" o pruebas.}
-\end{alltt}
-\begin{verbatim}
-##  [1]  4  0  3  0  4  0  1  5  1  0 38  4  0  2  0  0  0  0  7  9
-\end{verbatim}
-\end{kframe}
-\end{knitrout}
-
-F\'ijate como la varianza no es constante (hay n\'umeros m\'as grandes, como el ``38'').
 
 %\newpage
 \paragraph{}
