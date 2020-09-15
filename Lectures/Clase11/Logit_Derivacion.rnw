@@ -193,6 +193,8 @@ if (!require("pacman")) install.packages("pacman"); library(pacman)
 \section{Derivando el Likelihood del Modelo Logit}
 
 
+Long1997, p 31 (software) hacer claculos de prob y lik a mano que muestra long. 
+
 %\newpage
 \paragraph{}
 \paragraph{}
