@@ -151,7 +151,7 @@ headpunct=:
 \pagestyle{fancy} % All pages have headers and footers
 \fancyhead{} % Blank out the default header
 \fancyfoot{} % Blank out the default footer
-\fancyhead[C]{MLE para Outcomes Binarios: Derivando El Modelo Logit} % Custom header text
+\fancyhead[C]{MLE para Outcomes Binarios: Test de Hip\'otesis en el modelo Logit} % Custom header text
 \fancyfoot[RO,LE]{\thepage} % Custom footer text
 
 
@@ -190,84 +190,11 @@ if (!require("pacman")) install.packages("pacman"); library(pacman)
 {\bf Curso}: MLE.\\
 \hspace{-5mm}{\bf TA}: Gonzalo Barr\'ia.
 
-\section{Derivando el Likelihood del Modelo Logit}
-
-El modelo lineal de probabilidad (OLS) asume que el valor de $\beta$ es lineal. Esto significa que cada vez que avanzamos en nuestro eje $x$, avanzamos una unidad en $y$. Recuerda la interpretacion de $\beta$: ``cuando subo X en una unidad, Y avanza $\beta$ unidades''. 
-
-Sin embargo, existen muchas instancias donde la variable dependiente ($y$) no es lineal. El primer ejemplo que revisaremos es cuando $y$ es dicot\'omica, 0's y 1's (proceso ``Bernoulli''). Si fijas en el panel derecho de la figura, cada vez que avanzamos $x$ en una unidad, no avanzamos {\bf nada} en nuestro $y$ (entre 0 y 4). Sin embargo cuando $x\ge5$, $y$ es {\bf siempre} 1.
-
-<<lineal:no:lineal, echo = TRUE, fig.pos='H', fig.cap=NULL, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
-par(mfrow=c(1,2)) 
-plot(data.frame(x=jitter(0:10),y=jitter(0:10)), main = "Lineal")
-plot(data.frame(x=0:10,y=c(rep(0,5), rep(1,6))), main = "No Lineal")
-@
-
-Al ser $\beta$ no lineal, estar\'iamos violando varios supuestos:
-
-\begin{enumerate}
-  \item La varianza de los errores $\epsilon_{i}$ son constantes (homoeskedasticidad). 
-  \item La distribuci\'on de los errores $\epsilon_{i}$ es normal con promedio 0; $E(\epsilon_{i})=0$.
-  \item La forma funcional del modelo es lineal. Sin embargo, la forma funcional del panel de la derecha no es lineal, sino que con forma de ``S''.
-\end{enumerate}
-
-Debido a que estos supuestos se violan, si aplicamos un modelo lineal a un $y$ no lineal (como la $y$ en el panel derecho), la interpretaci\'on de $\beta$ no tiene sentido: ``si avanzo una unidad en $x$, $y$ sube $\beta$''. Esto dar\'ia como resultado a que nuestra predicci\'on dir\'ia que siempre nos pasar\'iamos de los l\'imites del $y$ observado. 
-
-\subsection{Logit: Motivaci\'on V\'ia Modelos Latentes}
-
-Una manera de motivar los modelos binarios, es pensando en un modelo ``latente''. Esto es, en un modelo donde s\'olo observas ciertos \emph{outcomes}. Piensa en un $y_{i}^{\star}$ continuo, que va del $\infty{-}$ al $\infty{+}$. Despu\'es, piensa que si cierto valor de $y_{i}^{\star}$ es grande, el outcome $y=1$, pero si el valor de $y_{i}^{\star}$ es chico, el outcome $y=0$. No observas lo que hay entre medio (por eso ``latente''); s\'olo observas 0's y 1's. Despu\'es, piensa en lo que clasifica cada numero ``grande'' o ``chico'' es una especie de umbral $\tau$. M\'as formalmente, 
-
-\begin{equation}\label{latente}
-\begin{split}
-y_{i}=  
-  \begin{Bmatrix} 
-    1 & \;\text{si}\; y_{i}^{\star}>\tau \\ 
-    0 & \;\text{si}\; y_{i}^{\star}\le\tau 
-  \end{Bmatrix}
-\end{split}
-\end{equation}
-
-Este ejemplo del modelo ``latente'' nos sirve s\'olo para motivar el problema. Debido a que $y_{i}^{\star}$ no es observado, no podemos estimar el modelo v\'ia OLS. Lo tendremos que hacer v\'ia MLE. Nuestro primer modelo es el modelo \emph{logit}. Y proviene de la distribucion ``log\'istica''. 
-
-\begin{itemize}
- \item[{\color{red}\Pointinghand}] Es importante saber identificar las distribuciones. No precisamente la f\'ormula. Pero s\'i qu\'e tipo de distribuci\'on est\'a generando tu variable dependiente $y$.
-\end{itemize}
-
-Una distribuci\'on log\'istica se ve as\'i:
-
-<<logistic, echo = TRUE, fig.pos='H', fig.cap=NULL, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
-par(mfrow=c(1,2)) 
-plot(dlogis(seq(-10, 10, by = 0.1)), main = "PDF Logistic", ylab = "", xlab = "")
-plot(plogis(seq(-10, 10, by = 0.1)), main = "CDF Logistic", ylab = "", xlab = "")
-@
-
-mientras que los errores est\'an distribuidos de acuerdo a la \emph{distribuci\'on log\'istica est\'andard} con promedio 0 y varianza $\frac{\pi^{2}}{3}\approx3.29$. 
-
-Ve que el panel izquierdo es el ``PDF'', o \emph{probability density function}. Esta es la manera en que ``se ordena'' la distribuci\'on. Es muy parecida a la distribuci\'on normal, pero no lo es (ver varianza arriba).\footnote{Sin embargo, la distribuci\'on \emph{log\'istica estandarizada} (con varianza 1) es casi identica a la normal. Lo que hace el modelo log\'istico distinto es tambi\'en la forma de estimaci\'on maximizaci\'on del likelihood de una variable dicot\'omica.} El panel derecho es el ``CDF'' o \emph{cumulative density function}. Al ver un ``CDF'' piensa en la intergral, y en como las probabilidades de que $y_{i}=1$ se van sumando, hasta que \'estas suman 1 (el m\'aximo).
-
-Formalmente, el modelo logit se ve as\'i:
+\section{Estimando el Likelihood del Modelo Logit}
 
 
-\begin{equation}\label{logit}
-\pi_{i} = \frac{exp(x_{i}^{\prime}\beta)}{1+exp(x_{i}^{\prime}\beta)}
-\end{equation}
-
-donde $\pi_{i}$ es la probabilidad de cada observaci\'on de ser 1 o 0 (as\'i como en \autoref{latente}), y $x_{i}$ es una matriz de datos y $\beta$ una matriz de estimaciones. Esto es lo que se llama el ``link'' logit. 
-
-\paragraph{Link Function} Una ``funci\'on link'' es una funci\'on que ``junta'' $y$ con $\hat y$. En general, una funci\'on link se puede interpretar como una funci\'on que transforma un vector en otro. Por ejemplo, el logaritmo natural de un vector es una funci\'on link que ``mapea'' $x$ en $log(x)$. En particular, tanto el modelo logit como el probit tienen \emph{link functions} donde $\hat y$ es re-escalado y s\'olo puede tener dos valores: 0 o 1.
 
 
-\subsection{Probit}
-
-Desde el modelo logit se construyen varias extensiones. La primera es el modelo ``probit''. Tanto los modelos logit como los probit tienen variables dependientes dic\'otomicas (proceso Bernoulli). Pero su ``link'' es como sigue:
-
-
-\begin{equation}\label{probit}
-\pi_{i} = \Phi^{-1} exp(x_{i}^{\prime}\beta)
-\end{equation}
-
-donde $\Phi^{-1}$ es la inversa del CDF de la distribuci\'on normal estandard (promedio 0 y varianza 1). Adem\'as, en los modelos probit los errores tienen promedio 0 y est\'an normalmente distribuidos (como en la regresi\'on lineal; OLS). Las estimaciones del modelo probit y el modelo logit son en general iguales (estad\'isticamente iguales).
-
-\paragraph{Qu\'e modelo es mejor?} Ambos son muy parecidos. No es poco frecuente estimar los dos. Cuando creas que los errores podrian ser homoeskedasticos, estima un probit. Tambi\'en hay asuntos disciplinares. 
 
 % Long1997, p 31 (software) hacer claculos de prob y lik a mano que muestra long. 
 
