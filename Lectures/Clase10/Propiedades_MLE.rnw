@@ -202,7 +202,18 @@ if (!require("pacman")) install.packages("pacman"); library(pacman)
 
 \section{Precisi\'on de los Estimadores MLE}
 
-Pensar en la presici\'on, es pensar en cu\'an bien (o mal) nuestro estimador $\hat\theta$ (i.e. ``nuestro $\beta$'') maximice el likelihood the que $E(y)=\pi$. Para esto, debemos recordar que la funci\'on del $LL$ es relativa (depende de los datos). No es como antes en OLS, donde pod\'iamos comparar \emph{p-values}, r$^{2}$ y otros \emph{entre modelos con distintos datasets}. Aqu\'i no. 
+Pensar en la presici\'on, es pensar en cu\'an bien (o mal) nuestro estimador $\hat\theta$ (i.e. ``nuestro $\beta$'') maximice el likelihood the que $E(y)=\pi$. Para esto, debemos recordar que la funci\'on del $LL$ es relativa (depende de los datos). No es como antes en OLS, donde pod\'iamos comparar \emph{p-values}, r$^{2}$ y otros \emph{entre modelos con distintos datasets}. Aqu\'i no.
+
+En este curso veremos dos tipos de tests, el LLR y el Wald Test. Ambos usan la distribuci\'on del log-likelihood para estimar lo mismo, pero ``por lados diferentes''. Ve la figura 2.1 de \textcite[37]{Ward2018}.
+
+{\centering \includegraphics[width=\maxwidth]{wald_llr.png} 
+
+}
+
+\paragraph{Lagrange Multiplier (LM)}
+
+Este test prueba si el la pendiente del log-likelihood es cero. Recuerda que cuando la pendiente (i.e. el cambio) es cero, eso significa que hemos llegado a la m\'axima de la funci\'on. M\'as formalmente, el test prueba si la derivada con respecto a los par\'ametros es 0.
+
 
 \paragraph{Likelihodd Ratio Test (LLR)}
 

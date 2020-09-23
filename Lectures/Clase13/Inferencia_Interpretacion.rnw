@@ -27,6 +27,7 @@
 
 \usepackage{fancybox, fancyvrb, calc}
 \usepackage[svgnames]{xcolor}
+\usepackage{physics}
 \usepackage{epigraph}
 \usepackage{longtable}
 \usepackage{pdflscape}
@@ -151,7 +152,7 @@ headpunct=:
 \pagestyle{fancy} % All pages have headers and footers
 \fancyhead{} % Blank out the default header
 \fancyfoot{} % Blank out the default footer
-\fancyhead[C]{MLE para Outcomes Binarios: Test de Hip\'otesis en el modelo Logit} % Custom header text
+\fancyhead[C]{MLE para Outcomes Binarios: Inferencia e Interpretaci\'on} % Custom header text
 \fancyfoot[RO,LE]{\thepage} % Custom footer text
 
 
@@ -190,12 +191,147 @@ if (!require("pacman")) install.packages("pacman"); library(pacman)
 {\bf Curso}: MLE.\\
 \hspace{-5mm}{\bf TA}: Gonzalo Barr\'ia.
 
-\section{Hipotesis Testing}
+\section{Inferencia e Interpretaci\'on}
 
-Ya sabemos (en teor\'ia) lo que significa el \emph{Wald test}, \emph{Likelihood Ratio} y el \emph{Lagrange Multiplier}. Ahora los aplicaremos.
+Los GLMs no se pueden interpretar usando la tabla. Los coeficientes no sifnifican lo que significaban en nuestro mundo OLS. Para interpretarlos, debemos usar otras herramientas. 
+
+
+\paragraph{Intervalos de confianza}
+
+Ya sabemos lo que un intervalo de confianza significa: si nuestra confianza es al 95\%, sabemos que el ``true value'' de la estimaci\'on caer\'a el 95\% dentro del margen de los intervalos de confianza. Es en base a esto que antes hablabamos de ``significancia estad\'istica''.
+
+Carguemos los datos
+
+
+<<data, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+options(scipen=100000000)
+set.seed(2020)
+# Data
+mydata <- read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv")
+head(mydata)
+summary(mydata)
+mydata$rank <- factor(mydata$rank)
+@
+
+Estimemos el primer modelo
+
+<<l:1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+logit.1 <- glm(admit ~ gre + gpa + rank, data = mydata, family = binomial(link = "logit"))
+summary(logit.1)
+@
+
+Y ahora, estimemos los intervalos de confianza. Los intervalos de confianza son sencillos de calcular. Si queremos un 95\% de confianza, miramos la tabla con los valores Z. Para ese porcentaje es $1.960$ (para un 90\% es 1.645). 
+
+\begin{equation}
+\hat\theta \pm 1.960 \times \text{SE}_{\hat\theta}
+\end{equation}
+
+donde $\hat\theta$ es la estimaci\'on (el par\'ametro), $1.960$ es el valor $z$, DS es la desviaci\'on est\'andard, y N es el largo de la base de datos. Si te fijas, tenemos el signo $\pm$ que implica que debemos restar para obtener el rango m\'inimo del intervalo de confianza, y sumar para obtener el rango m\'aximo del intervalo de confianza.
+
+Por ejemplo, el coeficiente de ``gre'' es $\hat\theta=\Sexpr{logit.1$coefficients["gre"]}$, el $SE = 0.001094$. Entonces, $0.002264426 + 1.96*0.001094$ para el intervalo superior, y $0.002264426 - 1.96*0.001094$ para el intervalo inferior. 
+
+Usemos un paquete.
 
 
 
+<<i:c, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+confint(logit.1)
+@
+
+
+\paragraph{Odds Ratios}
+
+Esta manera de interpretar solo funciona con los \emph{link function} tipo logit (logit, multinomial logit, etc.), no probit links (i.e. probit, multinomial probit). Formalmente, 
+
+\begin{equation}\label{odd:ratio}
+\begin{split}
+ln \Omega(\text{x}) & = \text{x}\beta \\
+\Omega(\text{x}) & = \frac{\text{Pr}(\text{y}=1 | \text{x})}{\text{Pr}(\text{y}=0 | \text{x})} 
+\end{split}
+\end{equation}
+
+donde \autoref{odd:ratio} es el \emph{odd ratio} de que $y$ sea 1 dado $x$, relativo a que $y$ sea 0 dado $x$. Es un ratio, una fracci\'on. Su interpretaci\'on es intuititiva: ``cuando $x$ cambia, cu\'anto cambia el logit estimado ($\hat\theta$) manteniendo los otros parametros constantes''?
+
+{\bf Lo bueno} de esta interpretacion es que podemos observar el cambio de la variable dependiente. Ten en cuenta que los \emph{odds ratios} son comparables s\'olo con la misma variable. {\bf Lo malo} es que seguimos en unidades de la escala logit (que sigue siendo poco interpretable).
+
+
+
+<<od:ra, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+if (!require("pacman")) install.packages("pacman"); library(pacman) 
+p_load(oddsratio)
+#
+or_glm(data = mydata, 
+       model = logit.1, 
+       incr = list(gre = 380, gpa = 5))
+@
+
+Aqu\'i vemos que la variable dependiente (\texttt{admit}) es 55 veces m\'as probable de ocurrir cuando la variable independiente \texttt{gpa} incrementa de su media (\Sexpr{mean(mydata$gpa)}) a 5. Como ves, ganamos interpretatibilidad del modelo. 
+
+<<od:plot, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+par(mfrow=c(1,2))
+hist(mydata$gpa, main = "GPA")
+hist(mydata$gre, main = "GRE")
+@
+
+Como interpretamos \texttt{GRE}?
+
+<<means, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+mean(mydata$gpa)
+mean(mydata$gre)
+@
+
+Si bien es cierto que ganamos interpretaci\'on del modelo, lo malo es seguimos hablando con poca precisi\'on. Decir que algo es 55 veces m\'as probable es interesante, pero no s\'e si tan ``cient\'ifico''.
+
+
+\paragraph{\emph{Partial/Marginal Changes} in y}
+
+Los ``cambios parciales'' son muy parecidos a los \emph{odds ratios}. Son parecidos porque nos muestra ``cuando cambia $\hat y$ cuando cambia $x$''. Formalmente, 
+
+\begin{equation}\label{part:chan}
+\frac{\partial \hat y}{\partial x_{k}} = \beta_{k}
+\end{equation}
+
+lo que significa ``por un cambio en $x_{k}$, se espera que $\hat y$ cambie $\beta_{k}$'' (manteniendo todas las otras variables constantes en su media). Sin embargo, debido a que la varianza de $\hat y$ es desconocida (la varianza es un \emph{population parameter}), entonces, esto complica la interpretacion de $\beta_{k}$. Para resolver esto, lo que hacemos es pensar en coeficientes $\beta_{k}$ estandarizados. Siguiendo \autoref{part:chan}, lo que pensamos es en ``por un cambio en $x_{k}$, se espera que $\hat y$ cambie $\beta_{k}$ {\bf desviaciones est\'andard}''. Formalmente, 
+
+\begin{equation}\label{part:chan}
+\beta_{k}^{S} = \frac{\sigma_{k} \beta_{k}}{\sigma_{\hat y}} = \sigma_{k}\beta_{k}^{S_{\hat y}}
+\end{equation}
+
+Nota que \label{part:chan} tambi\'en estandariza $\hat y$. Debido a que $\hat\sigma_{\hat y} = \sigma_{\hat y}$ (i.e. podemos estimar la varianza estandarizada de los datos), 
+
+\begin{equation}%\label{part:chan}
+{\hat\sigma_{\hat y}} = \beta^{\top}\hat\sigma(x)\beta + \sigma(\epsilon)
+\end{equation}
+
+Calculemos dos escenarios. Uno donde el estudiante le iba muy mal en el colegio, pero tuvo un buen puntaje en la prueba de admisi\'on de doctorado (GRE).
+
+<<sc1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+if (!require("pacman")) install.packages("pacman"); library(pacman) 
+p_load(margins)
+summary(margins(logit.1, 
+        at = list(
+          gre = min(mydata$gre), 
+          gpa = max(mydata$gpa))
+        ))
+@
+
+Ahora calculemos el opuesto:
+
+<<sc2, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+summary(margins(logit.1, 
+        at = list(
+          gre = max(mydata$gre), 
+          gpa = min(mydata$gpa):mean(mydata$gpa))
+          ))
+@
+
+Para entender mejor esto, grafiquemos:
+
+<<sc3, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+par(mfrow=c(1,2))
+cplot(logit.1, "gre")
+cplot(logit.1, "gpa")
+@
 
 %\newpage
 %\paragraph{}
@@ -203,6 +339,8 @@ Ya sabemos (en teor\'ia) lo que significa el \emph{Wald test}, \emph{Likelihood 
 %\pagenumbering{Roman}
 %\setcounter{page}{1}
 %\printbibliography
+
+
 
 \end{document}
 
