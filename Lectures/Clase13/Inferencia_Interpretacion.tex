@@ -248,8 +248,6 @@ Carguemos los datos
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{options}\hlstd{(}\hlkwc{scipen}\hlstd{=}\hlnum{100000000}\hlstd{)}
-\hlkwd{set.seed}\hlstd{(}\hlnum{2020}\hlstd{)}
 \hlcom{# Data}
 \hlstd{mydata} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlstr{"https://stats.idre.ucla.edu/stat/data/binary.csv"}\hlstd{)}
 \hlkwd{head}\hlstd{(mydata)}
@@ -275,9 +273,6 @@ Carguemos los datos
 ##  3rd Qu.:1.0000   3rd Qu.:660.0   3rd Qu.:3.670   3rd Qu.:3.000  
 ##  Max.   :1.0000   Max.   :800.0   Max.   :4.000   Max.   :4.000
 \end{verbatim}
-\begin{alltt}
-\hlstd{mydata}\hlopt{$}\hlstd{rank} \hlkwb{<-} \hlkwd{factor}\hlstd{(mydata}\hlopt{$}\hlstd{rank)}
-\end{alltt}
 \end{kframe}
 \end{knitrout}
 
@@ -286,35 +281,32 @@ Estimemos el primer modelo
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlstd{logit.1} \hlkwb{<-} \hlkwd{glm}\hlstd{(admit} \hlopt{~} \hlstd{gre} \hlopt{+} \hlstd{gpa} \hlopt{+} \hlstd{rank,} \hlkwc{data} \hlstd{= mydata,} \hlkwc{family} \hlstd{=} \hlkwd{binomial}\hlstd{(}\hlkwc{link} \hlstd{=} \hlstr{"logit"}\hlstd{))}
+\hlstd{logit.1} \hlkwb{<-} \hlkwd{glm}\hlstd{(admit} \hlopt{~} \hlstd{gre} \hlopt{+} \hlstd{gpa,} \hlkwc{data} \hlstd{= mydata,} \hlkwc{family} \hlstd{=} \hlkwd{binomial}\hlstd{(}\hlkwc{link} \hlstd{=} \hlstr{"logit"}\hlstd{))}
 \hlkwd{summary}\hlstd{(logit.1)}
 \end{alltt}
 \begin{verbatim}
 ## 
 ## Call:
-## glm(formula = admit ~ gre + gpa + rank, family = binomial(link = "logit"), 
+## glm(formula = admit ~ gre + gpa, family = binomial(link = "logit"), 
 ##     data = mydata)
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
-## -1.6268  -0.8662  -0.6388   1.1490   2.0790  
+## -1.2730  -0.8988  -0.7206   1.3013   2.0620  
 ## 
 ## Coefficients:
-##              Estimate Std. Error z value Pr(>|z|)    
-## (Intercept) -3.989979   1.139951  -3.500 0.000465 ***
-## gre          0.002264   0.001094   2.070 0.038465 *  
-## gpa          0.804038   0.331819   2.423 0.015388 *  
-## rank2       -0.675443   0.316490  -2.134 0.032829 *  
-## rank3       -1.340204   0.345306  -3.881 0.000104 ***
-## rank4       -1.551464   0.417832  -3.713 0.000205 ***
+##              Estimate Std. Error z value   Pr(>|z|)    
+## (Intercept) -4.949378   1.075093  -4.604 0.00000415 ***
+## gre          0.002691   0.001057   2.544     0.0109 *  
+## gpa          0.754687   0.319586   2.361     0.0182 *  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
 ##     Null deviance: 499.98  on 399  degrees of freedom
-## Residual deviance: 458.52  on 394  degrees of freedom
-## AIC: 470.52
+## Residual deviance: 480.34  on 397  degrees of freedom
+## AIC: 486.34
 ## 
 ## Number of Fisher Scoring iterations: 4
 \end{verbatim}
@@ -329,7 +321,7 @@ Y ahora, estimemos los intervalos de confianza. Los intervalos de confianza son 
 
 donde $\hat\theta$ es la estimaci\'on (el par\'ametro), $1.960$ es el valor $z$, DS es la desviaci\'on est\'andard, y N es el largo de la base de datos. Si te fijas, tenemos el signo $\pm$ que implica que debemos restar para obtener el rango m\'inimo del intervalo de confianza, y sumar para obtener el rango m\'aximo del intervalo de confianza.
 
-Por ejemplo, el coeficiente de ``gre'' es $\hat\theta=0.0022644$, el $SE = 0.001094$. Entonces, $0.002264426 + 1.96*0.001094$ para el intervalo superior, y $0.002264426 - 1.96*0.001094$ para el intervalo inferior. 
+Por ejemplo, el coeficiente de ``gre'' es $\hat\theta=0.0026907$, el $SE = 0.001094$. Entonces, $0.002264426 + 1.96*0.001094$ para el intervalo superior, y $0.002264426 - 1.96*0.001094$ para el intervalo inferior. 
 
 Usemos un paquete.
 
@@ -342,12 +334,9 @@ Usemos un paquete.
 \end{alltt}
 \begin{verbatim}
 ##                     2.5 %       97.5 %
-## (Intercept) -6.2716202334 -1.792547080
-## gre          0.0001375921  0.004435874
-## gpa          0.1602959439  1.464142727
-## rank2       -1.3008888002 -0.056745722
-## rank3       -2.0276713127 -0.670372346
-## rank4       -2.4000265384 -0.753542605
+## (Intercept) -7.1092205752 -2.886726963
+## gre          0.0006373958  0.004791712
+## gpa          0.1347509288  1.390131131
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -373,7 +362,6 @@ donde \autoref{odd:ratio} es el \emph{odd ratio} de que $y$ sea 1 dado $x$, rela
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwa{if} \hlstd{(}\hlopt{!}\hlkwd{require}\hlstd{(}\hlstr{"pacman"}\hlstd{))} \hlkwd{install.packages}\hlstd{(}\hlstr{"pacman"}\hlstd{);} \hlkwd{library}\hlstd{(pacman)}
 \hlkwd{p_load}\hlstd{(oddsratio)}
 \hlcom{#}
 \hlkwd{or_glm}\hlstd{(}\hlkwc{data} \hlstd{= mydata,}
@@ -381,12 +369,9 @@ donde \autoref{odd:ratio} es el \emph{odd ratio} de que $y$ sea 1 dado $x$, rela
        \hlkwc{incr} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{gre} \hlstd{=} \hlnum{380}\hlstd{,} \hlkwc{gpa} \hlstd{=} \hlnum{5}\hlstd{))}
 \end{alltt}
 \begin{verbatim}
-##   predictor oddsratio ci_low (2.5) ci_high (97.5)          increment
-## 1       gre     2.364        1.054          5.396                380
-## 2       gpa    55.712        2.229       1511.282                  5
-## 3     rank2     0.509        0.272          0.945 Indicator variable
-## 4     rank3     0.262        0.132          0.512 Indicator variable
-## 5     rank4     0.212        0.091          0.471 Indicator variable
+##   predictor oddsratio ci_low (2.5) ci_high (97.5) increment
+## 1       gre     2.780        1.274          6.177       380
+## 2       gpa    43.529        1.962       1043.834         5
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -457,7 +442,6 @@ Calculemos dos escenarios. Uno donde el estudiante le iba muy mal en el colegio,
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwa{if} \hlstd{(}\hlopt{!}\hlkwd{require}\hlstd{(}\hlstr{"pacman"}\hlstd{))} \hlkwd{install.packages}\hlstd{(}\hlstr{"pacman"}\hlstd{);} \hlkwd{library}\hlstd{(pacman)}
 \hlkwd{p_load}\hlstd{(margins)}
 \hlkwd{summary}\hlstd{(}\hlkwd{margins}\hlstd{(logit.1,}
         \hlkwc{at} \hlstd{=} \hlkwd{list}\hlstd{(}
@@ -466,12 +450,9 @@ Calculemos dos escenarios. Uno donde el estudiante le iba muy mal en el colegio,
         \hlstd{))}
 \end{alltt}
 \begin{verbatim}
-##  factor      gre    gpa     AME     SE       z      p   lower   upper
-##     gpa 220.0000 4.0000  0.1408 0.0839  1.6786 0.0932 -0.0236  0.3052
-##     gre 220.0000 4.0000  0.0004 0.0001  3.5999 0.0003  0.0002  0.0006
-##   rank2 220.0000 4.0000 -0.1529 0.0768 -1.9898 0.0466 -0.3034 -0.0023
-##   rank3 220.0000 4.0000 -0.2657 0.0927 -2.8657 0.0042 -0.4475 -0.0840
-##   rank4 220.0000 4.0000 -0.2929 0.1002 -2.9234 0.0035 -0.4893 -0.0965
+##  factor      gre    gpa    AME     SE      z      p   lower  upper
+##     gpa 220.0000 4.0000 0.1242 0.0808 1.5364 0.1244 -0.0342 0.2827
+##     gre 220.0000 4.0000 0.0004 0.0001 5.9659 0.0000  0.0003 0.0006
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -488,17 +469,11 @@ Ahora calculemos el opuesto:
           \hlstd{))}
 \end{alltt}
 \begin{verbatim}
-##  factor      gre    gpa     AME     SE       z      p   lower   upper
-##     gpa 800.0000 2.2600  0.1352 0.0293  4.6134 0.0000  0.0777  0.1926
-##     gpa 800.0000 3.2600  0.1792 0.0695  2.5770 0.0100  0.0429  0.3155
-##     gre 800.0000 2.2600  0.0004 0.0003  1.4657 0.1427 -0.0001  0.0009
-##     gre 800.0000 3.2600  0.0005 0.0003  1.8747 0.0608 -0.0000  0.0010
-##   rank2 800.0000 2.2600 -0.1489 0.0771 -1.9320 0.0534 -0.2999  0.0022
-##   rank2 800.0000 3.2600 -0.1668 0.0762 -2.1897 0.0285 -0.3161 -0.0175
-##   rank3 800.0000 2.2600 -0.2564 0.0876 -2.9273 0.0034 -0.4280 -0.0847
-##   rank3 800.0000 3.2600 -0.3193 0.0777 -4.1088 0.0000 -0.4717 -0.1670
-##   rank4 800.0000 2.2600 -0.2820 0.0988 -2.8541 0.0043 -0.4756 -0.0883
-##   rank4 800.0000 3.2600 -0.3608 0.0879 -4.1047 0.0000 -0.5331 -0.1885
+##  factor      gre    gpa    AME     SE      z      p   lower  upper
+##     gpa 800.0000 2.2600 0.1420 0.0325 4.3633 0.0000  0.0782 0.2058
+##     gpa 800.0000 3.2600 0.1834 0.0741 2.4771 0.0132  0.0383 0.3286
+##     gre 800.0000 2.2600 0.0005 0.0003 1.6967 0.0898 -0.0001 0.0011
+##     gre 800.0000 3.2600 0.0007 0.0003 2.3188 0.0204  0.0001 0.0012
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -513,52 +488,52 @@ Para entender mejor esto, grafiquemos:
 \end{alltt}
 \begin{verbatim}
 ##       xvals     yvals     upper      lower
-## 1  220.0000 0.1912913 0.3293332 0.05324935
-## 2  244.1667 0.1999003 0.3349924 0.06480810
-## 3  268.3333 0.2087967 0.3405397 0.07705355
-## 4  292.5000 0.2179811 0.3459866 0.08997559
-## 5  316.6667 0.2274534 0.3513519 0.10355486
-## 6  340.8333 0.2372125 0.3566644 0.11776057
-## 7  365.0000 0.2472562 0.3619647 0.13254773
-## 8  389.1667 0.2575817 0.3673097 0.14785363
-## 9  413.3333 0.2681847 0.3727760 0.16359328
-## 10 437.5000 0.2790601 0.3784663 0.17965382
-## 11 461.6667 0.2902016 0.3845153 0.19588791
-## 12 485.8333 0.3016019 0.3910967 0.21210700
-## 13 510.0000 0.3132523 0.3984280 0.22807664
-## 14 534.1667 0.3251433 0.4067686 0.24351805
-## 15 558.3333 0.3372640 0.4164053 0.25812272
-## 16 582.5000 0.3496025 0.4276189 0.27158598
-## 17 606.6667 0.3621457 0.4406338 0.28365750
-## 18 630.8333 0.3748795 0.4555665 0.29419252
-## 19 655.0000 0.3877889 0.4723996 0.30317809
-## 20 679.1667 0.4008577 0.4909949 0.31072049
+## 1  220.0000 0.1419589 0.2412899 0.04262786
+## 2  244.1667 0.1500652 0.2479355 0.05219492
+## 3  268.3333 0.1585489 0.2545321 0.06256566
+## 4  292.5000 0.1674177 0.2610725 0.07376288
+## 5  316.6667 0.1766785 0.2675539 0.08580299
+## 6  340.8333 0.1863368 0.2739798 0.09869393
+## 7  365.0000 0.1963973 0.2803622 0.11243234
+## 8  389.1667 0.2068628 0.2867259 0.12699962
+## 9  413.3333 0.2177348 0.2931134 0.14235622
+## 10 437.5000 0.2290133 0.2995933 0.15843330
+## 11 461.6667 0.2406962 0.3062725 0.17512003
+## 12 485.8333 0.2527798 0.3133146 0.19224490
+## 13 510.0000 0.2652580 0.3209666 0.20954944
+## 14 534.1667 0.2781229 0.3295882 0.22665765
+## 15 558.3333 0.2913644 0.3396690 0.24305980
+## 16 582.5000 0.3049699 0.3517828 0.25815704
+## 17 606.6667 0.3189249 0.3664325 0.27141726
+## 18 630.8333 0.3332122 0.3838358 0.28258868
+## 19 655.0000 0.3478128 0.4038425 0.29178301
+## 20 679.1667 0.3627051 0.4260603 0.29934986
 \end{verbatim}
 \begin{alltt}
 \hlkwd{cplot}\hlstd{(logit.1,} \hlstr{"gpa"}\hlstd{)}
 \end{alltt}
 \begin{verbatim}
 ##     xvals     yvals     upper      lower
-## 1  2.2600 0.1798308 0.2984691 0.06119251
-## 2  2.3325 0.1885895 0.3051858 0.07199319
-## 3  2.4050 0.1976720 0.3118808 0.08346312
-## 4  2.4775 0.2070802 0.3185673 0.09559314
-## 5  2.5500 0.2168152 0.3252662 0.10836423
-## 6  2.6225 0.2268769 0.3320085 0.12174533
-## 7  2.6950 0.2372641 0.3388377 0.13569055
-## 8  2.7675 0.2479744 0.3458129 0.15013578
-## 9  2.8400 0.2590039 0.3530130 0.16499472
-## 10 2.9125 0.2703476 0.3605409 0.18015436
-## 11 2.9850 0.2819991 0.3685276 0.19547065
-## 12 3.0575 0.2939505 0.3771355 0.21076543
-## 13 3.1300 0.3061923 0.3865574 0.22582718
-## 14 3.2025 0.3187139 0.3970088 0.24041895
-## 15 3.2750 0.3315028 0.4087086 0.25429694
-## 16 3.3475 0.3445454 0.4218506 0.26724013
-## 17 3.4200 0.3578264 0.4365681 0.27908480
-## 18 3.4925 0.3713294 0.4529077 0.28975110
-## 19 3.5650 0.3850364 0.4708228 0.29925010
-## 20 3.6375 0.3989283 0.4901876 0.30766903
+## 1  2.2600 0.1594306 0.2615309 0.05733021
+## 2  2.3325 0.1669004 0.2668014 0.06699931
+## 3  2.4050 0.1746474 0.2719973 0.07729752
+## 4  2.4775 0.1826752 0.2771187 0.08823181
+## 5  2.5500 0.1909867 0.2821696 0.09980371
+## 6  2.6225 0.1995839 0.2871600 0.11200782
+## 7  2.6950 0.2084684 0.2921072 0.12482964
+## 8  2.7675 0.2176409 0.2970392 0.13824262
+## 9  2.8400 0.2271012 0.3019984 0.15220395
+## 10 2.9125 0.2368481 0.3070478 0.16664844
+## 11 2.9850 0.2468798 0.3122801 0.18147962
+## 12 3.0575 0.2571932 0.3178294 0.19655702
+## 13 3.1300 0.2677843 0.3238891 0.21167944
+## 14 3.2025 0.2786478 0.3307294 0.22656631
+## 15 3.2750 0.2897777 0.3387074 0.24084799
+## 16 3.3475 0.3011665 0.3482440 0.25408903
+## 17 3.4200 0.3128058 0.3597384 0.26587323
+## 18 3.4925 0.3246859 0.3734345 0.27593734
+## 19 3.5650 0.3367961 0.3893290 0.28426321
+## 20 3.6375 0.3491245 0.4072024 0.29104653
 \end{verbatim}
 \end{kframe}
 
@@ -568,6 +543,184 @@ Para entender mejor esto, grafiquemos:
 
 
 
+\end{knitrout}
+
+
+\paragraph{Predicted Probabilities: Gr\'aficos}
+
+Quiz\'as esta sea la manera m\'as usada para poder interpretar: graficando (o mostrando en una tabla) ``la probabilidad de que $y$ sea $1$ a distintos valores de $x$'', o de manera m\'as formal, 
+
+\begin{equation}%\label{part:chan}
+\hat{\text{Pr}}(y_{i}=1|{\mathbf x}_{i}) = f({\mathbf x}_{i}\hat{\mathbf \beta})
+\end{equation}
+
+F\'ijate que ${\mathbf x}$ y $\hat{\mathbf \beta}$ son matrices. {\color{red}Por que?} 
+
+Aqui lo que queremos saber es como se comparta la probabilidad de que $y_{i}=1$ a medida que nos movemos en una de las $x$'s. {\bf Lo bueno}, es que tenemos un lenguaje f\'acil de entender: todos entienden probabilidades, y adem\'as, estas var\'ian entre 0 y 1. {\color{red}Pero qu\'e hacemos con el resto de las x's?}
+
+Para predecir usaremos el comando \texttt{predict}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{head}\hlstd{(}\hlkwd{predict}\hlstd{(logit.1))}
+\end{alltt}
+\begin{verbatim}
+##          1          2          3          4          5          6 
+## -1.2024987 -0.4038261  0.2219162 -0.8198895 -1.3389901 -0.6403980
+\end{verbatim}
+\begin{alltt}
+\hlkwd{plot}\hlstd{(}\hlkwd{predict}\hlstd{(logit.1))} \hlcom{# logit scale}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/predict:1-1} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlkwd{plot}\hlstd{(}\hlkwd{predict}\hlstd{(logit.1,} \hlkwc{type}\hlstd{=}\hlstr{"response"}\hlstd{))} \hlcom{# Predicted Prob}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/predict:1-2} 
+
+}
+
+
+
+\end{knitrout}
+
+Usando la librer\'ia \texttt{effects}, podremos graficar. 
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{p_load}\hlstd{(}\hlstr{"effects"}\hlstd{)}
+\hlkwd{par}\hlstd{(}\hlkwc{mfrow}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{1}\hlstd{))}
+\hlkwd{plot}\hlstd{(}\hlkwd{predictorEffects}\hlstd{(logit.1))} \hlcom{# Todo el modelo (PLURAL)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/predict:2-1} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlkwd{par}\hlstd{(}\hlkwc{mfrow}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{))}
+\hlkwd{plot}\hlstd{(}\hlkwd{predictorEffect}\hlstd{(}\hlstr{"gre"}\hlstd{, logit.1))} \hlcom{# Solo una variable (SINGULAR)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/predict:2-2} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlkwd{plot}\hlstd{(gpa.pred.prob} \hlkwb{<-} \hlkwd{predictorEffect}\hlstd{(}\hlstr{"gpa"}\hlstd{, logit.1))} \hlcom{# Solo una variable (SINGULAR)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/predict:2-3} 
+
+}
+
+
+
+\end{knitrout}
+
+
+
+\paragraph{Predicted Probabilities: Tablas}
+
+La otra alternativa es poder generar tablas con \emph{predicted prob's}. La idea es ir generando ``perfiles'' que hagan sentido desde un punto de vista substantivo. 
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# generar los rangos de los perfiles deseados}
+\hlstd{gpa.bajo} \hlkwb{<-} \hlkwd{with}\hlstd{(mydata,}
+                \hlkwd{data.frame}\hlstd{(}
+                        \hlkwc{gre} \hlstd{=} \hlkwd{c}\hlstd{(}\hlkwd{min}\hlstd{(mydata}\hlopt{$}\hlstd{gre),} \hlkwd{max}\hlstd{(mydata}\hlopt{$}\hlstd{gre)),}
+                        \hlkwc{gpa} \hlstd{=} \hlkwd{min}\hlstd{(mydata}\hlopt{$}\hlstd{gpa))}
+                \hlstd{)}
+\hlstd{gpa.medio} \hlkwb{<-} \hlkwd{with}\hlstd{(mydata,}
+                 \hlkwd{data.frame}\hlstd{(}
+                         \hlkwc{gre} \hlstd{=} \hlkwd{c}\hlstd{(}\hlkwd{min}\hlstd{(mydata}\hlopt{$}\hlstd{gre),} \hlkwd{max}\hlstd{(mydata}\hlopt{$}\hlstd{gre)),}
+                         \hlkwc{gpa} \hlstd{=} \hlkwd{mean}\hlstd{(mydata}\hlopt{$}\hlstd{gpa,} \hlkwc{na.rm} \hlstd{= T))}
+                         \hlstd{)}
+\hlstd{gpa.alto} \hlkwb{<-} \hlkwd{with}\hlstd{(mydata,}
+                      \hlkwd{data.frame}\hlstd{(}
+                              \hlkwc{gre} \hlstd{=} \hlkwd{c}\hlstd{(}\hlkwd{min}\hlstd{(mydata}\hlopt{$}\hlstd{gre),} \hlkwd{max}\hlstd{(mydata}\hlopt{$}\hlstd{gre)),}
+                              \hlkwc{gpa} \hlstd{=} \hlkwd{max}\hlstd{(mydata}\hlopt{$}\hlstd{gpa))}
+                              \hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# usar funcion predict}
+\hlkwd{predict}\hlstd{(logit.1, gpa.bajo,} \hlkwc{type}\hlstd{=}\hlstr{"response"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##          1          2 
+## 0.06587598 0.25138506
+\end{verbatim}
+\begin{alltt}
+\hlkwd{predict}\hlstd{(logit.1, gpa.medio,} \hlkwc{type}\hlstd{=}\hlstr{"response"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##         1         2 
+## 0.1419589 0.4406515
+\end{verbatim}
+\begin{alltt}
+\hlkwd{predict}\hlstd{(logit.1, gpa.alto,} \hlkwc{type}\hlstd{=}\hlstr{"response"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##         1         2 
+## 0.2077272 0.5552525
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\multicolumn{2}{|c|}{\textbf{GPA Bajo}} & \multicolumn{2}{c|}{\textbf{GPA Medio}} & \multicolumn{2}{c|}{\textbf{GPA Alto}} \\ \hline
+\textit{Gre Min}   & \textit{Gre Max}   & \textit{Gre Min}   & \textit{Gre Max}   & \textit{Gre Min}   & \textit{Gre Max}  \\ \hline
+0.07 & 0.25 &                    
+0.14 & 0.44 &                    
+0.21 & 0.56 \\ \hline
+\end{tabular}
+\end{table}
+
+
+{\color{red}Cu\'al es el problema?}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{knitr}\hlopt{::}\hlkwd{purl}\hlstd{(}\hlstr{'Inferencia_Interpretacion.Rnw'}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in parse\_block(g[-1], g[1], params.src, markdown\_mode): Duplicate chunk label 'setup20', which has been used for the chunk:\\\#\# if (!require("{}pacman"{})) install.packages("{}pacman"{}); library(pacman)\\\#\# p\_load(knitr)\\\#\# set.seed(2020)\\\#\# options(scipen=9999999)}}\begin{alltt}
+\hlkwd{Stangle}\hlstd{(}\hlstr{'Inferencia_Interpretacion.Rnw'}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## Writing to file Inferencia_Interpretacion.R
+\end{verbatim}
+\end{kframe}
 \end{knitrout}
 
 %\newpage

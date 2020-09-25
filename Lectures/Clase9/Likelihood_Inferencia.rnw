@@ -317,6 +317,11 @@ ggplot(data = df, aes(x = pi, y = log.lik)) + geom_line() + stat_peaks(col = c("
 Muchas veces resolver por $\hat\theta$ es algebraicamente imposible \parencite[72]{King1998}. Es por esto que este proceso empieza por seleccionar ``valores de partida'' (\emph{starting values}), y a trav\'es de la especificaci\'on de los distintos valores de que puede tomar el parametro $\tilde{\theta}$, vamos viendo si llegamos al global maxima. Esto es justamente lo que se hizo con el ``grid search'' arriba (uno de los dos m\'etodos num\'ericos), y se hace para toda la superficie de la distribuci\'on. El segundo m\'etodo num\'erico es el m\'etodo de ``gradiente''. Este m\'etodo usa la pendiente (slope) para ver cuando la pendiente es cero. En general, nadie usa m\'etodos as\'i. El computador se encarga de maximizar, pero es importante saber qu\'e es lo que est\'a haciendo el programa.
 
 
+<<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+knitr::purl('Likelihood_Inferencia.Rnw')
+Stangle('Likelihood_Inferencia.Rnw')
+@
+
 % https://kevintshoemaker.github.io/NRES-746/LAB3.html
 % http://people.tamu.edu/~b-wood/Maximum%20Likelihood/RLesson%203.htm
 % http://www.maths.usyd.edu.au/u/UG/SM/STAT3022/r/current/Lecture/lecture03_2020JC.html#4

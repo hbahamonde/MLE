@@ -343,6 +343,12 @@ rbnbinom(20, # N
 
 F\'ijate como la varianza no es constante (hay n\'umeros m\'as grandes, como el ``38'').
 
+
+<<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+knitr::purl('Probabilidad_Incertidumbre.Rnw')
+Stangle('Probabilidad_Incertidumbre.Rnw')
+@
+
 %\newpage
 \paragraph{}
 \paragraph{}

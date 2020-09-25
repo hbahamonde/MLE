@@ -418,6 +418,22 @@ Este procedimiento asegura que caigamos en el {\color{red}global maxima} y no en
 Muchas veces resolver por $\hat\theta$ es algebraicamente imposible \parencite[72]{King1998}. Es por esto que este proceso empieza por seleccionar ``valores de partida'' (\emph{starting values}), y a trav\'es de la especificaci\'on de los distintos valores de que puede tomar el parametro $\tilde{\theta}$, vamos viendo si llegamos al global maxima. Esto es justamente lo que se hizo con el ``grid search'' arriba (uno de los dos m\'etodos num\'ericos), y se hace para toda la superficie de la distribuci\'on. El segundo m\'etodo num\'erico es el m\'etodo de ``gradiente''. Este m\'etodo usa la pendiente (slope) para ver cuando la pendiente es cero. En general, nadie usa m\'etodos as\'i. El computador se encarga de maximizar, pero es importante saber qu\'e es lo que est\'a haciendo el programa.
 
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{knitr}\hlopt{::}\hlkwd{purl}\hlstd{(}\hlstr{'Likelihood_Inferencia.Rnw'}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in parse\_block(g[-1], g[1], params.src, markdown\_mode): Duplicate chunk label 'setup', which has been used for the chunk:\\\#\# if (!require("{}pacman"{})) install.packages("{}pacman"{}); library(pacman)\\\#\# p\_load(knitr)\\\#\# set.seed(2020)\\\#\# options(scipen=9999999)\\\#\# if (!require("{}pacman"{})) install.packages("{}pacman"{}); library(pacman)}}\begin{alltt}
+\hlkwd{Stangle}\hlstd{(}\hlstr{'Likelihood_Inferencia.Rnw'}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## Writing to file Likelihood_Inferencia.R
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
 % https://kevintshoemaker.github.io/NRES-746/LAB3.html
 % http://people.tamu.edu/~b-wood/Maximum%20Likelihood/RLesson%203.htm
 % http://www.maths.usyd.edu.au/u/UG/SM/STAT3022/r/current/Lecture/lecture03_2020JC.html#4

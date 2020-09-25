@@ -170,13 +170,11 @@ headpunct=:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % begin knitr stuff
-<<setup, include=FALSE, cache=F>>=
+<<setup20, include=FALSE, cache=F, debug=TRUE>>=
 if (!require("pacman")) install.packages("pacman"); library(pacman)
 p_load(knitr)
 set.seed(2020)
 options(scipen=9999999)
-if (!require("pacman")) install.packages("pacman"); library(pacman) 
-
 @
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -204,19 +202,16 @@ Carguemos los datos
 
 
 <<data, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
-options(scipen=100000000)
-set.seed(2020)
 # Data
 mydata <- read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv")
 head(mydata)
 summary(mydata)
-mydata$rank <- factor(mydata$rank)
 @
 
 Estimemos el primer modelo
 
 <<l:1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
-logit.1 <- glm(admit ~ gre + gpa + rank, data = mydata, family = binomial(link = "logit"))
+logit.1 <- glm(admit ~ gre + gpa, data = mydata, family = binomial(link = "logit"))
 summary(logit.1)
 @
 
@@ -257,7 +252,6 @@ donde \autoref{odd:ratio} es el \emph{odd ratio} de que $y$ sea 1 dado $x$, rela
 
 
 <<od:ra, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
-if (!require("pacman")) install.packages("pacman"); library(pacman) 
 p_load(oddsratio)
 #
 or_glm(data = mydata, 
@@ -306,7 +300,6 @@ Nota que \label{part:chan} tambi\'en estandariza $\hat y$. Debido a que $\hat\si
 Calculemos dos escenarios. Uno donde el estudiante le iba muy mal en el colegio, pero tuvo un buen puntaje en la prueba de admisi\'on de doctorado (GRE).
 
 <<sc1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
-if (!require("pacman")) install.packages("pacman"); library(pacman) 
 p_load(margins)
 summary(margins(logit.1, 
         at = list(
@@ -331,6 +324,94 @@ Para entender mejor esto, grafiquemos:
 par(mfrow=c(1,2))
 cplot(logit.1, "gre")
 cplot(logit.1, "gpa")
+@
+
+
+\paragraph{Predicted Probabilities: Gr\'aficos}
+
+Quiz\'as esta sea la manera m\'as usada para poder interpretar: graficando (o mostrando en una tabla) ``la probabilidad de que $y$ sea $1$ a distintos valores de $x$'', o de manera m\'as formal, 
+
+\begin{equation}%\label{part:chan}
+\hat{\text{Pr}}(y_{i}=1|{\mathbf x}_{i}) = f({\mathbf x}_{i}\hat{\mathbf \beta})
+\end{equation}
+
+F\'ijate que ${\mathbf x}$ y $\hat{\mathbf \beta}$ son matrices. {\color{red}Por que?} 
+
+Aqui lo que queremos saber es como se comparta la probabilidad de que $y_{i}=1$ a medida que nos movemos en una de las $x$'s. {\bf Lo bueno}, es que tenemos un lenguaje f\'acil de entender: todos entienden probabilidades, y adem\'as, estas var\'ian entre 0 y 1. {\color{red}Pero qu\'e hacemos con el resto de las x's?}
+
+Para predecir usaremos el comando \texttt{predict}
+
+
+<<predict:1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+head(predict(logit.1))
+plot(predict(logit.1)) # logit scale
+plot(predict(logit.1, type="response")) # Predicted Prob
+@
+
+Usando la librer\'ia \texttt{effects}, podremos graficar. 
+
+
+<<predict:2, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+p_load("effects")
+par(mfrow=c(1,1))
+plot(predictorEffects(logit.1)) # Todo el modelo (PLURAL)
+par(mfrow=c(1,2))
+plot(predictorEffect("gre", logit.1)) # Solo una variable (SINGULAR)
+plot(gpa.pred.prob <- predictorEffect("gpa", logit.1)) # Solo una variable (SINGULAR)
+@
+
+
+
+\paragraph{Predicted Probabilities: Tablas}
+
+La otra alternativa es poder generar tablas con \emph{predicted prob's}. La idea es ir generando ``perfiles'' que hagan sentido desde un punto de vista substantivo. 
+
+<<tabla:1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+# generar los rangos de los perfiles deseados
+gpa.bajo <- with(mydata, 
+                data.frame(
+                        gre = c(min(mydata$gre), max(mydata$gre)), 
+                        gpa = min(mydata$gpa))
+                )
+gpa.medio <- with(mydata, 
+                 data.frame(
+                         gre = c(min(mydata$gre), max(mydata$gre)), 
+                         gpa = mean(mydata$gpa, na.rm = T))
+                         )
+gpa.alto <- with(mydata, 
+                      data.frame(
+                              gre = c(min(mydata$gre), max(mydata$gre)), 
+                              gpa = max(mydata$gpa))
+                              )
+@
+
+
+<<tabla:2, echo = TRUE, warning = FALSE, message = F,cache=F, include = TRUE>>=
+# usar funcion predict
+predict(logit.1, gpa.bajo, type="response")
+predict(logit.1, gpa.medio, type="response")
+predict(logit.1, gpa.alto, type="response")
+@
+
+
+
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\multicolumn{2}{|c|}{\textbf{GPA Bajo}} & \multicolumn{2}{c|}{\textbf{GPA Medio}} & \multicolumn{2}{c|}{\textbf{GPA Alto}} \\ \hline
+\textit{Gre Min}   & \textit{Gre Max}   & \textit{Gre Min}   & \textit{Gre Max}   & \textit{Gre Min}   & \textit{Gre Max}  \\ \hline
+\Sexpr{round(as.numeric(predict(logit.1, gpa.bajo, type="response")[1]), 2)} & \Sexpr{round(as.numeric(predict(logit.1, gpa.bajo, type="response")[2]), 2)} &                    
+\Sexpr{round(as.numeric(predict(logit.1, gpa.medio, type="response")[1]), 2)} & \Sexpr{round(as.numeric(predict(logit.1, gpa.medio, type="response")[2]), 2)} &                    
+\Sexpr{round(as.numeric(predict(logit.1, gpa.alto, type="response")[1]), 2)} & \Sexpr{round(as.numeric(predict(logit.1, gpa.alto, type="response")[2]), 2)} \\ \hline
+\end{tabular}
+\end{table}
+
+
+{\color{red}Cu\'al es el problema?}
+
+<<archivo, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE, debug=TRUE>>=
+knitr::purl('Inferencia_Interpretacion.Rnw')
+Stangle('Inferencia_Interpretacion.Rnw')
 @
 
 %\newpage
