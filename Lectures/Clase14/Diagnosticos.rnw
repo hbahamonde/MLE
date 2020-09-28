@@ -191,22 +191,58 @@ options(scipen=9999999)
 
 \section{Diagn\'osticos}
 
-Al igual que 
+Al igual que en el ``mundo'' OLS, existen formas para evaluar cu\'an bueno (o malo) es nuestro modelo. {\color{red}Qu\'e tipo de diagn\'osticos existen en el ``mundo'' OLS?}
 
+Recuerda que en OLS, el residuo $\epsilon_{i}$ es la diferencia entre lo que predecimos y lo que observamos, o $\epsilon_{i}=y_{i}-x_{ij}\beta_{j}$ (donde $y_{i}$ son los valores de la variable dependiente para observaci\'on $i$, $x_{ij}$ son los $j$ variables dependientes para cada una de las observaciones $i$, y $\beta_{j}$ son los $j$ par\'ametros estimados). 
 
+Si recuerdas bien, $E(\epsilon_{i})=0$ y homoesqued\'astico (varianza constante).
+
+En MLE, es bastante similar, ``pero ni tanto''. En vez de un $\beta_{j}$ que se multiplica por cada $x_{ij}$, hablamos de la probabilidad $\pi_{i}$ de que observemos la realizaci\'on del evento en el sujeto $i$. O m\'as formalmente, $\pi_{i}=E(y_{i}|{\mathbf x}_{i}) = Pr(y_{i}=1|{\mathbf x}_{i})$. Nota que ${\mathbf x}_{i}$ es una matriz ({\color{red}por qu\'e?}). 
+
+Debido a que $y_{i}$ es una variable bimodal, la distribuci\'on de $Pr(y_{i}=1|{\mathbf x}_{i})$ es sigmoidal. En consecuencia, las desviaciones $y_{i}-\pi_{i}$ son heteroesqued\'asticos (no constantes). En general, en MLE trabajamos con los Residuos Pearson $r_{i}$:
+
+\begin{equation}
+r_{i} = \frac{y_{i}-\hat \pi_{i}}{\sqrt{\hat \pi_{i}(1-\hat \pi_{i})}}
+\end{equation}
+
+donde $\sqrt{\hat \pi_{i}(1-\hat \pi_{i})}$ es la varianza. Cuando $r_{i}$ es grande, eso indica que existe un mal ``fit'', i.e. nuestra l\'inea de regresi\'on pasa lejos de las observaciones. Si te fijas, cada observaci\'on $i$ tiene su contribuci\'on al error total del modelo: hay un $r_{i}$ para cada observaci\'on $i$. Veamos ahora un ``\emph{index plot}'' donde graficamos todos los $r_{i}$ de manera ordenada (o ``por \'indice'': el primer $r_{1}$, despues el segundo $r_{2}$, etc.). 
+
+Carguemos los datos.
 
 
 <<data, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
-options(scipen=100000000)
-set.seed(2020)
-# Data
 mydata <- read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv")
 head(mydata)
 summary(mydata)
-mydata$rank <- factor(mydata$rank)
 @
 
+Ahora estimemos el modelo:
 
+<<model, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+logit.1 <- glm(admit ~ gre + gpa, data = mydata, family = binomial(link = "logit"))
+summary(logit.1)
+@
+
+Y usando la funci\'on \texttt{rstandard} calcularemos $r_{i}$
+
+<<rstandard, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+r = rstandard(logit.1)
+head(r)
+@
+
+Como ves, cada observaci\'on $i$ tiene su propio error (distancia entre el par\'ametro y la observaci\'on). 
+
+Hagamos el ``index plot'':
+
+<<rindexplot, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+plot(1:nrow(mydata), # Numero de Obs
+     r, # y
+     ylab="Residuos Estandarizados", 
+     xlab="Index (Numero de Obs)") 
+abline(0, 0)
+abline(2, 0)
+abline(-2, 0)
+@
 
 <<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
 knitr::purl('Diagnosticos.Rnw')
