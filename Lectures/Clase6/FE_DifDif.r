@@ -11,7 +11,15 @@ if (!require("pacman")) install.packages("pacman"); library(pacman)
 
 
 ###################################################
-### code chunk number 2: us:map
+### code chunk number 2: p:d
+###################################################
+p_load(AER, plm, stargazer)
+data(Fatalities)
+head(Fatalities)[1:2]
+
+
+###################################################
+### code chunk number 3: us:map
 ###################################################
 # instalar librerias
 p_load(ggplot2,dplyr,maps)
@@ -30,7 +38,7 @@ ggplot(all_states,
 
 
 ###################################################
-### code chunk number 3: dif:dif
+### code chunk number 4: dif:dif
 ###################################################
 plot(c(0, 1), c(6, 8), 
      type = "p",
@@ -64,7 +72,7 @@ text(1, 11.1, "Treated despues (NJ)", cex = 0.8 , pos = 4)
 
 
 ###################################################
-### code chunk number 4: dif:dif:Data
+### code chunk number 5: dif:dif:Data
 ###################################################
 n <- 200
 # definir tau
@@ -115,20 +123,20 @@ lines(c(0, 1), c(mean(y_pre[z == 1]), mean(y_post[z == 0]) +
 
 
 ###################################################
-### code chunk number 5: dif:dif:Data:2
+### code chunk number 6: dif:dif:Data:2
 ###################################################
 mean(y_post[z == 1]) - mean(y_pre[z == 1]) - 
 (mean(y_post[z == 0]) - mean(y_pre[z == 0]))
 
 
 ###################################################
-### code chunk number 6: dif:dif:Data:3
+### code chunk number 7: dif:dif:Data:3
 ###################################################
 lm(I(y_post - y_pre) ~ z)
 
 
 ###################################################
-### code chunk number 7: output
+### code chunk number 8: output
 ###################################################
 knitr::purl('FE_DifDif.Rnw')
 Stangle('FE_DifDif.Rnw')

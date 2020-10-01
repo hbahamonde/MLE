@@ -188,9 +188,43 @@ if (!require("pacman")) install.packages("pacman"); library(pacman)
 {\bf Curso}: MLE.\\
 \hspace{-5mm}{\bf TA}: Gonzalo Barr\'ia.
 
-\section{Dif in Dif}
+\section{Introducci\'on}
 
-\textcite{Card1994} tratan de usar la geograf\'ia como \emph{as-if random} factor ({\color{red}?}). La pregunta que ellos ten\'ian era cu\'al es el efecto (causal?) en el empleo ante un incremento en el salario en el sector de comida r\'apida. En otras palabras, \emph{qu\'e ocurre con el empleo en este sector cuando aumenta el salario, sube o baja?}
+Algunas veces tenemos la oportunidad de construir un contrafactual donde tanto $i_{\tau(1)}$ como $i_{\tau(0)}$ son observados para el \emph{mismo} $i$. Esto en general sucede cuando observamos a $i$ en dos tiempos distintos, esto es, en $i_{t}$ y $i_{t+1}$, o en f\'acil, $i$ \emph{antes} de que se le administre $\tau$ e $i$ \emph{despu\'es} de que se le administre $\tau$. En este tipo de casos estar\'iamos en posici\'on de ver ambos ``universos paralelos''. Cuando tenemos los mismos $i$'s repetidos en el tiempo, solemos llamar a esta estructura de datos ``panel data''. Esto se debe a que cada $i$ es un ``panel'' que se repite, en este ejemplo, dos veces ($t_{1}$ y $t_{2}$). Pueden ser m\'as veces en todo caso.
+
+Sin embargo, esto no viene sin problemas. Hoy veremos dos t\'ecnicas:
+
+\begin{enumerate}
+  \item \emph{Fixed effects}.
+  \item \emph{Difference in Differences}.
+\end{enumerate}
+
+y ambas trabajan con ``panel data''. Veamos c\'omo se ven los datos de panel:
+
+<<p:d, echo = TRUE, fig.pos='H', fig.cap=NULL, warning = FALSE, message = F, fig.align='center', fig.width=9.746112, fig.height=4.873056,dpi=1000,cache=F, include = TRUE>>=
+p_load(AER, plm, stargazer)
+data(Fatalities)
+head(Fatalities)[1:2]
+@
+
+Aqu\'i en este caso vemos que el estado de Alabama (AL) se repite por varios a\~nos.
+
+% https://www.econometrics-with-r.org/10-1-panel-data.html
+
+\section{Fixed Effects}
+
+Una de las ventajas de la randomizaci\'on es que ``borra'' (o ``ignora'') las caracter\'isticas (observables y no) de $i$ y asigna el tratamiento $\tau$ independientemente de esas caracter\'isticas (esta es el ``\emph{ignorability assumption}''). Sin embargo, en el mundo observacional (i.e. no experimental) esto no es posible. Qu\'e herramientas podemos en el mundo observacional para tratar de aproximarnos al mundo experimental y ``borrar'' las caracter\'isticas individuales de todos los $i$? Recuerda que si los $i$'s son similares, podemos atribuir el efecto causal observado s\'olo a la administraci\'on de $\tau$. Al ``neutralizar'' la caracter\'isticas individuales de cada $i$, los \emph{fixed effects} hacen justamente eso. 
+
+Supongamos que necesitamos estimar 
+
+\begin{equation}\label{fe}
+\alpha
+\end{equation}
+
+
+\section{Difference in Differences}
+
+Otra herramienta que podemos usar cuando se trata de trabajar con tiempo, es el \emph{difference in differences}. \textcite{Card1994} tratan de usar la geograf\'ia como \emph{as-if random} factor ({\color{red}?}). La pregunta que ellos ten\'ian era cu\'al es el efecto (causal?) en el empleo ante un incremento en el salario en el sector de comida r\'apida. En otras palabras, \emph{qu\'e ocurre con el empleo en este sector cuando aumenta el salario, sube o baja?}
 
 
 <<us:map, echo = TRUE, fig.pos='H', fig.cap=NULL, warning = FALSE, message = F, fig.align='center', fig.width=9.746112, fig.height=4.873056,dpi=1000,cache=F, include = TRUE>>=
@@ -258,7 +292,7 @@ De manera m\'as formal, $\tau=\beta_{1}$ en \autoref{ols}:
 \Delta y_{i} = \beta_{0} + \beta_{1}z_{i} + \epsilon_{i}
 \end{equation}
 
-donde $z$ es el \emph{estado} del tratamiento, basicamente un vector $x$ de 0's y 1's, $\Delta y_{i}$ es la diferencia (el ``delta'') en $y$ cuando $z(0)$ cambia a $z(1)$, y $\tau=\beta_{1}$ es el \emph{DID estimator} especificado en \autoref{did}:
+donde $z$ es el \emph{estado} del tratamiento, b\'asicamente un vector $x$ de 0's y 1's, $\Delta y_{i}$ es la diferencia (el ``delta'') en $y$ cuando $z(0)$ cambia a $z(1)$, y $\tau=\beta_{1}$ es el \emph{DID estimator} especificado en \autoref{did}:
 
 
 \begin{equation}\label{did}
@@ -326,13 +360,16 @@ mean(y_post[z == 1]) - mean(y_pre[z == 1]) -
 (mean(y_post[z == 0]) - mean(y_pre[z == 0]))
 @
 
-Tambien podemos usar \autoref{ols} para calcular $\tau$ (que recuerda es igual a $\beta_{1}$):
+Tambi\'en podemos usar \autoref{ols} para calcular $\tau$ (que recuerda es igual a $\beta_{1}$):
 
 <<dif:dif:Data:3, echo = TRUE, fig.pos='H', fig.cap=NULL, warning = FALSE, message = F, fig.align='center', fig.width=9.746112, fig.height=5.5,dpi=1000,cache=F, include = TRUE>>=
 lm(I(y_post - y_pre) ~ z)
 @
 
-Nota que $z$ es el \emph{estado} del tratamiento, basicamente un vector $x$ de 0's y 1's, y $\tau$ es el \emph{efecto} ``causal'' asociado a la administraci\'on de $z$. Es an\'alogo a decir $\beta_{1}x_{1}$.
+Nota que $z$ es el \emph{estado} del tratamiento, b\'asicamente un vector $x$ de 0's y 1's, y $\tau$ es el \emph{efecto} ``causal'' asociado a la administraci\'on de $z$. Es an\'alogo a decir $\beta_{1}x_{1}$.
+
+
+
 
 <<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
 knitr::purl('FE_DifDif.Rnw')
