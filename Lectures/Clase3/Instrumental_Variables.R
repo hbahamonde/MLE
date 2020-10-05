@@ -79,13 +79,13 @@ summary(lm(log.impuesto ~ log.precio, CigarettesSW))
 ####################################################
 
 ## Primera Etapa
-first.s = lm(log.impuesto ~ log.precio, CigarettesSW)
-z.hat = first.s$fitted.values # Predicciones
+first.s = lm(log.impuesto~log.precio,data=CigarettesSW)
+z.hat = predict(first.s) # Predicciones (como se sacarian a mano?)
 CigarettesSW$z.hat <- z.hat
 
 
 ## Segunda etapa
-second.s = lm(log.cantidad ~ z.hat, CigarettesSW)
+second.s = lm(log.cantidad~z.hat,data=CigarettesSW)
 summary(second.s)
 
 # OK, el coeficiente asociado a z.hat debiera no estar sesgado.
@@ -94,7 +94,7 @@ summary(second.s)
 # 2SLS via "ivreg"
 ####################################################
 
-iv.reg = ivreg(log.cantidad ~ log.precio | log.impuesto , data = CigarettesSW)
+iv.reg = ivreg(log.cantidad~log.impuesto|log.precio,data=CigarettesSW)
 summary(iv.reg)
 
 # Comparemos todo en una tabla
