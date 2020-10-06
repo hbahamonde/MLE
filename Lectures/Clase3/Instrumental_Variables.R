@@ -25,7 +25,7 @@
 
 library(AER)
 
-
+options(scipen=100000000)
 data(CigarettesSW) # carguemos la base
 head(CigarettesSW) # mostremos un poco la base
 
