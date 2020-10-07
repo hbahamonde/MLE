@@ -190,8 +190,7 @@
 %}
 \hspace{-5mm}{\bf Profesor}: H\'ector Bahamonde.\\
 \texttt{e:}\href{mailto:hector.bahamonde@uoh.cl}{\texttt{hector.bahamonde@uoh.cl}}\\
-\texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.hectorbahamonde.com}}\\
-{\bf Curso}: M\'etodos Cuantitativos I.
+\texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.hectorbahamonde.com}}
 
 \section*{Regression Discontinuity Designs (RDDs)---Sharp Designs}
 
@@ -206,12 +205,12 @@ Partiremos pensando en una equaci\'on lineal, donde nuevamente $z$ es nuestro (c
 y_{i} \;=\; \beta_{0} + \beta_{1}x_{i} + \pi z_{i} + \rho x_{i}z_{i} + \epsilon_{i}
 \end{equation}
 
-donde $y$ es la variable dependiente, $\beta_{0}$ es el intercepto y $\epsilon_{i}$ es el residuo para la observaci\'on $i$. Adem\'as, $\beta_{1}$ es el efecto asociado a cierta variable de control $x$. Importantemente, existen dos maneras de ver (cuasi) causalidad en \autoref{eq:1}:
+donde $y_{i}$ es la variable dependiente, $\beta_{0}$ es el intercepto y $\epsilon_{i}$ es el residuo para la observaci\'on $i$. Adem\'as, $\beta_{1}$ es el efecto asociado a cierta variable de control $x$. Importantemente, existen dos maneras de ver (cuasi) causalidad en \autoref{eq:1}:
 
 \begin{enumerate}
-	\item {\bf ``Cambio en el intercepto''}: Se observa al ver el efecto y significancia de $\pi$ que es el par\'ametro a estimar asociado al tratamiento $z$.
+	\item {\bf ``Cambio en el intercepto''}: Se observa al ver el efecto y significancia de $\pi$ que es el par\'ametro a estimar asociado al tratamiento (o ``intercepto'') $z$. Considera que un dise\~no RDD tambi\'en denomina ``intercepto'' a la variable $z$ (adem\'as de $\beta_{0}$). Esto es correcto toda vez que \emph{un} intercepto es el valor asociado a cuando todos los $x's $ son cero. De hecho, cuando estudiemos \emph{fixed effects}, veremos que es posible estimar muchos interceptos. En el caso de los RDD, s\'olo estimamos un intercepto adicional ($z$).
 
-	\item  {\bf `Cambio en el slope/pendiente''}: este se observa al ver el par\'ametro $\rho$ que representa al efecto estimado \emph{combinado} de la variable tratamiento $z$ {\bf y} la variable control $x$. Matem\'aticamente, esto significa que tendremos un par\'ametro asociado a un {\bf t\'ermino de interacci\'on} de la siguiente forma: $\rho(x_{i}\times z_{i})$. 
+	\item  {\bf ``Cambio en el slope/pendiente''}: este se observa al ver el par\'ametro $\rho$ que representa al efecto estimado \emph{combinado} de la variable tratamiento $z$ {\bf y} la variable control $x$. Matem\'aticamente, esto significa que tendremos un par\'ametro asociado a un {\bf t\'ermino de interacci\'on} de la siguiente forma: $\rho(x_{i}\times z_{i})$. 
 \end{enumerate}
 
 \subsection*{T\'erminos de Interacci\'on}
@@ -268,9 +267,11 @@ Realizando estos pasos, deberemos estimar la siguiente ecuaci\'on:
 			y_{i} \;=\; \beta_{0} + \beta_{1}(x_{i}-x_{\text{corte}}) + \pi z_{i} + \rho_{2}(x_{i}-x_{\text{corte}}) \times z_{i} +  \epsilon_{i}
 		\end{equation}
 
-Realizaremos este modelo general en los siguientes ejercicios.
+Estimaremos este modelo general en los siguientes ejercicios en el \texttt{R} \emph{script}.
 
-\paragraph{Group 2: ``Cambio en el intercepto'' ($\pi$)}. Si te fijas, \label{eq:3} contiene dos resultados diferentes (que se pueden ver en el output de \texttt{R}). La siguiente ecuaci\'on nos muestra un resultado para $z(1)$ y otro para $z(0)$.
+\section*{``Cambio en el intercepto'' ($\pi$)}
+
+Si te fijas, \label{eq:3} contiene dos resultados diferentes (que se pueden ver en el output de \texttt{R}). La siguiente ecuaci\'on nos muestra un resultado para $z(1)$ y otro para $z(0)$.
 
 \begin{equation} \label{eq:4}
 \begin{split}
@@ -283,24 +284,21 @@ lo que en n\'umeros significa,
 
 \begin{equation} \label{eq:4}
 \begin{split}
-y_{i}(0) &= 50.77 + 3.46(x_{i}-10.5) + \cancel{5.50\times(0)} + \cancel{1.86(x_{i}-10.5) \times (0)} +  \epsilon_{i} \\
-y_{i}(1) &= 50.77 + 3.46(x_{i}-10.5) + 5.50\times(1) + 1.86(x_{i}-10.5) \times (1) +  \epsilon_{i}
+y_{i}(0) &= 54.716 + 5.365(x_{i}-10.5) + \cancel{46.459\times(0)} + \cancel{(-1.101)(x_{i}-10.5) \times (0)} +  \epsilon_{i} \\
+y_{i}(1) &= 54.716 + 5.365(x_{i}-10.5) + 46.459\times(1) + (-1.101)(x_{i}-10.5) \times (1) +  \epsilon_{i}
 \end{split}
 \end{equation}
 
-Y si seguimos desarrollando la ecuaci\'on \autoref{eq:4} pero s\'olo para $z(1)$, tendr\'iamos:
 
-\begin{equation} \label{eq:5}
-\begin{split}
-y_{i}(1) &= 50.77 + 3.46(x_{i}-10.5) + 5.50 + 1.86(x_{i}-10.5) +  \epsilon_{i}\\
-y_{i}(1) &= (50.77+5.50) + 3.46(x_{i}-10.5) + 1.86(x_{i}-10.5) +  \epsilon_{i}\\
-y_{i}(1) &= 56.27 + 5.32(x_{i}-10.5) +  \epsilon_{i}
-\end{split}
-\end{equation}
+Recuerda que $10.5$ equivale al corte. Es claro ver que \autoref{eq:4} nos muestra el pre-treatment $z(0)$ y el post-treatment $z(1)$. Y eso se ve reflejado en el \emph{output} de \texttt{R}. Si estamos interesados en observar el intercepto $z$, debemos observar el efecto y significancia de $\pi=54.716$, que es altamente significativa. Podemos concluir que hay evidencia suficiente para sugerir que existe un cambio estad\'isticamente significativo en el intercepto.
 
-Es claro ver que \autoref{eq:4} nos muestra el pre-treatment $z(0)$ y el post-treatment $z(1)$. Y eso se ve reflejado en el output de \texttt{R}. Es importante que entiendas que matem\'aticamente el efecto asociado a $z$ (esto es, $\rho$), es una multiplicaci\'on entre $x_{i}$ y $z$.
+Hasta ahora, hemos analizado $\pi$. Examinemos $\rho$.
 
-\paragraph{Group 3: ``Interaction Effect'' ($\rho$)}. Otra manera de ver el efecto (cuasi) causal de \autoref{eq:1}, es observar el par\'ametro $\rho$ que est\'a asociado al t\'ermino de interacci\'on $(x_{i}\times z_{i})$.
+
+\section*{``Cambio en el slope/pendiente'' ($\rho$)}
+
+Otra manera de ver el efecto (cuasi) causal de \autoref{eq:1}, es observar el par\'ametro $\rho$ que est\'a asociado al t\'ermino de interacci\'on $(x_{i}\times z_{i})$. Es importante que entiendas que matem\'aticamente el par\'ametro  $\rho$ es una multiplicaci\'on entre $x_{i}$ (vector) y $z$ (escalar, 0's y 1's)---en \texttt{R} aparece como \texttt{I(x - corte):z1}.
+
 
 \subsection*{Por Qu\'e Esta T\'ecnica Es (Cuasi) Experimental?}
 
@@ -313,13 +311,6 @@ Es claro ver que \autoref{eq:4} nos muestra el pre-treatment $z(0)$ y el post-tr
 \subsection*{Sharp y Fuzzy Designs}
 
 En esta ocasi\'on hemos visto \emph{``sharp'' designs}. Estos dise\~nos asumen \emph{``perfect compliance''}: al cambiar de $z(0)$ a $z(1)$, no existe overlap entre observaciones a lo largo de $x$. Substantivamente, esto significa que la variable $z$ clasifica $perfectamente$ a las observaciones a lo largo de $x$, lo que en la realidad no siempre es as\'i.
-
-Queda pendiente para la siguiente iteraci\'on de este curso:
-
-\begin{enumerate}
-	\item \emph{Fuzzy designs}, \emph{averge treatment among the treatments} (\emph{ATT}, que se usa en \emph{sharp designs}), \emph{intention to treat} y \emph{local average treatment effects} (LATE), que se usan en \emph{fuzzy designs}.
-\end{enumerate}
-
 
 
 \end{document}
