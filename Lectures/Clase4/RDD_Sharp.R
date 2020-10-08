@@ -5,7 +5,7 @@ rm(list=ls())
 dev.off();dev.off();
 set.seed(2020)
 
-library (lattice)
+library(lattice)
 
 
 
@@ -19,7 +19,8 @@ library (lattice)
 data.1<-data.frame(
         x=1:20,
         y=(c(10,15,20,25,30,35,40,45,50,55, 60,65,70,75,80,85,90,95,100,105)),
-        z=(factor(rep(0:1,each=10)))) 
+        z=(factor(rep(0:1,each=10)))
+        ) 
 
 
 # desordenar y
@@ -53,7 +54,11 @@ corte = 10.5
 
 
 # Regresion
-analysis1<-lm(y~I(x-corte)*z,data.1) # Vean que ocupamos el operador "I" (de "Isolate", aislar). "I" aisla todo lo que esta dentro de "I". En este caso, la sustraccion.
+analysis1 <- lm(y~I(x-corte)*z,
+                data.1
+                )
+
+# Vean que ocupamos el operador "I" (de "Isolate", aislar). "I" aisla todo lo que esta dentro de "I". En este caso, la sustraccion.
 summary(analysis1)
 # Z no tiene un efecto causal 
 
