@@ -193,6 +193,12 @@ if (!require("pacman")) install.packages("pacman"); library(pacman)
 
 \section*{Regression Discontinuity Designs (RDDs)---Fuzzy Designs}
 
+Motivemos el modelo RDD general:
+
+\begin{equation}\label{eq:1}
+y_{i} \;=\; \beta_{0} + \beta_{1}x_{i} + \pi z_{i} + \epsilon_{i}
+\end{equation}
+
 En los dise\~nos RDD \emph{sharp} existe una relaci\'on determinista en como $z$ clasifica a $x$ \parencite[202]{Hahn2001a}:
 
 
@@ -207,25 +213,136 @@ $z_{i} = \left \{
 
 Ya sabemos que el corte no es aleatorio. En los dise\~nos \emph{fuzzy} $z$ no es determinista, si no que hay variables adicionales que son anteriores a $z$ que operan en la clasificaci\'on de $x$. 
 
-El problema substantivo detr\'as del $z$ en un \emph{fuzzy design} es un problema de \emph{compliance}: no todos los sujetos involucrados en el dise\~no ``cumplen'' con su r\'egimen experimental esperado. Por ejemplo, los sujetos que debieran haber tomado el tratamiento, no lo hicieron (el experimento sali\'o mal!). 
+El problema substantivo detr\'as del $z$ en un \emph{fuzzy design} es un problema de ``\emph{compliance}'': no todos los sujetos involucrados en el dise\~no ``cumplen'' con su r\'egimen experimental esperado. Por ejemplo, los sujetos que debieran haber tomado el tratamiento, no lo hicieron (el experimento sali\'o mal!). 
 
-O tambi\'en, el experimentador no ten\'ia las herramientas para ``forzar'' la clasificaci\'on experimental. Imag\'inate que estudiando campa\~nas pol\'iticas env\'ias por carta un tr\'iptico con informacion sobre una campa\~na. Despu\'es, la idea es llamar por tel\'efono a hogares de control (sin tr\'iptico) y tratamiento (con tr\'iptico) y hacerles una encuesta. Qu\'e pasa si aquellos que debieran haber sido tratados no leyeron el tr\'iptico? Esas personas debieran haber sido ``tratadas'', pero dado que no leyeron el folleto, ahora est\'an en el r\'egimen de control. Aqu\'i el experimentador no puede forzar la lectura del folleto.
+O tambi\'en, el experimentador no ten\'ia las herramientas para ``forzar'' la clasificaci\'on experimental. Imag\'inate que estudiando campa\~nas pol\'iticas env\'ias por carta un tr\'iptico con informaci\'on sobre una campa\~na. Despu\'es, la idea es llamar por tel\'efono a hogares de control (sin tr\'iptico) y tratamiento (con tr\'iptico) y hacerles una encuesta. \emph{Qu\'e pasa si aquellos que debieran haber sido tratados no leyeron el tr\'iptico?} Esas personas debieran haber sido ``tratadas'', pero dado que no leyeron el folleto, ahora est\'an en el r\'egimen de control. Aqu\'i el experimentador no puede forzar la lectura del folleto. 
+
+Otro tipo de dise\~nos fuzzy \emph{no} tiene que ver con errores en el proceso de dise\~no experimental. Por ejemplo, \textcite[244]{ErikMe2014} se interes\'o en si el grado en que los partidos pol\'iticos isl\'amicos afectaba el empoderamiento femenino. Aqu\'i el eje $x$ es el margen por el que los partidos isl\'amicos ganan las elecciones, y el eje $y$ es la participaci\'on de mujeres que asiste al colegio. En este caso es f\'acil ver que existir\'a un \emph{overlap} entre las observaciones, no existiendo una clasificaci\'on determinista entre quienes recibe el ``tratamiento'' y quienes no.
+
+Entonces, \emph{fuzzy} va m\'as all\'a de errores en la administraci\'on del tratamiento.
+
+Existen dos maneras de analizar este tipo de datos:
+
+\begin{enumerate}
+  \item Instrumental Variables y 2SLS.
+  \item LATE: Local Average Treatment Effect.
+\end{enumerate}
+
+\section{Estimador}
+
+En los dise\~nos \emph{sharp} trabajamos con el ATE o ATT. Sin embargo, en los dise\~nos \emph{fuzzy} no existe ``\emph{perfect compliance}''. Es por esto que debemos trabajar con otro estimador, el \emph{Intention-to-treat effects} o \emph{ITT}. Este estimador no se concentra en quien recibi\'o el tratamiento, sino en quien nosotros ``\emph{intent\'abamos}'' tratar.
+
+El ITT es m\'as sencillo y realista. En general se entiende que el \emph{ITT} es la diferencia entre los sujetos $y_{1}$ bajo r\'egimen de tratamiento $z(1)$ y los sujetos $y_{0}$ bajo r\'egimen de control $z(0)$, independiente de problemas ``\emph{compliance}'' y otros posibles problemas que puedan existir. Al obviar todas las posibles alternativas que podr\'ian haber salido mal (\emph{compliance}, por ej.), el \emph{ITT} mide la \emph{elegibilidad} al tratamiento ($z_{1}$), independiente de si se trata de $y_{1}$ o $y_{0}$.
+
+%https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3159210/?report=reader
+
+\section{Instrumental Variables y 2SLS}
 
 Dado que $z$ asigna 0's o 1's con cierta \emph{probabilidad} (i.e. no \emph{deterministamente}), el ``no-cumplimiento'' es posible de ser modelado. De hecho, \textcite[]{Hahn2001a} demuestran que $z$ puede ser estimado de la misma manera que una {\bf variable instrumental} v\'ia a \emph{two-stage least square design} (2SLS). 
 
-Volvamos a los dise\~nos \emph{sharp}. En estos contextos estimamos el ``ATE'' o \emph{average treatment effect} (el promedio para observaciones con $z_{1}$ versus el promedio de observaciones con $z_{0}$). Dado que $z$ clasifica perfectamente a $x$, el ATE funciona bien. Sin embargo, en los dise\~nos \emph{fuzzy} tenemos problemas de \emph{compliance}. Entonces necesitamos otro \emph{quantity of interest}, el \emph{intention to treat}:
+La manera en que hacemos esto es que estimamos $z$ como funci\'on de $x$ en la primera etapa. Despu\'es, se obtiene $\hat z$. En la segunda etapa se estima $y$ como funci\'on de $x$ y $\hat z$.
 
-% The regression discontinuity intention-to-treat (RD-ITT) effect on an outcome can be estimated as the difference in the outcome between individuals just above (or below) versus just below (or above) the threshold. This effect is analogous to the ITT effect in a randomized controlled trial. Instrumental variable methods can be used to estimate the effect of exposure itself utilizing the threshold as the instrument
+Es decir, en la primera etapa se estima \autoref{et:1}
+
+\begin{equation}\label{et:1}
+z_{i} \;=\; \beta_{0} + \beta_{1}x_{i} + \epsilon_{i}
+\end{equation}
+
+y en la segunda etapa se estima \autoref{et:2}
+
+\begin{equation}\label{et:2}
+y_{i} \;=\; \beta_{0} + \beta_{1}x_{i} + \pi \hat z_{i} + \epsilon_{i}
+\end{equation}
 
 
-% http://finance.wharton.upenn.edu/~mrrobert/resources/Teaching/CorpFinPhD/RDD.pdf
+Cocinemos unos datos. En esta parte usaremos el paquete \texttt{rddtools} que se encarga de estimar el modelo v\'ia 2SLS.
+
+<<datos:1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+mu <- c(0, 0) # los promedios de ambos vectores
+sigma <- matrix(c(1, 0.7, 0.7, 1), ncol = 2) # una matriz de varianza-covarianza
+p_load(MASS)
+d <- as.data.frame(mvrnorm(2000, mu, sigma)) # creamos la base de datos
+colnames(d) <- c("x", "y") # le cambiamos los nombres
+corte = 0 # definir el corte
+d$z <- ifelse(d$x <  corte, 0, 0.8) # introducimos FUZZYNESS 
+# Si d$x < corte, z es 0 con un 100% de probabilidad.
+# Si d$x > corte, z es 1 con un 80% de probabilidad. 
+# "Compliance"!
+@
+
+Aqu\'i hemos cocinado datos multivariados usando la funci\'on \texttt{mvrnorm} (\emph{multivariate random normal}). Como es multivariada, tendremos m\'as de un vector (en este caso dos). 
+
+Hasta ahora \texttt{d\$z} es un vector de probabilidades (0, y .8). 
+
+<<datos:2, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+table(d$z)
+@
+
+Metamos ese vector de probabilidades en una funci\'on para convertirlos en 0's y 1's
+
+<<datos:3, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+d$z <- sapply(X = d$z, FUN = function(x) rbinom(1, 1, prob = x)) # funcion
+@
+
+Ve\'amos c\'omo qued\'o:
+
+<<datos:4, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+table(d$z)
+@
+
+Ahora fabriquemos el efecto de $z$ en $y$, y digamos que es $2$ (combinaci\'on lineal).
+
+<<datos:5, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+d$y <- d$y + d$z * 2
+@
+
+Ahora grafiqu\'emos
+
+<<datos:6, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+plot(d$x, d$y,
+     col = c("steelblue", "darkred")[factor(d$z)],  # asignar color para z(1) y z(0)
+     pch= 20, # geometria de los circulos
+     cex = 0.5, # tamano de los circulos
+     xlab = "x",
+     ylab = "y")
+# linea vertical 
+abline(v = 0, lty = 2)
+@
+
+Ahora que tenemos los datos listos, estimemos el modelo.
+
+<<datos:7, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+# Estimar Fuzzy RDD
+p_load(rddtools)
+# declarar que objeto "d" es un data frame de RDD
+data <- rdd_data(d$y, d$x, 
+                 cutpoint = corte, 
+                 z = d$z 
+                 )
+# veamos
+head(data)
+# Estimar modelo fuzzy RDD
+rdd_reg_lm(rdd_object = data, slope = "same")
+# En este caso, D es el efecto causal, o rho. Es aprox. 2. 
+@
 
 
+\section{LATE}
+
+Otra manera de estimar 
 
 
-\subsection*{Quantity of Interest}
+band <- IKbandwidth(d$x, d$y)
+d_rdd  <- d[d$x < band & d$x > -band, ] # corta la base: quedarse con los valores de x: 0.5 por lado
+summary(d_rdd) # veamos la max y min de x de la nueva base datos cortada
+linear_rdd_model <- lm(y ~ x + z, data=d_rdd)
+summary(linear_rdd_model) # z es LATE
 
-\subsection*{Optimal Bandwidth}
+
+% https://dimewiki.worldbank.org/wiki/Regression_Discontinuity
+ % intent-to-treat effects – i.e. the effect of the eligibility rather than the treatment itself on the outcomes of interest. The LATE can be estimated using an IV approac
+ % In the case of a sharp design with perfect compliance, the parameter \delta identifies the average treatment effect on the treated (ATT).
+
 
 
 %<<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
@@ -247,4 +364,4 @@ Volvamos a los dise\~nos \emph{sharp}. En estos contextos estimamos el ``ATE'' o
 
 \end{document}
 
-
+# https://dimewiki.worldbank.org/wiki/Regression_Discontinuity

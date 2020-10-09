@@ -235,6 +235,12 @@ headpunct=:
 
 \section*{Regression Discontinuity Designs (RDDs)---Fuzzy Designs}
 
+Motivemos el modelo RDD general:
+
+\begin{equation}\label{eq:1}
+y_{i} \;=\; \beta_{0} + \beta_{1}x_{i} + \pi z_{i} + \epsilon_{i}
+\end{equation}
+
 En los dise\~nos RDD \emph{sharp} existe una relaci\'on determinista en como $z$ clasifica a $x$ \parencite[202]{Hahn2001a}:
 
 
@@ -249,17 +255,195 @@ $z_{i} = \left \{
 
 Ya sabemos que el corte no es aleatorio. En los dise\~nos \emph{fuzzy} $z$ no es determinista, si no que hay variables adicionales que son anteriores a $z$ que operan en la clasificaci\'on de $x$. 
 
-El problema substantivo detr\'as del $z$ en un \emph{fuzzy design} es un problema de \emph{compliance}: no todos los sujetos involucrados en el dise\~no ``cumplen'' con su r\'egimen experimental esperado. Por ejemplo, los sujetos que debieran haber tomado el tratamiento, no lo hicieron (el experimento sali\'o mal!). O tambi\'en, el experimentador no ten\'ia las herramientas para ``forzar'' la clasificaci\'on experimental. Dado que $z$ asigna 0's o 1's con cierta \emph{probabilidad} (i.e. no \emph{deterministamente}), el ``no-cumplimiento'' es posible de ser modelado. De hecho, \textcite[]{Hahn2001a} demuestran que $z$ puede ser estimado de la misma manera que una variable instrumental v\'ia a \emph{two-stage least square design} (2SLS). 
+El problema substantivo detr\'as del $z$ en un \emph{fuzzy design} es un problema de ``\emph{compliance}'': no todos los sujetos involucrados en el dise\~no ``cumplen'' con su r\'egimen experimental esperado. Por ejemplo, los sujetos que debieran haber tomado el tratamiento, no lo hicieron (el experimento sali\'o mal!). 
+
+O tambi\'en, el experimentador no ten\'ia las herramientas para ``forzar'' la clasificaci\'on experimental. Imag\'inate que estudiando campa\~nas pol\'iticas env\'ias por carta un tr\'iptico con informaci\'on sobre una campa\~na. Despu\'es, la idea es llamar por tel\'efono a hogares de control (sin tr\'iptico) y tratamiento (con tr\'iptico) y hacerles una encuesta. \emph{Qu\'e pasa si aquellos que debieran haber sido tratados no leyeron el tr\'iptico?} Esas personas debieran haber sido ``tratadas'', pero dado que no leyeron el folleto, ahora est\'an en el r\'egimen de control. Aqu\'i el experimentador no puede forzar la lectura del folleto. 
+
+Otro tipo de dise\~nos fuzzy \emph{no} tiene que ver con errores en el proceso de dise\~no experimental. Por ejemplo, \textcite[244]{ErikMe2014} se interes\'o en si el grado en que los partidos pol\'iticos isl\'amicos afectaba el empoderamiento femenino. Aqu\'i el eje $x$ es el margen por el que los partidos isl\'amicos ganan las elecciones, y el eje $y$ es la participaci\'on de mujeres que asiste al colegio. En este caso es f\'acil ver que existir\'a un \emph{overlap} entre las observaciones, no existiendo una clasificaci\'on determinista entre quienes recibe el ``tratamiento'' y quienes no.
+
+Entonces, \emph{fuzzy} va m\'as all\'a de errores en la administraci\'on del tratamiento.
+
+Existen dos maneras de analizar este tipo de datos:
+
+\begin{enumerate}
+  \item Instrumental Variables y 2SLS.
+  \item LATE: Local Average Treatment Effect.
+\end{enumerate}
+
+\section{Estimador}
+
+En los dise\~nos \emph{sharp} trabajamos con el ATE o ATT. Sin embargo, en los dise\~nos \emph{fuzzy} no existe ``\emph{perfect compliance}''. Es por esto que debemos trabajar con otro estimador, el \emph{Intention-to-treat effects} o \emph{ITT}. Este estimador no se concentra en quien recibi\'o el tratamiento, sino en quien nosotros ``\emph{intent\'abamos}'' tratar.
+
+El ITT es m\'as sencillo y realista. En general se entiende que el \emph{ITT} es la diferencia entre los sujetos $y_{1}$ bajo r\'egimen de tratamiento $z(1)$ y los sujetos $y_{0}$ bajo r\'egimen de control $z(0)$, independiente de problemas ``\emph{compliance}'' y otros posibles problemas que puedan existir. Al obviar todas las posibles alternativas que podr\'ian haber salido mal (\emph{compliance}, por ej.), el \emph{ITT} mide la \emph{elegibilidad} al tratamiento ($z_{1}$), independiente de si se trata de $y_{1}$ o $y_{0}$.
+
+%https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3159210/?report=reader
+
+\section{Instrumental Variables y 2SLS}
+
+Dado que $z$ asigna 0's o 1's con cierta \emph{probabilidad} (i.e. no \emph{deterministamente}), el ``no-cumplimiento'' es posible de ser modelado. De hecho, \textcite[]{Hahn2001a} demuestran que $z$ puede ser estimado de la misma manera que una {\bf variable instrumental} v\'ia a \emph{two-stage least square design} (2SLS). 
+
+La manera en que hacemos esto es que estimamos $z$ como funci\'on de $x$ en la primera etapa. Despu\'es, se obtiene $\hat z$. En la segunda etapa se estima $y$ como funci\'on de $x$ y $\hat z$.
+
+Es decir, en la primera etapa se estima \autoref{et:1}
+
+\begin{equation}\label{et:1}
+z_{i} \;=\; \beta_{0} + \beta_{1}x_{i} + \epsilon_{i}
+\end{equation}
+
+y en la segunda etapa se estima \autoref{et:2}
+
+\begin{equation}\label{et:2}
+y_{i} \;=\; \beta_{0} + \beta_{1}x_{i} + \pi \hat z_{i} + \epsilon_{i}
+\end{equation}
+
+
+Cocinemos unos datos
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mu} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0}\hlstd{)} \hlcom{# los promedios de ambos vectores}
+\hlstd{sigma} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{0.7}\hlstd{,} \hlnum{0.7}\hlstd{,} \hlnum{1}\hlstd{),} \hlkwc{ncol} \hlstd{=} \hlnum{2}\hlstd{)} \hlcom{# una matriz de varianza-covarianza}
+\hlkwd{p_load}\hlstd{(MASS)}
+\hlstd{d} \hlkwb{<-} \hlkwd{as.data.frame}\hlstd{(}\hlkwd{mvrnorm}\hlstd{(}\hlnum{2000}\hlstd{, mu, sigma))} \hlcom{# creamos la base de datos}
+\hlkwd{colnames}\hlstd{(d)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"x"}\hlstd{,} \hlstr{"y"}\hlstd{)} \hlcom{# le cambiamos los nombres}
+\hlstd{corte} \hlkwb{=} \hlnum{0} \hlcom{# definir el corte}
+\hlstd{d}\hlopt{$}\hlstd{z} \hlkwb{<-} \hlkwd{ifelse}\hlstd{(d}\hlopt{$}\hlstd{x} \hlopt{<}  \hlstd{corte,} \hlnum{0}\hlstd{,} \hlnum{0.8}\hlstd{)} \hlcom{# introducimos FUZZYNESS }
+\hlcom{# Si d$x < corte, z es 0 con un 100% de probabilidad.}
+\hlcom{# Si d$x > corte, z es 1 con un 80% de probabilidad. }
+\hlcom{# "Compliance"!}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Aqu\'i hemos cocinado datos multivariados usando la funci\'on \texttt{mvrnorm} (\emph{multivariate random normal}). Como es multivariada, tendremos m\'as de un vector (en este caso dos). 
+
+Hasta ahora \texttt{d\$z} es un vector de probabilidades (0, y .8). 
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{table}\hlstd{(d}\hlopt{$}\hlstd{z)}
+\end{alltt}
+\begin{verbatim}
+## 
+##    0  0.8 
+##  990 1010
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Metamos ese vector de probabilidades en una funci\'on para convertirlos en 0's y 1's
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{d}\hlopt{$}\hlstd{z} \hlkwb{<-} \hlkwd{sapply}\hlstd{(}\hlkwc{X} \hlstd{= d}\hlopt{$}\hlstd{z,} \hlkwc{FUN} \hlstd{=} \hlkwa{function}\hlstd{(}\hlkwc{x}\hlstd{)} \hlkwd{rbinom}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{1}\hlstd{,} \hlkwc{prob} \hlstd{= x))} \hlcom{# funcion}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Ve\'amos c\'omo qued\'o:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{table}\hlstd{(d}\hlopt{$}\hlstd{z)}
+\end{alltt}
+\begin{verbatim}
+## 
+##    0    1 
+## 1177  823
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Ahora fabriquemos el efecto de $z$ en $y$, y digamos que es $2$ (combinaci\'on lineal).
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{d}\hlopt{$}\hlstd{y} \hlkwb{<-} \hlstd{d}\hlopt{$}\hlstd{y} \hlopt{+} \hlstd{d}\hlopt{$}\hlstd{z} \hlopt{*} \hlnum{2}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Ahora grafiqu\'emos
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot}\hlstd{(d}\hlopt{$}\hlstd{x, d}\hlopt{$}\hlstd{y,}
+     \hlkwc{col} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"steelblue"}\hlstd{,} \hlstr{"darkred"}\hlstd{)[}\hlkwd{factor}\hlstd{(d}\hlopt{$}\hlstd{z)],}  \hlcom{# asignar color para z(1) y z(0)}
+     \hlkwc{pch}\hlstd{=} \hlnum{20}\hlstd{,} \hlcom{# geometria de los circulos}
+     \hlkwc{cex} \hlstd{=} \hlnum{0.5}\hlstd{,} \hlcom{# tamano de los circulos}
+     \hlkwc{xlab} \hlstd{=} \hlstr{"x"}\hlstd{,}
+     \hlkwc{ylab} \hlstd{=} \hlstr{"y"}\hlstd{)}
+\hlcom{# linea vertical }
+\hlkwd{abline}\hlstd{(}\hlkwc{v} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/datos:6-1} 
+
+}
 
 
 
+\end{knitrout}
+
+Ahora que tenemos los datos listos, estimemos el modelo.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Estimar Fuzzy RDD}
+\hlkwd{p_load}\hlstd{(rddtools)}
+\hlcom{# declarar que objeto "d" es un data frame de RDD}
+\hlstd{data} \hlkwb{<-} \hlkwd{rdd_data}\hlstd{(d}\hlopt{$}\hlstd{y, d}\hlopt{$}\hlstd{x,}
+                 \hlkwc{cutpoint} \hlstd{= corte,}
+                 \hlkwc{z} \hlstd{= d}\hlopt{$}\hlstd{z}
+                 \hlstd{)}
+\hlcom{# veamos}
+\hlkwd{head}\hlstd{(data)}
+\end{alltt}
+\begin{verbatim}
+##            x         y z
+## 1  0.7605976  1.934505 1
+## 2  0.3326682  2.223360 1
+## 3 -1.1249196 -0.899735 0
+## 4 -1.4135165 -0.670849 0
+## 5 -2.6293837 -2.527171 0
+## 6  1.2715528  2.057119 1
+\end{verbatim}
+\begin{alltt}
+\hlcom{# Estimar modelo fuzzy RDD}
+\hlkwd{rdd_reg_lm}\hlstd{(}\hlkwc{rdd_object} \hlstd{= data,} \hlkwc{slope} \hlstd{=} \hlstr{"same"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## ### RDD regression: parametric ###
+## 	Polynomial order:  1 
+## 	Slopes:  same 
+## 	Number of obs: 2000 (left: 990, right: 1010)
+## 
+## 	Coefficient:
+##   Estimate Std. Error t value              Pr(>|t|)    
+## D 1.905460   0.067511  28.224 < 0.00000000000000022 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+\begin{alltt}
+\hlcom{# En este caso, D es el efecto causal, o rho. Es aprox. 2. }
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 
 
+% https://dimewiki.worldbank.org/wiki/Regression_Discontinuity
+ % intent-to-treat effects – i.e. the effect of the eligibility rather than the treatment itself on the outcomes of interest. The LATE can be estimated using an IV approac
+ % In the case of a sharp design with perfect compliance, the parameter \delta identifies the average treatment effect on the treated (ATT).
 
-\subsection*{Quantity of Interest}
-
-\subsection*{Optimal Bandwidth}
 
 
 %<<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
@@ -281,4 +465,4 @@ El problema substantivo detr\'as del $z$ en un \emph{fuzzy design} es un problem
 
 \end{document}
 
-
+# https://dimewiki.worldbank.org/wiki/Regression_Discontinuity

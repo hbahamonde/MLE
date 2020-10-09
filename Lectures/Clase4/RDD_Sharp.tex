@@ -308,9 +308,25 @@ Otra manera de ver el efecto (cuasi) causal de \autoref{eq:1}, es observar el pa
 \end{enumerate}
 
 
-\subsection*{Sharp y Fuzzy Designs}
+\subsection*{Estimador}
 
-En esta ocasi\'on hemos visto \emph{``sharp'' designs}. Estos dise\~nos asumen \emph{``perfect compliance''}: al cambiar de $z(0)$ a $z(1)$, no existe overlap entre observaciones a lo largo de $x$. Substantivamente, esto significa que la variable $z$ clasifica $perfectamente$ a las observaciones a lo largo de $x$, lo que en la realidad no siempre es as\'i.
+En ambas llegadas, tanto $\pi$ como $\rho$ es el ATT, o \emph{average treatment effect on the treated}.
+
+M\'as formalmente, el ATT es definido como,
+
+\begin{equation} \label{att}
+\begin{split}
+E[\delta | z = 1] &= E[y_{1} - y_{0} | z = 1] \\
+                 &= E[y_{1} | z = 1] - E[y_{0} | z = 1]
+\end{split}
+\end{equation}
+
+En palabras, el efecto causal esperado $\delta$ una vez que el tratamiento $z_{1}$ es administrado. $E[\delta | z = 1]$ es la diferencia entre entre aquellos individuos $y_{1}$ que s\'i se les administr\'o el tratamiento $z_{1}$ y aquellos individuos $y_{0}$ a quienes se les \emph{hubiera administrado} el tratamiento $z_{1}$ ($E[y_{0} | z = 1]$); esta \'ultima parte es el \emph{contrafacual}). Obviamente $E[y_{0} | z = 1]$ no es observado. 
+
+Debido a que existe ``\emph{perfect compliance}'', es posible igualar el \emph{ATT} con el \emph{ATE}, que es el \emph{average treatment effect}, y computar: $E[y_{1}|z=1]-E[y_{0}|z=0]$ (que se reduce a un test de medias).
+
+
+
 
 
 \end{document}
@@ -318,3 +334,4 @@ En esta ocasi\'on hemos visto \emph{``sharp'' designs}. Estos dise\~nos asumen \
 https://conjointly.com/kb/regression-discontinuity-analysis/
 https://dimewiki.worldbank.org/wiki/Regression_Discontinuity
 https://rpubs.com/cuborican/RDD
+https://stats.stackexchange.com/questions/308397/why-is-average-treatment-effect-different-from-average-treatment-effect-on-the-t
