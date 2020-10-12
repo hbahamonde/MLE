@@ -267,7 +267,7 @@ Existen dos maneras de analizar este tipo de datos:
 
 \begin{enumerate}
   \item Instrumental Variables y 2SLS.
-  \item LATE: Local Average Treatment Effect.
+  \item Regresi\'on Lineal Local (``\emph{local linear regression}'').
 \end{enumerate}
 
 \section{Estimador}
@@ -297,7 +297,7 @@ y_{i} \;=\; \beta_{0} + \beta_{1}x_{i} + \pi \hat z_{i} + \epsilon_{i}
 \end{equation}
 
 
-Cocinemos unos datos
+Cocinemos unos datos. En esta parte usaremos el paquete \texttt{rddtools} que se encarga de estimar el modelo v\'ia 2SLS.
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -439,17 +439,91 @@ Ahora que tenemos los datos listos, estimemos el modelo.
 \end{knitrout}
 
 
+\section{\emph{Local Linear Regression}}
 
-% https://dimewiki.worldbank.org/wiki/Regression_Discontinuity
- % intent-to-treat effects – i.e. the effect of the eligibility rather than the treatment itself on the outcomes of interest. The LATE can be estimated using an IV approac
- % In the case of a sharp design with perfect compliance, the parameter \delta identifies the average treatment effect on the treated (ATT).
+Otra manera de estimar es estimando un modelo justo en el corte. Este es un enfoque que usa s\'olo las observaciones cerca del corte---i.e. una regresi\'on \emph{local}---en una especie de ``mini regresi\'on''. 
+
+\begin{itemize}
+	\item El problema es que perdemos poder estadistico ({\color{red}?}).
+	\item El supuesto es que las observaciones que rodean el corte son muy similares en cuanto a sus valores de $x$. {\color{red}Por que es esto importante?} En base a este supuesto se construye el \emph{contrafactual}. 
+\end{itemize}
+
+Si quisi\'eramos estimar una regresi\'on local, la primera pregunta ser\'ia cu\'an ancha o delgado es nuestro ``ancho de banda'' (o ``\emph{bandwidth}''). Afortunadamente \textcite{Imbens2012} desarrollaron un estimador que encuentra el ``ancho de banda'' m\'as \'optimo al rededor del corte. Ellos demuestran que usando s\'olo esas observaciones al rededor del corte se minimizan los errores cuadrados del (``mini'') modelo. Este estimador est\'a contenido en la funci\'on \texttt{IKbandwidth} del paquete \texttt{rdd}. 
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{p_load}\hlstd{(rdd)}
+\hlstd{band} \hlkwb{<-} \hlkwd{IKbandwidth}\hlstd{(d}\hlopt{$}\hlstd{x, d}\hlopt{$}\hlstd{y)}
+\hlstd{band} \hlcom{# ancho de banda optimo}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.4034962
+\end{verbatim}
+\begin{alltt}
+\hlcom{# corta la base segun el ancho de banda optimo.}
+\hlcom{# nos quedamos solo con los valores determinados por ``band'' por lado}
+\hlstd{d_rdd}  \hlkwb{<-} \hlstd{d[d}\hlopt{$}\hlstd{x} \hlopt{<} \hlstd{band} \hlopt{&} \hlstd{d}\hlopt{$}\hlstd{x} \hlopt{> -}\hlstd{band, ]}
+\hlcom{# veamos la max y min de x de la nueva base datos cortada}
+\hlkwd{summary}\hlstd{(d_rdd)} \hlcom{# base cortada}
+\end{alltt}
+\begin{verbatim}
+##        x                   y                 z      
+##  Min.   :-0.403293   Min.   :-2.2574   Min.   :0.0  
+##  1st Qu.:-0.180701   1st Qu.:-0.3422   1st Qu.:0.0  
+##  Median : 0.006590   Median : 0.4866   Median :0.0  
+##  Mean   : 0.006631   Mean   : 0.7247   Mean   :0.4  
+##  3rd Qu.: 0.214356   3rd Qu.: 1.8554   3rd Qu.:1.0  
+##  Max.   : 0.401601   Max.   : 4.2753   Max.   :1.0
+\end{verbatim}
+\begin{alltt}
+\hlcom{# estimamos el modelo (la mini regres.) con la base cortada d_rdd}
+\hlstd{linear_rdd_model} \hlkwb{<-} \hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x} \hlopt{+} \hlstd{z,} \hlkwc{data}\hlstd{=d_rdd)}
+\hlkwd{summary}\hlstd{(linear_rdd_model)} \hlcom{# z es el efecto cuasi causal local del ``tratamiento''}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = y ~ x + z, data = d_rdd)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.39135 -0.48548 -0.01219  0.47551  2.20708 
+## 
+## Coefficients:
+##             Estimate Std. Error t value             Pr(>|t|)    
+## (Intercept) -0.02193    0.04333  -0.506                0.613    
+## x            1.12980    0.17876   6.320       0.000000000489 ***
+## z            1.84796    0.08318  22.217 < 0.0000000000000002 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.7296 on 642 degrees of freedom
+## Multiple R-squared:  0.6966,	Adjusted R-squared:  0.6957 
+## F-statistic: 737.2 on 2 and 642 DF,  p-value: < 0.00000000000000022
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+En este caso, \texttt{IKbandwidth} estima que debemos seleccionar valores en $x$ entre 0.4034962 a la izquierda del corte, y 0.4034962 a la derecha del corte. Es decir, si el corte es $10$, debemos hacer una nueva base de datos cuyos valores de $x$ est\'en comprendidos entre $10-0.4034962$= $9.5965038$ (``para la izquierda'') y $10+0.4034962$= $10.4034962$ (``para la derecha'').
 
 
-
-%<<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
-%knitr::purl('Probabilidad_Incertidumbre.Rnw')
-%Stangle('Probabilidad_Incertidumbre.Rnw')
-%@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{knitr}\hlopt{::}\hlkwd{purl}\hlstd{(}\hlstr{'RDD_Fuzzy.Rnw'}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] "RDD_Fuzzy.R"
+\end{verbatim}
+\begin{alltt}
+\hlkwd{Stangle}\hlstd{(}\hlstr{'RDD_Fuzzy.Rnw'}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## Writing to file RDD_Fuzzy.R
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
 %\newpage
 \paragraph{}

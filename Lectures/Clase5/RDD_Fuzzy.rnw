@@ -170,6 +170,7 @@ headpunct=:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % begin knitr stuff
 <<setup, include=FALSE, cache=F>>=
+quit(save = "no")
 if (!require("pacman")) install.packages("pacman"); library(pacman)
 p_load(knitr)
 set.seed(2020)
@@ -225,7 +226,7 @@ Existen dos maneras de analizar este tipo de datos:
 
 \begin{enumerate}
   \item Instrumental Variables y 2SLS.
-  \item LATE: Local Average Treatment Effect.
+  \item Regresi\'on Lineal Local (``\emph{local linear regression}'').
 \end{enumerate}
 
 \section{Estimador}
@@ -327,28 +328,38 @@ rdd_reg_lm(rdd_object = data, slope = "same")
 @
 
 
-\section{LATE}
+\section{\emph{Local Linear Regression}}
 
-Otra manera de estimar 
+Otra manera de estimar es estimando un modelo justo en el corte. Este es un enfoque que usa s\'olo las observaciones cerca del corte---i.e. una regresi\'on \emph{local}---en una especie de ``mini regresi\'on''. 
 
+\begin{itemize}
+	\item El problema es que perdemos poder estadistico ({\color{red}?}).
+	\item El supuesto es que las observaciones que rodean el corte son muy similares en cuanto a sus valores de $x$. {\color{red}Por que es esto importante?} En base a este supuesto se construye el \emph{contrafactual}. 
+\end{itemize}
 
+Si quisi\'eramos estimar una regresi\'on local, la primera pregunta ser\'ia cu\'an ancha o delgado es nuestro ``ancho de banda'' (o ``\emph{bandwidth}''). Afortunadamente \textcite{Imbens2012} desarrollaron un estimador que encuentra el ``ancho de banda'' m\'as \'optimo al rededor del corte. Ellos demuestran que usando s\'olo esas observaciones al rededor del corte se minimizan los errores cuadrados del (``mini'') modelo. Este estimador est\'a contenido en la funci\'on \texttt{IKbandwidth} del paquete \texttt{rdd}. 
+
+<<datos:8, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+p_load(rdd)
 band <- IKbandwidth(d$x, d$y)
-d_rdd  <- d[d$x < band & d$x > -band, ] # corta la base: quedarse con los valores de x: 0.5 por lado
-summary(d_rdd) # veamos la max y min de x de la nueva base datos cortada
+band # ancho de banda optimo
+# corta la base segun el ancho de banda optimo.
+# nos quedamos solo con los valores determinados por ``band'' por lado
+d_rdd  <- d[d$x < band & d$x > -band, ] 
+# veamos la max y min de x de la nueva base datos cortada
+summary(d_rdd) # base cortada
+# estimamos el modelo (la mini regres.) con la base cortada d_rdd
 linear_rdd_model <- lm(y ~ x + z, data=d_rdd)
-summary(linear_rdd_model) # z es LATE
+summary(linear_rdd_model) # z es el efecto cuasi causal local del ``tratamiento''
+@
+
+En este caso, \texttt{IKbandwidth} estima que debemos seleccionar valores en $x$ entre \Sexpr{band} a la izquierda del corte, y \Sexpr{band} a la derecha del corte. Es decir, si el corte es $10$, debemos hacer una nueva base de datos cuyos valores de $x$ est\'en comprendidos entre $10-\Sexpr{band}$= $\Sexpr{10-band}$ (``para la izquierda'') y $10+\Sexpr{band}$= $\Sexpr{10+band}$ (``para la derecha'').
 
 
-% https://dimewiki.worldbank.org/wiki/Regression_Discontinuity
- % intent-to-treat effects – i.e. the effect of the eligibility rather than the treatment itself on the outcomes of interest. The LATE can be estimated using an IV approac
- % In the case of a sharp design with perfect compliance, the parameter \delta identifies the average treatment effect on the treated (ATT).
-
-
-
-%<<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
-%knitr::purl('Probabilidad_Incertidumbre.Rnw')
-%Stangle('Probabilidad_Incertidumbre.Rnw')
-%@
+<<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+knitr::purl('RDD_Fuzzy.Rnw')
+Stangle('RDD_Fuzzy.Rnw')
+@
 
 %\newpage
 \paragraph{}
