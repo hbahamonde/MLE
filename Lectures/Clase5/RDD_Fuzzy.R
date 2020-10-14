@@ -10,9 +10,8 @@ options(scipen=9999999)
 if (!require("pacman")) install.packages("pacman"); library(pacman) 
 
 
-
 ###################################################
-### code chunk number 2: datos:1
+### code chunk number 2: chunk:1
 ###################################################
 mu <- c(0, 0) # los promedios de ambos vectores
 sigma <- matrix(c(1, 0.7, 0.7, 1), ncol = 2) # una matriz de varianza-covarianza
@@ -27,31 +26,31 @@ d$z <- ifelse(d$x <  corte, 0, 0.8) # introducimos FUZZYNESS
 
 
 ###################################################
-### code chunk number 3: datos:2
+### code chunk number 3: chunk:2
 ###################################################
 table(d$z)
 
 
 ###################################################
-### code chunk number 4: datos:3
+### code chunk number 4: chunk:3
 ###################################################
 d$z <- sapply(X = d$z, FUN = function(x) rbinom(1, 1, prob = x)) # funcion
 
 
 ###################################################
-### code chunk number 5: datos:4
+### code chunk number 5: chunk:4
 ###################################################
 table(d$z)
 
 
 ###################################################
-### code chunk number 6: datos:5
+### code chunk number 6: chunk:5
 ###################################################
 d$y <- d$y + d$z * 2
 
 
 ###################################################
-### code chunk number 7: datos:6
+### code chunk number 7: chunk:6
 ###################################################
 plot(d$x, d$y,
      col = c("steelblue", "darkred")[factor(d$z)],  # asignar color para z(1) y z(0)
@@ -64,7 +63,7 @@ abline(v = 0, lty = 2)
 
 
 ###################################################
-### code chunk number 8: datos:7
+### code chunk number 8: chunk:7
 ###################################################
 # Estimar Fuzzy RDD
 p_load(rddtools)
@@ -81,7 +80,7 @@ rdd_reg_lm(rdd_object = data, slope = "same")
 
 
 ###################################################
-### code chunk number 9: datos:8
+### code chunk number 9: chunk:8
 ###################################################
 p_load(rdd)
 band <- IKbandwidth(d$x, d$y)
