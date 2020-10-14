@@ -169,7 +169,6 @@ headpunct=:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 <<setup, include=FALSE, cache=F>>=
-quit(save = "no")
 if (!require("pacman")) install.packages("pacman"); library(pacman)
 p_load(knitr)
 set.seed(2020)
@@ -372,7 +371,7 @@ Nota que $z$ es el \emph{estado} del tratamiento, b\'asicamente un vector $x$ de
 
 
 
-<<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+<<output, echo = TRUE, warning = FALSE, message = F, cache=F, include = TRUE>>=
 knitr::purl('FE_DifDif.Rnw')
 Stangle('FE_DifDif.Rnw')
 @
