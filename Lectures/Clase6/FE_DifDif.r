@@ -19,7 +19,25 @@ head(Fatalities)[1:2]
 
 
 ###################################################
-### code chunk number 3: us:map
+### code chunk number 3: f:e1
+###################################################
+p_load(AER, plm)
+data("Fatalities")
+head(Fatalities)
+
+
+###################################################
+### code chunk number 4: f:e2
+###################################################
+model <- plm(fatal ~ beertax, 
+                    data = Fatalities,
+                    index = c("state", "year"), 
+                    model = "within") # "pooling", "within", "between", "random" "fd", or "ht"
+summary(model)
+
+
+###################################################
+### code chunk number 5: us:map
 ###################################################
 # instalar librerias
 p_load(ggplot2,dplyr,maps)
@@ -38,7 +56,7 @@ ggplot(all_states,
 
 
 ###################################################
-### code chunk number 4: dif:dif
+### code chunk number 6: dif:dif
 ###################################################
 plot(c(0, 1), c(6, 8), 
      type = "p",
@@ -72,7 +90,7 @@ text(1, 11.1, "Treated despues (NJ)", cex = 0.8 , pos = 4)
 
 
 ###################################################
-### code chunk number 5: dif:dif:Data
+### code chunk number 7: dif:dif:Data
 ###################################################
 n <- 200
 # definir tau
@@ -123,20 +141,20 @@ lines(c(0, 1), c(mean(y_pre[z == 1]), mean(y_post[z == 0]) +
 
 
 ###################################################
-### code chunk number 6: dif:dif:Data:2
+### code chunk number 8: dif:dif:Data:2
 ###################################################
 mean(y_post[z == 1]) - mean(y_pre[z == 1]) - 
 (mean(y_post[z == 0]) - mean(y_pre[z == 0]))
 
 
 ###################################################
-### code chunk number 7: dif:dif:Data:3
+### code chunk number 9: dif:dif:Data:3
 ###################################################
-lm(I(y_post - y_pre) ~ z)
+lm(I(y_post - y_pre) ~ z) # I significa isolate, que aisla
 
 
 ###################################################
-### code chunk number 8: output
+### code chunk number 10: output
 ###################################################
 knitr::purl('FE_DifDif.Rnw')
 Stangle('FE_DifDif.Rnw')
