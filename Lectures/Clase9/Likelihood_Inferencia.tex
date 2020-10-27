@@ -235,7 +235,7 @@ headpunct=:
 
 \section{Likelihood e Inferencia}
 
-Recuerda que \autoref{lik:model} es el ``axiom likelihood''. Lo que dice que likelihood es ``proporcional'' a la probabilidad \parencite[59]{King1998}. Y donde tambi\'en la constante $k(y)$ asegura que el likelihood es relativo al modelo, y no un absoluto como ocurre en el paradigma de la probabilidad.
+Recuerda que \autoref{lik:model} es el ``axiom likelihood''. Lo que dice es que likelihood es ``proporcional'' a la probabilidad \parencite[59]{King1998}. Y donde tambi\'en la constante $k(y)$ asegura que el likelihood es relativo al modelo, y no un absoluto como ocurre en el paradigma de la probabilidad.
 
 
 \begin{equation} \label{lik:model}
@@ -260,12 +260,11 @@ L(\tilde{\beta}|y) & = k(y)Pr(y|\tilde{\beta})\\
 \end{equation}
 
 
-
-Importantemente, \autoref{lik:beta} nos entrega el likelihood relativo de que {\bf el modelo (capturado por $\beta$) produzca los datos $y_{i}$}. Sobre esto, hay que rescatar los siguientes puntos:
+donde $\pi$ es el valor esperado. Importantemente, \autoref{lik:beta} nos entrega el likelihood relativo de que {\bf el modelo (capturado por $\beta$) produzca los datos $y_{i}$}. Sobre esto, hay que rescatar los siguientes puntos:
 
 \begin{enumerate}
   \item MLE es inverso a la probabilidad: en MLE el modelo es construido, y los datos son ``dados''. 
-  \item Para hacer obtener el likelihood (que es simplemente un n\'umero), trabajaremos con el conocido ``log-likelihood function'', que es b\'asicamente sacar el log de \autoref{lik:beta} (tal como lo demuestra \autoref{log:lik:beta}).
+  \item Para obtener el likelihood (que es simplemente un n\'umero), trabajaremos con el conocido ``log-likelihood function'', que es b\'asicamente sacar el log de \autoref{lik:beta} (tal como lo demuestra \autoref{log:lik:beta}).
   \item Usamos \emph{product operators} ($\prod$) porque necesitamos multiplicar el likelihood de cada $i$ particular (cada fila en la columna $y$). Esto es una consecuencia de que por ejemplo $i_{1}$ es independiente a $i_{2}$ y asi para todos los $i_{n}$.
 \end{enumerate}
 
@@ -328,7 +327,7 @@ Debido a que el logaritmo de un producto ($k(y)Pr(y|\tilde{\beta})$) es la suma 
 
 Como te dar\'as cuenta, ambos m\'etodos dan exactamente los mismos resultados. Es m\'as, la \'ultima l\'inea de la \autoref{log:lik:beta} muestra que el log-likelihood $ln \; L(\tilde{\beta}|y)$ es completamente una funci\'on de $y$. Hasta el momento, nada ha cambiado desde OLS. Bajo ese paradigma, nos enfoc\'abamos en estimar $\beta$, que no es nada m\'as que el valor esperado de una variable mantenida en su \emph{promedio}. En MLE, es bastante parecido. De hecho, \textcite[68]{King1998} explica que ``the maximum likelihood estimator for $\beta$ [...] also has a familiar analytical solution: $\beta \;=\; (x^{\top}x)^{-1}x^{\top}y$''. En vez de $\beta$, en MLE nos concentramos en $\pi$ que tambi\'en es el valor esperado. Sin embargo, cambiamos el modo de leer lo que significa ese valor esperado. Como dice \textcite[66-67]{King1998}, los estimadores MLE tienen ``the highest relative likelihood of having generated the data we observed''.
 
-\paragraph{Por qu\'e usar otro m\'etodo entonces?} En este caso, nosotros sabemos (porque as\'i lo hemos construido), que \texttt{e} tiene promedio 0 (\texttt{e  <- rnorm(n, 0)}). Ya sabemos que este es un ``population parameter'' y que nunca llegaremos a saber si es el promedio es cero ($E(e)\;=\;0$ es un supuesto). Entonces, \emph{por qu\'e usar otro m\'etodo entonces?} Aunque no sabemos si los supuestos se cumplen en la regresi\'on lineal, \emph{s\'i sabemos} que estos supuestos {\bf no se cumplen} en modelos cuyas variables dependientes binarias o categoricas.
+\paragraph{Por qu\'e usar otro m\'etodo?} En este caso, nosotros sabemos (porque as\'i lo hemos construido), que \texttt{e} tiene promedio 0 (\texttt{e  <- rnorm(n, 0)}). Ya sabemos que este es un ``population parameter'' y que nunca llegaremos a saber si es el promedio es cero ($E(e)\;=\;0$ es un supuesto). Entonces, \emph{por qu\'e usar otro m\'etodo entonces?} Aunque no sabemos si los supuestos se cumplen en la regresi\'on lineal, \emph{s\'i sabemos} que estos supuestos {\bf no se cumplen} en modelos cuyas variables dependientes binarias o categoricas.
 
 \paragraph{C\'omo se ve el log-likelihood?} 
 
@@ -368,7 +367,7 @@ Grafiquemos.
 
 \end{knitrout}
 
-Como ver\'as, cuando $E(y) \;=\; \pi  \;=\; 3$, el {\bf log-likelihood}, es decir, {\bf el valor que maximiza la posibilidad de que la distribucion de $y$ tenga un promedio 3} es $ln \; L(\hat\theta|y)$ = $-2249.3$ (f\'ijate que reemplazamos $\beta$ por $\hat\theta$ para volver a nuestra notaci\'on MLE). Ve\'amos:
+Como ver\'as, {\bf el valor que maximiza la posibilidad de que la distribucion de $y$ tenga un promedio 3} es $ln \; L(\hat\theta|y)$ = $-2249.3$ (f\'ijate que reemplazamos $\beta$ por $\hat\theta$ para volver a nuestra notaci\'on MLE). Ve\'amos:
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -415,7 +414,10 @@ Este procedimiento asegura que caigamos en el {\color{red}global maxima} y no en
 
 \section{M\'etodos Num\'ericos}
 
-Muchas veces resolver por $\hat\theta$ es algebraicamente imposible \parencite[72]{King1998}. Es por esto que este proceso empieza por seleccionar ``valores de partida'' (\emph{starting values}), y a trav\'es de la especificaci\'on de los distintos valores de que puede tomar el parametro $\tilde{\theta}$, vamos viendo si llegamos al global maxima. Esto es justamente lo que se hizo con el ``grid search'' arriba (uno de los dos m\'etodos num\'ericos), y se hace para toda la superficie de la distribuci\'on. El segundo m\'etodo num\'erico es el m\'etodo de ``gradiente''. Este m\'etodo usa la pendiente (slope) para ver cuando la pendiente es cero. En general, nadie usa m\'etodos as\'i. El computador se encarga de maximizar, pero es importante saber qu\'e es lo que est\'a haciendo el programa.
+Muchas veces resolver por $\hat\theta$ es algebraicamente imposible \parencite[72]{King1998}. Es por esto que este proceso empieza por seleccionar ``valores de partida'' (\emph{starting values}), y a trav\'es de la especificaci\'on de los distintos valores que pueda tomar el parametro $\tilde{\theta}$, vamos viendo si llegamos al global maxima. Esto es justamente lo que se hizo con el ``grid search'' arriba (uno de los dos m\'etodos num\'ericos), y se hace para toda la superficie de la distribuci\'on. El segundo m\'etodo num\'erico es el m\'etodo de ``gradiente''. Este m\'etodo usa la pendiente (slope) para ver cuando la pendiente es cero. 
+
+
+En general, nadie usa m\'etodos as\'i. El computador se encarga de maximizar, pero es importante saber qu\'e es lo que est\'a haciendo el programa.
 
 
 \begin{knitrout}
