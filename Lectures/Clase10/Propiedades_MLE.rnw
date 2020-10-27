@@ -170,7 +170,6 @@ headpunct=:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % begin knitr stuff
 <<setup, include=FALSE, cache=F>>=
-quit(save = "no")
 if (!require("pacman")) install.packages("pacman"); library(pacman)
 p_load(knitr)
 set.seed(2020)
@@ -195,15 +194,15 @@ if (!require("pacman")) install.packages("pacman"); library(pacman)
 
 \begin{enumerate}
 	\item Invariance to reparameterization: estimaciones se pueden transformar y no alteran su valor substantivo. Por ej., tomar un log o elevar al cuadrado.
-	\item Invariance to sampling plans: debido a que los estimadores dependen de los datos usados (son particulares a ellos, y no son generales), Es por esto que variando el tama\~no de la muestra no var\'ia la calidad de los estimadores.
+	\item Invariance to sampling size: debido a que los estimadores dependen de los datos usados (son particulares a ellos, y no son generales). Es por esto que variando el tama\~no de la muestra no var\'ia la calidad de los estimadores.
 	\item $\hat\theta$ no est\'a sesgado. Es decir, en la medida que se repitan los experimentos, $\hat\theta$ no cambia.
-	\item $\hat\theta$ es consistente. Dentro de todo el ``parameter space'', existe un ``spike'' (una punta) que representa el verdadero parametro $\hat\theta$.
-	\item El ``parameter space'' de $\hat\theta$ esta normalmente distribuido.
+	\item $\hat\theta$ es consistente. Dentro de todo el ``parameter space'', existe un ``spike'' (una punta) que representa el verdadero par\'ametro $\hat\theta$.
+	\item El ``parameter space'' de $\hat\theta$ est\'a normalmente distribuido.
 \end{enumerate}
 
 \section{Precisi\'on de los Estimadores MLE}
 
-Pensar en la presici\'on, es pensar en cu\'an bien (o mal) nuestro estimador $\hat\theta$ (i.e. ``nuestro $\beta$'') maximice el likelihood the que $E(y)=\pi$. Para esto, debemos recordar que la funci\'on del $LL$ es relativa (depende de los datos). No es como antes en OLS, donde pod\'iamos comparar \emph{p-values}, r$^{2}$ y otros \emph{entre modelos con distintos datasets}. Aqu\'i no.
+Pensar en la presici\'on es pensar en cu\'an bien (o mal) nuestro estimador $\hat\theta$ (i.e. ``nuestro $\beta$'') maximice el likelihood de que $E(y)=\pi$. Para esto, debemos recordar que la funci\'on del $LL$ es relativa (depende de los datos). No es como antes en OLS, donde pod\'iamos comparar \emph{p-values}, r$^{2}$ y otros \emph{entre modelos con distintos datasets}. Aqu\'i en MLE no.
 
 En este curso veremos dos tipos de tests, el LLR y el Wald Test. Ambos usan la distribuci\'on del log-likelihood para estimar lo mismo, pero ``por lados diferentes''. Ve la figura 2.1 de \textcite[37]{Ward2018}.
 
@@ -243,7 +242,7 @@ y_{i} & = \beta_{0} + 0 + \beta_{2}x_{2} + \epsilon_{i}
 \end{split}
 \end{equation}
 
-Aqu\'i lo que hemos hecho es que el modelo en \autoref{entero} est\'a ``entero''. Sin embargo, el modelo en la \autoref{restringido} est\'a ``restringido''; hemos ``restringido'' el valor de $\beta_{1}=0$. Nota que $0\times x_{1}=0$. La entonces pregunta que nos ayuda a resolver el LLR es \emph{qu\'e modelo es mejor}? \emph{El restringido o el entero?} Comparemos sus respectivos LLRs.
+Aqu\'i lo que hemos hecho es que el modelo en \autoref{entero} est\'a ``entero''. Sin embargo, el modelo en la \autoref{restringido} est\'a ``restringido''; hemos ``restringido'' el valor de $\beta_{1}=0$. Nota que $0\times x_{1}=0$. La pregunta que nos ayuda a resolver el LLR es \emph{qu\'e modelo es mejor}? \emph{El restringido o el entero?} {\color{red}Por qu\'e es importante esta pregunta?} Comparemos sus respectivos LLRs.
 
 \paragraph{}Si $L_{\star} = L_{R_{\star}}$ entonces $\Re = 1$. Pero si el likelihood del modelo ``entero'' $L_{\star}$ es mejor, entonces $\Re\ge1$. Por ejemplo, si $L_{\star}=-72.86$ y $L_{R_{\star}}=-81.27$, entonces,
 
@@ -260,7 +259,7 @@ Aqui podemos concluir que el modelo ``entero'' es mejor, y que debemos quedarnos
 
 \paragraph{Wald Test}
 
-El LRT funciona cuando mejor cuando tenemos un n\'umero limitado de hip\'otesis. En el ejemplo anterior contrastamos la hipotesis donde \autoref{entero} era mejor que \autoref{restringido} (y concluimos que \autoref{entero} era mejor). \emph{Qu\'e pasa cuando tienes muchas hip\'otesis y resulta complicado restringir varios parametros a cero?} Para eso usamos el \emph{Wald test}. La ventaja de este test es que ``only the unrestricted model need be estimated; from that model, one can perform tests against any number of alternatives'' \parencite[87]{King1998}.
+El LRT funciona cuando mejor cuando tenemos un n\'umero limitado de hip\'otesis. En el ejemplo anterior contrastamos la hip\'otesis donde \autoref{entero} era mejor que \autoref{restringido} (y concluimos que \autoref{entero} era mejor). \emph{Qu\'e pasa cuando tienes muchas hip\'otesis y resulta complicado restringir varios parametros a cero?} Para eso usamos el \emph{Wald test}. La ventaja de este test es que ``only the unrestricted model need be estimated; from that model, one can perform tests against any number of alternatives'' \parencite[87]{King1998}.
 
 El Wald test es un tipo de t-test. De nuestro conocimiento de OLS sabemos que una vez obtenido el t-test, es posible calcular el p-value. 
 
