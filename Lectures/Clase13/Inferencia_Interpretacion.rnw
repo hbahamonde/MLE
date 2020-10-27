@@ -171,7 +171,6 @@ headpunct=:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % begin knitr stuff
 <<setup20, include=FALSE, cache=F, debug=TRUE>>=
-quit(save = "no")
 if (!require("pacman")) install.packages("pacman"); library(pacman)
 p_load(knitr)
 set.seed(2020)
