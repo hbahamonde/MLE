@@ -192,11 +192,13 @@ if (!require("pacman")) install.packages("pacman"); library(pacman)
 
 \section{Derivando el Likelihood del Modelo Logit}
 
-El modelo lineal de probabilidad (OLS) asume que el valor de $\beta$ es lineal. Esto significa que cada vez que avanzamos en nuestro eje $x$, avanzamos una unidad en $y$. Recuerda la interpretacion de $\beta$: ``cuando subo X en una unidad, Y avanza $\beta$ unidades''. 
+El modelo lineal de probabilidad (OLS) asume que el valor de $\beta$ es lineal. Esto significa que cada vez que avanzamos una unidad en nuestro eje $x$, avanzamos $\beta$ en nuestro eje $y$.
 
-Sin embargo, existen muchas instancias donde la variable dependiente ($y$) no es lineal. El primer ejemplo que revisaremos es cuando $y$ es dicot\'omica, 0's y 1's (proceso ``Bernoulli''). Si fijas en el panel derecho de la figura, cada vez que avanzamos $x$ en una unidad, no avanzamos {\bf nada} en nuestro $y$ (entre 0 y 4). Sin embargo cuando $x\ge5$, $y$ es {\bf siempre} 1.
+Sin embargo, existen muchas instancias donde la variable dependiente ($y$) no es lineal. El primer ejemplo que revisaremos es cuando $y$ es dicot\'omica: $y$ s\'olo toma valores 0 y 1, en lo que hemos llamado proceso ``Bernoulli''. 
 
-<<lineal:no:lineal, echo = TRUE, fig.pos='H', fig.cap=NULL, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+Si te fijas en el panel derecho de la \autoref{fig:lineal:no:lineal}, cada vez que avanzamos $x$ en una unidad, \emph{no} avanzamos {\bf nada} en nuestro $y$ (entre 0 y 4). Sin embargo cuando $x\ge5$, $y$ es {\bf siempre} 1.
+
+<<lineal:no:lineal, echo = TRUE, fig.pos='H', fig.cap="Lineal y No Lineal", warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
 par(mfrow=c(1,2)) 
 plot(data.frame(x=jitter(0:10),y=jitter(0:10)), main = "Lineal")
 plot(data.frame(x=0:10,y=c(rep(0,5), rep(1,6))), main = "No Lineal")
@@ -207,10 +209,10 @@ Al ser $\beta$ no lineal, estar\'iamos violando varios supuestos:
 \begin{enumerate}
   \item La varianza de los errores $\epsilon_{i}$ son constantes (homoeskedasticidad). 
   \item La distribuci\'on de los errores $\epsilon_{i}$ es normal con promedio 0; $E(\epsilon_{i})=0$.
-  \item La forma funcional del modelo es lineal. Sin embargo, la forma funcional del panel de la derecha no es lineal, sino que con forma de ``S''.
+  \item La forma funcional del modelo es lineal. Sin embargo, la forma funcional del panel de la derecha de la \autoref{fig:lineal:no:lineal} no es lineal, sino que con forma de ``S''.
 \end{enumerate}
 
-Debido a que estos supuestos se violan, si aplicamos un modelo lineal a un $y$ no lineal (como la $y$ en el panel derecho), la interpretaci\'on de $\beta$ no tiene sentido: ``si avanzo una unidad en $x$, $y$ sube $\beta$''. Esto dar\'ia como resultado a que nuestra predicci\'on dir\'ia que siempre nos pasar\'iamos de los l\'imites del $y$ observado. 
+Debido a que estos supuestos se violan, si aplicamos un modelo lineal a un $y$ no lineal (como la $y$ en el panel derecho de la \autoref{fig:lineal:no:lineal}), la interpretaci\'on de $\beta$ (i.e. ``si avanzo una unidad en $x$, $y$ sube $\beta$'') no tiene sentido. Esto dar\'ia como resultado que nuestra predicci\'on dir\'ia que siempre nos pasar\'iamos de los l\'imites del $y$ observado. 
 
 \subsection{Logit: Motivaci\'on V\'ia Modelos Latentes}
 
@@ -240,7 +242,7 @@ plot(dlogis(seq(-10, 10, by = 0.1)), main = "PDF Logistic", ylab = "", xlab = ""
 plot(plogis(seq(-10, 10, by = 0.1)), main = "CDF Logistic", ylab = "", xlab = "")
 @
 
-mientras que los errores est\'an distribuidos de acuerdo a la \emph{distribuci\'on log\'istica est\'andard} con promedio 0 y varianza $\frac{\pi^{2}}{3}\approx3.29$. 
+En la distribuci\'on log\'istica los errores est\'an distribuidos de acuerdo a la \emph{distribuci\'on log\'istica est\'andard} con promedio 0 y varianza $\frac{\pi^{2}}{3}\approx3.29$. (Muy lejos de lo que veiamos en la distribuci\'on normal standard, por que{\color{red}?}).
 
 Ve que el panel izquierdo es el ``PDF'', o \emph{probability density function}. Esta es la manera en que ``se ordena'' la distribuci\'on. Es muy parecida a la distribuci\'on normal, pero no lo es (ver varianza arriba).\footnote{Sin embargo, la distribuci\'on \emph{log\'istica estandarizada} (con varianza 1) es casi identica a la normal. Lo que hace el modelo log\'istico distinto es tambi\'en la forma de estimaci\'on maximizaci\'on del likelihood de una variable dicot\'omica.} El panel derecho es el ``CDF'' o \emph{cumulative density function}. Al ver un ``CDF'' piensa en la intergral, y en como las probabilidades de que $y_{i}=1$ se van sumando, hasta que \'estas suman 1 (el m\'aximo).
 
@@ -265,17 +267,15 @@ Desde el modelo logit se construyen varias extensiones. La primera es el modelo 
 \pi_{i} = \Phi^{-1} exp(x_{i}^{\prime}\beta)
 \end{equation}
 
-donde $\Phi^{-1}$ es la inversa del CDF de la distribuci\'on normal estandard (promedio 0 y varianza 1). Adem\'as, en los modelos probit los errores tienen promedio 0 y est\'an normalmente distribuidos (como en la regresi\'on lineal; OLS). Las estimaciones del modelo probit y el modelo logit son en general iguales (estad\'isticamente iguales).
+donde $\Phi^{-1}$ es la inversa del CDF de la distribuci\'on normal estandard (promedio 0 y varianza 1). Adem\'as, en los modelos probit los errores tienen promedio 0 y est\'an normalmente distribuidos (como en la regresi\'on lineal; OLS). Las estimaciones del modelo probit y el modelo logit son en general iguales (i.e. \emph{estad\'isticamente} iguales).
 
 \paragraph{Qu\'e modelo es mejor?} Ambos son muy parecidos. No es poco frecuente estimar los dos. Cuando creas que los errores podrian ser homoeskedasticos, estima un probit. Tambi\'en hay asuntos disciplinares. 
 
 
-<<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+<<output, echo = FALSE, warning = FALSE, message = F, cache=F, include = TRUE>>=
 knitr::purl('Logit_Derivacion.Rnw')
 Stangle('Logit_Derivacion.Rnw')
 @
-
-% Long1997, p 31 (software) hacer claculos de prob y lik a mano que muestra long. 
 
 %\newpage
 %\paragraph{}
