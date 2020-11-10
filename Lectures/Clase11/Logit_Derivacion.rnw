@@ -242,7 +242,7 @@ plot(dlogis(seq(-10, 10, by = 0.1)), main = "PDF Logistic", ylab = "", xlab = ""
 plot(plogis(seq(-10, 10, by = 0.1)), main = "CDF Logistic", ylab = "", xlab = "")
 @
 
-En la distribuci\'on log\'istica los errores est\'an distribuidos de acuerdo a la \emph{distribuci\'on log\'istica est\'andard} con promedio 0 y varianza $\frac{\pi^{2}}{3}\approx3.29$. (Muy lejos de lo que veiamos en la distribuci\'on normal standard, por que{\color{red}?}).
+En la distribuci\'on log\'istica los errores est\'an distribuidos de acuerdo a la \emph{distribuci\'on log\'istica} con promedio 0 y varianza $\frac{\pi^{2}}{3}\approx3.29$. (Muy lejos de lo que veiamos en la distribuci\'on normal standard, por que{\color{red}?}).
 
 Ve que el panel izquierdo es el ``PDF'', o \emph{probability density function}. Esta es la manera en que ``se ordena'' la distribuci\'on. Es muy parecida a la distribuci\'on normal, pero no lo es (ver varianza arriba).\footnote{Sin embargo, la distribuci\'on \emph{log\'istica estandarizada} (con varianza 1) es casi identica a la normal. Lo que hace el modelo log\'istico distinto es tambi\'en la forma de estimaci\'on maximizaci\'on del likelihood de una variable dicot\'omica.} El panel derecho es el ``CDF'' o \emph{cumulative density function}. Al ver un ``CDF'' piensa en la intergral, y en como las probabilidades de que $y_{i}=1$ se van sumando, hasta que \'estas suman 1 (el m\'aximo).
 
