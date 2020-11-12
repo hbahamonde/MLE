@@ -1,5 +1,9 @@
-# Hypothesis testing: Wald test, Likelihood Ratio, Lagrange Multiplier (práctico)
+cat("\014")
+rm(list=ls())
+graphics.off()
 
+
+# Hypothesis testing: Wald test, Likelihood Ratio, Lagrange Multiplier (práctico)
 options(scipen=100000000)
 set.seed(2020)
 
@@ -14,39 +18,36 @@ mydata$rank <- factor(mydata$rank)
 #############
 
 # modelo 1
-logit.1 <- glm(admit ~ gre + gpa + rank, data = mydata, family = binomial(link = "logit"))
+logit.1 <- glm(admit ~ gre + gpa + rank, data = mydata, family = binomial(link = "logit")) # unrestricted
 summary(logit.1)
 
 # modelo 2: sin rank
-logit.2 <- glm(admit ~ gre + gpa, data = mydata, family = binomial(link = "logit"))
+logit.2 <- glm(admit ~ gre + gpa, data = mydata, family = binomial(link = "logit")) # restricted
 summary(logit.2)
 
 #############
-# Wald Test
+# Wald Test: probando parametros theta
 #############
 
-if (!require("pacman")) install.packages("pacman"); library(pacman) 
-p_load(lmtest)
+p_load(aod)
 
-waldtest(logit.1, logit.2) # significancia del test: 
+# Wald Test en el Intercepto
+aod::wald.test(b = coef(logit.1), Sigma = vcov(logit.1), Terms = 1) # probemos que el primer coef = 0
+# Si da significativo, b0 lo es tambien.
 
-# Wald Test con un solo modelo, compara por defecto:
 
-# logit.1
-## admit ~ gre + gpa + rank
+aod::wald.test(b = coef(logit.1), Sigma = vcov(logit.1), Terms = 1:2) # probemos que el primer y seg coef = 0
+# Si da significativo, b0 Y b1 lo son tambien.
 
-# logit.0
-## admit ~ 1 # solo intercepto
-waldtest(logit.1) # significancia del test: 
+# Debes ingresar el numero de coeficiente segun como sale en el "call" del modelo.
+# Sigma entrega la matrix de varianza-covarianza de los errores std.
 
-# Veamos
-logit.0 <- glm(admit ~ 1, data = mydata, family = binomial(link = "logit"))
 
-waldtest(logit.1, logit.0) # significancia del test: ?
+
 
 
 #############
-# Likelihood Ratio
+# Likelihood Ratio: comparando log-lilelihoods
 #############
 
 lrtest(logit.1, logit.2) # Fijate que aqui no comparamos parametros, si no que LogLik
@@ -62,4 +63,10 @@ logLik(logit.2)
 # Lagrange Multiplier
 #############
 
-anova(logit.1, logit.2, test="Rao")
+# Otro nombre del Lagrange Multiplier es el Rao Score.
+# Notar: "Terms added sequentially (first to last)"
+
+anova(logit.1, test="Rao") # Terminos del modelo 1 son anadidos sequentially y comparados si aportan a mejorar el slope de la curva.
+
+
+anova(logit.1,logit.2, test="Rao") # Ambos modelos son comparados y ven si EN CONJUNTO ("joint hypothesis") mejoran el slope de la curva. 
