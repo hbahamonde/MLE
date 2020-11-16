@@ -78,6 +78,7 @@
 \usepackage{fancybox, fancyvrb, calc}
 \usepackage[svgnames]{xcolor}
 \usepackage{physics}
+\usepackage{bm}
 \usepackage{epigraph}
 \usepackage{longtable}
 \usepackage{pdflscape}
@@ -240,9 +241,9 @@ Los GLMs no se pueden interpretar usando la tabla. Los coeficientes no sifnifica
 
 \paragraph{Intervalos de confianza}
 
-Ya sabemos lo que un intervalo de confianza significa: si nuestra confianza es al 95\%, sabemos que el ``true value'' de la estimaci\'on caer\'a el 95\% dentro del margen de los intervalos de confianza. Es en base a esto que antes hablabamos de ``significancia estad\'istica''.
+Ya sabemos lo que un intervalo de confianza significa: si nuestra confianza es al 95\%, sabemos que el ``true value'' de la estimaci\'on caer\'a el 95\% de las veces dentro del margen de los intervalos de confianza. Es en base a esto que antes hablabamos de ``significancia estad\'istica''.
 
-Carguemos los datos
+Carguemos los datos.
 
 
 \begin{knitrout}
@@ -319,9 +320,9 @@ Y ahora, estimemos los intervalos de confianza. Los intervalos de confianza son 
 \hat\theta \pm 1.960 \times \text{SE}_{\hat\theta}
 \end{equation}
 
-donde $\hat\theta$ es la estimaci\'on (el par\'ametro), $1.960$ es el valor $z$, DS es la desviaci\'on est\'andard, y N es el largo de la base de datos. Si te fijas, tenemos el signo $\pm$ que implica que debemos restar para obtener el rango m\'inimo del intervalo de confianza, y sumar para obtener el rango m\'aximo del intervalo de confianza.
+donde $\hat\theta$ es la estimaci\'on (el par\'ametro), $1.960$ es el valor $z$ para el 95\% y $\text{SE}_{\hat\theta}$ es el ``standard error'' del par\'ametro estimado $\hat\theta$. Si te fijas, tenemos el signo $\pm$ que implica que debemos restar para obtener el rango m\'inimo del intervalo de confianza, y sumar para obtener el rango m\'aximo del intervalo de confianza asociado a $\hat\theta$.
 
-Por ejemplo, el coeficiente de ``gre'' es $\hat\theta=0.0026907$, el $SE = 0.001094$. Entonces, $0.002264426 + 1.96*0.001094$ para el intervalo superior, y $0.002264426 - 1.96*0.001094$ para el intervalo inferior. 
+Por ejemplo, el coeficiente de ``gre'' es $\hat\theta_{\text{GRE}}=0.0026907$, el $SE_{\hat{\text{GRE}}}$ = 0.0010575. Entonces, $0.0026907 + 1.96*0.0010575$ = 0.0048 para el intervalo superior, y $0.0026907 - 1.96*0.0010575$ = 0.0006 para el intervalo inferior. 
 
 Usemos un paquete.
 
@@ -341,8 +342,26 @@ Usemos un paquete.
 \end{kframe}
 \end{knitrout}
 
+Tambi\'en podemos graficar:
 
-\paragraph{Odds Ratios}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{p_load}\hlstd{(jtools,ggstance,broom.mixed)}
+\hlkwd{plot_summs}\hlstd{(logit.1)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/ci:plot-1} 
+
+}
+
+
+
+\end{knitrout}
+
+\paragraph{Odds Ratios (``Radios de Posibilidad'')}
 
 Esta manera de interpretar solo funciona con los \emph{link function} tipo logit (logit, multinomial logit, etc.), no probit links (i.e. probit, multinomial probit). Formalmente, 
 
@@ -364,19 +383,21 @@ donde \autoref{odd:ratio} es el \emph{odd ratio} de que $y$ sea 1 dado $x$, rela
 \begin{alltt}
 \hlkwd{p_load}\hlstd{(oddsratio)}
 \hlcom{#}
-\hlkwd{or_glm}\hlstd{(}\hlkwc{data} \hlstd{= mydata,}
+\hlstd{odds} \hlkwb{=} \hlkwd{or_glm}\hlstd{(}\hlkwc{data} \hlstd{= mydata,}
        \hlkwc{model} \hlstd{= logit.1,}
-       \hlkwc{incr} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{gre} \hlstd{=} \hlnum{380}\hlstd{,} \hlkwc{gpa} \hlstd{=} \hlnum{5}\hlstd{))}
+       \hlkwc{incr} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{gre} \hlstd{=} \hlkwd{mean}\hlstd{(mydata}\hlopt{$}\hlstd{gre),} \hlkwc{gpa} \hlstd{=} \hlkwd{mean}\hlstd{(mydata}\hlopt{$}\hlstd{gpa)} \hlopt{+} \hlkwd{sd}\hlstd{(mydata}\hlopt{$}\hlstd{gpa)))}
+\hlstd{odds}
 \end{alltt}
 \begin{verbatim}
-##   predictor oddsratio ci_low (2.5) ci_high (97.5) increment
-## 1       gre     2.780        1.274          6.177       380
-## 2       gpa    43.529        1.962       1043.834         5
+##   predictor oddsratio ci_low (2.5) ci_high (97.5)  increment
+## 1       gre     4.861        1.454         16.711 587.700000
+## 2       gpa    17.211        1.662        188.943   3.770467
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
 
-Aqu\'i vemos que la variable dependiente (\texttt{admit}) es 55 veces m\'as probable de ocurrir cuando la variable independiente \texttt{gpa} incrementa de su media (3.3899) a 5. Como ves, ganamos interpretatibilidad del modelo. 
+Aqu\'i vemos que la variable dependiente (\texttt{admit}) es 17.211 veces m\'as ``\emph{posible}'' de ocurrir cuando la variable independiente \texttt{gpa} incrementa una desviaci\'on estandard, es decir, se mueve desde su promedio (3.3899) en 0.3805668 puntos de \texttt{gpa}.
+
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -414,30 +435,30 @@ Como interpretamos \texttt{GRE}?
 \end{kframe}
 \end{knitrout}
 
-Si bien es cierto que ganamos interpretaci\'on del modelo, lo malo es seguimos hablando con poca precisi\'on. Decir que algo es 55 veces m\'as probable es interesante, pero no s\'e si tan ``cient\'ifico''.
+\paragraph{Lo malo} Si bien es cierto que ganamos interpretaci\'on del modelo, lo malo es seguimos hablando con poca precisi\'on. Decir que algo es 17.211 veces m\'as ``\emph{posible}'' es interesante, pero no s\'e si tan ``cient\'ifico''.
 
 
 \paragraph{\emph{Partial/Marginal Changes} in y}
 
 Los ``cambios parciales'' son muy parecidos a los \emph{odds ratios}. Son parecidos porque nos muestra ``cuando cambia $\hat y$ cuando cambia $x$''. Formalmente, 
 
-\begin{equation}\label{part:chan}
+\begin{equation}\label{part:chan:1}
 \frac{\partial \hat y}{\partial x_{k}} = \beta_{k}
 \end{equation}
 
-lo que significa ``por un cambio en $x_{k}$, se espera que $\hat y$ cambie $\beta_{k}$'' (manteniendo todas las otras variables constantes en su media). Sin embargo, debido a que la varianza de $\hat y$ es desconocida (la varianza es un \emph{population parameter}), entonces, esto complica la interpretacion de $\beta_{k}$. Para resolver esto, lo que hacemos es pensar en coeficientes $\beta_{k}$ estandarizados. Siguiendo \autoref{part:chan}, lo que pensamos es en ``por un cambio en $x_{k}$, se espera que $\hat y$ cambie $\beta_{k}$ {\bf desviaciones est\'andard}''. Formalmente, 
+lo que significa ``por un cambio en $x_{k}$, se espera que $\hat y$ cambie $\beta_{k}$'' (manteniendo todas las otras variables constantes en su media). Sin embargo, debido a que la varianza de $\hat y$ es desconocida (la varianza es un \emph{population parameter}), entonces, esto complica la interpretacion de $\beta_{k}$. Para resolver esto, lo que hacemos es pensar en coeficientes $\beta_{k}$ estandarizados. Siguiendo \autoref{part:chan:1}, lo que pensamos es en ``por un cambio en $x_{k}$, se espera que $\hat y$ cambie $\beta_{k}$ {\bf desviaciones est\'andard}''. Formalmente, 
 
-\begin{equation}\label{part:chan}
+\begin{equation}\label{part:chan:2}
 \beta_{k}^{S} = \frac{\sigma_{k} \beta_{k}}{\sigma_{\hat y}} = \sigma_{k}\beta_{k}^{S_{\hat y}}
 \end{equation}
 
-Nota que \label{part:chan} tambi\'en estandariza $\hat y$. Debido a que $\hat\sigma_{\hat y} = \sigma_{\hat y}$ (i.e. podemos estimar la varianza estandarizada de los datos), 
+Nota que \autoref{part:chan:2} tambi\'en estandariza $\hat y$. Debido a que $\hat\sigma_{\hat y} = \sigma_{\hat y}$ (i.e. podemos estimar la varianza estandarizada de los datos), 
 
 \begin{equation}%\label{part:chan}
-{\hat\sigma_{\hat y}} = \beta^{\top}\hat\sigma(x)\beta + \sigma(\epsilon)
+{\hat\sigma_{\hat y}} = \beta^{\top}\hat\sigma(x)\beta + \sigma(\epsilon).
 \end{equation}
 
-Calculemos dos escenarios. Uno donde el estudiante le iba muy mal en el colegio, pero tuvo un buen puntaje en la prueba de admisi\'on de doctorado (GRE).
+Calculemos dos escenarios. Uno donde el estudiante le iba muy bien en el colegio (\texttt{max(mydata\$gpa)}), pero tuvo un p\'esimo puntaje GRE que es la prueba de admisi\'on de doctorado (\texttt{min(mydata\$gre)}).
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -457,7 +478,7 @@ Calculemos dos escenarios. Uno donde el estudiante le iba muy mal en el colegio,
 \end{kframe}
 \end{knitrout}
 
-Ahora calculemos el opuesto:
+Ahora calculemos un escenario donde el estudiante era regular en el colegio (\texttt{mean(mydata\$gpa)}) pero le fue s\'uper bien en el GRE (\texttt{max(mydata\$gre)}):
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -465,76 +486,31 @@ Ahora calculemos el opuesto:
 \hlkwd{summary}\hlstd{(}\hlkwd{margins}\hlstd{(logit.1,}
         \hlkwc{at} \hlstd{=} \hlkwd{list}\hlstd{(}
           \hlkwc{gre} \hlstd{=} \hlkwd{max}\hlstd{(mydata}\hlopt{$}\hlstd{gre),}
-          \hlkwc{gpa} \hlstd{=} \hlkwd{min}\hlstd{(mydata}\hlopt{$}\hlstd{gpa)}\hlopt{:}\hlkwd{mean}\hlstd{(mydata}\hlopt{$}\hlstd{gpa))}
+          \hlkwc{gpa} \hlstd{=} \hlkwd{mean}\hlstd{(mydata}\hlopt{$}\hlstd{gpa))}
           \hlstd{))}
 \end{alltt}
 \begin{verbatim}
-##  factor      gre    gpa    AME     SE      z      p   lower  upper
-##     gpa 800.0000 2.2600 0.1420 0.0325 4.3633 0.0000  0.0782 0.2058
-##     gpa 800.0000 3.2600 0.1834 0.0741 2.4771 0.0132  0.0383 0.3286
-##     gre 800.0000 2.2600 0.0005 0.0003 1.6967 0.0898 -0.0001 0.0011
-##     gre 800.0000 3.2600 0.0007 0.0003 2.3188 0.0204  0.0001 0.0012
+##  factor      gre    gpa    AME     SE      z      p  lower  upper
+##     gpa 800.0000 3.3899 0.1860 0.0770 2.4157 0.0157 0.0351 0.3369
+##     gre 800.0000 3.3899 0.0007 0.0003 2.3899 0.0169 0.0001 0.0012
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
 
-Para entender mejor esto, grafiquemos:
+Aqu\'i vemos en \texttt{factor} cu\'anto cambia (en unidades de log-likelihood, segun sale en \texttt{lower} y \texttt{upper}) $\hat y$, y si es significativo o no (\texttt{p}).
+
+
+Es muy \'util establecer valores seg\'un ciertos perfiles t\'ipicos o ``escenarios''. Sin embargo, esto asume que conocemos estos perfiles (lo que puede que no sea cierto todas las veces). Para compensar  por esto, podemos graficar los cambios marginales para todo el rango de $x$ e $y$. 
+
+Grafiquemos:
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlkwd{par}\hlstd{(}\hlkwc{mfrow}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{))}
-\hlkwd{cplot}\hlstd{(logit.1,} \hlstr{"gre"}\hlstd{)}
+\hlkwd{cplot}\hlstd{(logit.1,} \hlstr{"gre"}\hlstd{,} \hlkwc{what} \hlstd{=} \hlstr{"effect"}\hlstd{)} \hlcom{# effect para mostrar cambios marginales}
+\hlkwd{cplot}\hlstd{(logit.1,} \hlstr{"gpa"}\hlstd{,} \hlkwc{what} \hlstd{=} \hlstr{"effect"}\hlstd{)} \hlcom{# effect para mostrar cambios marginales}
 \end{alltt}
-\begin{verbatim}
-##       xvals     yvals     upper      lower
-## 1  220.0000 0.1419589 0.2412899 0.04262786
-## 2  244.1667 0.1500652 0.2479355 0.05219492
-## 3  268.3333 0.1585489 0.2545321 0.06256566
-## 4  292.5000 0.1674177 0.2610725 0.07376288
-## 5  316.6667 0.1766785 0.2675539 0.08580299
-## 6  340.8333 0.1863368 0.2739798 0.09869393
-## 7  365.0000 0.1963973 0.2803622 0.11243234
-## 8  389.1667 0.2068628 0.2867259 0.12699962
-## 9  413.3333 0.2177348 0.2931134 0.14235622
-## 10 437.5000 0.2290133 0.2995933 0.15843330
-## 11 461.6667 0.2406962 0.3062725 0.17512003
-## 12 485.8333 0.2527798 0.3133146 0.19224490
-## 13 510.0000 0.2652580 0.3209666 0.20954944
-## 14 534.1667 0.2781229 0.3295882 0.22665765
-## 15 558.3333 0.2913644 0.3396690 0.24305980
-## 16 582.5000 0.3049699 0.3517828 0.25815704
-## 17 606.6667 0.3189249 0.3664325 0.27141726
-## 18 630.8333 0.3332122 0.3838358 0.28258868
-## 19 655.0000 0.3478128 0.4038425 0.29178301
-## 20 679.1667 0.3627051 0.4260603 0.29934986
-\end{verbatim}
-\begin{alltt}
-\hlkwd{cplot}\hlstd{(logit.1,} \hlstr{"gpa"}\hlstd{)}
-\end{alltt}
-\begin{verbatim}
-##     xvals     yvals     upper      lower
-## 1  2.2600 0.1594306 0.2615309 0.05733021
-## 2  2.3325 0.1669004 0.2668014 0.06699931
-## 3  2.4050 0.1746474 0.2719973 0.07729752
-## 4  2.4775 0.1826752 0.2771187 0.08823181
-## 5  2.5500 0.1909867 0.2821696 0.09980371
-## 6  2.6225 0.1995839 0.2871600 0.11200782
-## 7  2.6950 0.2084684 0.2921072 0.12482964
-## 8  2.7675 0.2176409 0.2970392 0.13824262
-## 9  2.8400 0.2271012 0.3019984 0.15220395
-## 10 2.9125 0.2368481 0.3070478 0.16664844
-## 11 2.9850 0.2468798 0.3122801 0.18147962
-## 12 3.0575 0.2571932 0.3178294 0.19655702
-## 13 3.1300 0.2677843 0.3238891 0.21167944
-## 14 3.2025 0.2786478 0.3307294 0.22656631
-## 15 3.2750 0.2897777 0.3387074 0.24084799
-## 16 3.3475 0.3011665 0.3482440 0.25408903
-## 17 3.4200 0.3128058 0.3597384 0.26587323
-## 18 3.4925 0.3246859 0.3734345 0.27593734
-## 19 3.5650 0.3367961 0.3893290 0.28426321
-## 20 3.6375 0.3491245 0.4072024 0.29104653
-\end{verbatim}
 \end{kframe}
 
 {\centering \includegraphics[width=\maxwidth]{figure/sc3-1} 
@@ -551,14 +527,15 @@ Para entender mejor esto, grafiquemos:
 Quiz\'as esta sea la manera m\'as usada para poder interpretar: graficando (o mostrando en una tabla) ``la probabilidad de que $y$ sea $1$ a distintos valores de $x$'', o de manera m\'as formal, 
 
 \begin{equation}%\label{part:chan}
-\hat{\text{Pr}}(y_{i}=1|{\mathbf x}_{i}) = f({\mathbf x}_{i}\hat{\mathbf \beta})
+\hat{\text{Pr}}(y_{i}=1|{\mathbf x}_{i}) = f({\mathbf x}_{i}{\boldsymbol{\hat\beta}})
 \end{equation}
 
-F\'ijate que ${\mathbf x}$ y $\hat{\mathbf \beta}$ son matrices. {\color{red}Por que?} 
+F\'ijate que ${\mathbf x}$ y $\boldsymbol{\hat{\beta}}$ son matrices. {\color{red}Por que?} 
 
-Aqui lo que queremos saber es como se comparta la probabilidad de que $y_{i}=1$ a medida que nos movemos en una de las $x$'s. {\bf Lo bueno}, es que tenemos un lenguaje f\'acil de entender: todos entienden probabilidades, y adem\'as, estas var\'ian entre 0 y 1. {\color{red}Pero qu\'e hacemos con el resto de las x's?}
+Aqu\'i lo que queremos saber es c\'omo se comporta la probabilidad de que $y_{i}=1$ a medida que nos movemos en una de las $x$'s. {\bf Lo bueno}, es que tenemos un lenguaje f\'acil de entender: todos entienden probabilidades, y adem\'as, estas var\'ian entre 0 y 1. {\color{red}Pero qu\'e hacemos con el resto de las x's?}
 
-Para predecir usaremos el comando \texttt{predict}
+
+Lo que estamos tratando de comunicar es $\hat y_{i}$ que est\'a en escala logit. Ve\'amos c\'omo se ve $\hat y_{i}$ en escala logit usando el comando \texttt{predict}:
 
 
 \begin{knitrout}
@@ -571,6 +548,13 @@ Para predecir usaremos el comando \texttt{predict}
 ## -1.2024987 -0.4038261  0.2219162 -0.8198895 -1.3389901 -0.6403980
 \end{verbatim}
 \begin{alltt}
+\hlkwd{summary}\hlstd{(}\hlkwd{predict}\hlstd{(logit.1))}
+\end{alltt}
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -2.2217 -1.1517 -0.7954 -0.8098 -0.4333  0.2219
+\end{verbatim}
+\begin{alltt}
 \hlkwd{plot}\hlstd{(}\hlkwd{predict}\hlstd{(logit.1))} \hlcom{# logit scale}
 \end{alltt}
 \end{kframe}
@@ -580,12 +564,52 @@ Para predecir usaremos el comando \texttt{predict}
 }
 
 
-\begin{kframe}\begin{alltt}
-\hlkwd{plot}\hlstd{(}\hlkwd{predict}\hlstd{(logit.1,} \hlkwc{type}\hlstd{=}\hlstr{"response"}\hlstd{))} \hlcom{# Predicted Prob}
+
+\end{knitrout}
+
+
+Como la escala logit no es facilmente entendible (\texttt{predict(logit.1)}), debemos mapear $\hat y_{i}$ en una funci\'on que que retorne $\hat y_{i}$ pero en escala de probabilidades (entre 0 y 1). 
+
+Asumiendo que $\hat y_{i}$ est\'a en escala logit, la funci\'on es la siguiente:
+
+\begin{equation}\label{logit:prob}
+Pr(y_{i}=1) = \frac{exp(\hat y_{i})}{1+exp(\hat y_{i}}
+\end{equation}
+
+y que se logra as\'i:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{logit.scale} \hlkwb{=} \hlkwd{as.numeric}\hlstd{(}\hlkwd{predict}\hlstd{(logit.1))} \hlcom{# extraer vector y'}
+\hlstd{prob.scale} \hlkwb{=} \hlkwd{exp}\hlstd{(logit.scale)}\hlopt{/}\hlstd{(}\hlnum{1}\hlopt{+}\hlkwd{exp}\hlstd{(logit.scale))} \hlcom{# exponenciar}
+\hlkwd{head}\hlstd{(prob.scale)} \hlcom{# ve como se ve y' en formato prob}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.2310310 0.4003934 0.5552525 0.3057871 0.2076762 0.3451566
+\end{verbatim}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(prob.scale)} \hlcom{# resumen de y' en formato prob (bounded)}
+\end{alltt}
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## 0.09782 0.24018 0.31100 0.31750 0.39334 0.55525
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Despu\'es de eso, se pueden hacer gr\'aficos:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{par}\hlstd{(}\hlkwc{mfrow}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{))} \hlcom{# divide el panel de graf's en dos}
+\hlkwd{plot}\hlstd{(mydata}\hlopt{$}\hlstd{gre, prob.scale)} \hlcom{# para gre}
+\hlkwd{plot}\hlstd{(mydata}\hlopt{$}\hlstd{gpa, prob.scale)} \hlcom{# para gpa}
 \end{alltt}
 \end{kframe}
 
-{\centering \includegraphics[width=\maxwidth]{figure/predict:1-2} 
+{\centering \includegraphics[width=\maxwidth]{figure/logit:prob:2-1} 
 
 }
 
@@ -593,15 +617,13 @@ Para predecir usaremos el comando \texttt{predict}
 
 \end{knitrout}
 
-Usando la librer\'ia \texttt{effects}, podremos graficar. 
-
+Afortunadamente se puede hacer de manera m\'as simple. Usando la librer\'ia \texttt{effects}, podemos obtener $\hat y_{i}$ expresado en probabilidades. Aqu\'i tomamos $\hat y_{i}$ que est\'a en escala logit (que es tambi\'en lo que est\'a en la tabla de la regresi\'on log\'istica) y lo mapeamos en la funci\'on que retorna probabilidades entre 0 y 1 (\autoref{logit:prob}).
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlkwd{p_load}\hlstd{(}\hlstr{"effects"}\hlstd{)}
-\hlkwd{par}\hlstd{(}\hlkwc{mfrow}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{1}\hlstd{))}
-\hlkwd{plot}\hlstd{(}\hlkwd{predictorEffects}\hlstd{(logit.1))} \hlcom{# Todo el modelo (PLURAL)}
+\hlkwd{plot}\hlstd{(}\hlkwd{predictorEffects}\hlstd{(logit.1))} \hlcom{# Todo el modelo }
 \end{alltt}
 \end{kframe}
 
@@ -610,31 +632,10 @@ Usando la librer\'ia \texttt{effects}, podremos graficar.
 }
 
 
-\begin{kframe}\begin{alltt}
-\hlkwd{par}\hlstd{(}\hlkwc{mfrow}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{))}
-\hlkwd{plot}\hlstd{(}\hlkwd{predictorEffect}\hlstd{(}\hlstr{"gre"}\hlstd{, logit.1))} \hlcom{# Solo una variable (SINGULAR)}
-\end{alltt}
-\end{kframe}
-
-{\centering \includegraphics[width=\maxwidth]{figure/predict:2-2} 
-
-}
-
-
-\begin{kframe}\begin{alltt}
-\hlkwd{plot}\hlstd{(gpa.pred.prob} \hlkwb{<-} \hlkwd{predictorEffect}\hlstd{(}\hlstr{"gpa"}\hlstd{, logit.1))} \hlcom{# Solo una variable (SINGULAR)}
-\end{alltt}
-\end{kframe}
-
-{\centering \includegraphics[width=\maxwidth]{figure/predict:2-3} 
-
-}
-
-
 
 \end{knitrout}
 
-
+Nota que incluye autom\'aticamente intervalos de confianza. De qu\'e dependen?
 
 \paragraph{Predicted Probabilities: Tablas}
 
@@ -668,21 +669,21 @@ La otra alternativa es poder generar tablas con \emph{predicted prob's}. La idea
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlcom{# usar funcion predict}
-\hlkwd{predict}\hlstd{(logit.1, gpa.bajo,} \hlkwc{type}\hlstd{=}\hlstr{"response"}\hlstd{)}
+\hlkwd{predict}\hlstd{(logit.1, gpa.bajo,} \hlkwc{type}\hlstd{=}\hlstr{"response"}\hlstd{)} \hlcom{# gpa.bajo}
 \end{alltt}
 \begin{verbatim}
 ##          1          2 
 ## 0.06587598 0.25138506
 \end{verbatim}
 \begin{alltt}
-\hlkwd{predict}\hlstd{(logit.1, gpa.medio,} \hlkwc{type}\hlstd{=}\hlstr{"response"}\hlstd{)}
+\hlkwd{predict}\hlstd{(logit.1, gpa.medio,} \hlkwc{type}\hlstd{=}\hlstr{"response"}\hlstd{)} \hlcom{# gpa.medio}
 \end{alltt}
 \begin{verbatim}
 ##         1         2 
 ## 0.1419589 0.4406515
 \end{verbatim}
 \begin{alltt}
-\hlkwd{predict}\hlstd{(logit.1, gpa.alto,} \hlkwc{type}\hlstd{=}\hlstr{"response"}\hlstd{)}
+\hlkwd{predict}\hlstd{(logit.1, gpa.alto,} \hlkwc{type}\hlstd{=}\hlstr{"response"}\hlstd{)} \hlcom{# gpa.alto}
 \end{alltt}
 \begin{verbatim}
 ##         1         2 
@@ -690,6 +691,8 @@ La otra alternativa es poder generar tablas con \emph{predicted prob's}. La idea
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
+
+
 
 
 
@@ -712,9 +715,10 @@ La otra alternativa es poder generar tablas con \emph{predicted prob's}. La idea
 \begin{alltt}
 \hlstd{knitr}\hlopt{::}\hlkwd{purl}\hlstd{(}\hlstr{'Inferencia_Interpretacion.Rnw'}\hlstd{)}
 \end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in parse\_block(g[-1], g[1], params.src, markdown\_mode): Duplicate chunk label 'setup20', which has been used for the chunk:\\\#\# if (!require("{}pacman"{})) install.packages("{}pacman"{}); library(pacman)\\\#\# p\_load(knitr)\\\#\# set.seed(2020)\\\#\# options(scipen=9999999)}}\begin{alltt}
+\begin{verbatim}
+## [1] "Inferencia_Interpretacion.R"
+\end{verbatim}
+\begin{alltt}
 \hlkwd{Stangle}\hlstd{(}\hlstr{'Inferencia_Interpretacion.Rnw'}\hlstd{)}
 \end{alltt}
 \begin{verbatim}
