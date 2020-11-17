@@ -171,7 +171,7 @@ headpunct=:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % begin knitr stuff
-<<setup, include=FALSE, cache=F, debug=TRUE>>=
+<<setup, include=F, cache=F>>=
 if (!require("pacman")) install.packages("pacman"); library(pacman)
 p_load(knitr)
 set.seed(2020)
@@ -192,12 +192,12 @@ options(scipen=9999999)
 
 \section{Inferencia e Interpretaci\'on}
 
-Los GLMs no se pueden interpretar usando la tabla. Los coeficientes no sifnifican lo que significaban en nuestro mundo OLS. Para interpretarlos, debemos usar otras herramientas. 
+Los GLMs no se pueden interpretar usando la tabla. Los coeficientes no significan lo que significaban en nuestro mundo OLS. Para interpretarlos, debemos usar otras herramientas. 
 
 
 \paragraph{Intervalos de confianza}
 
-Ya sabemos lo que un intervalo de confianza significa: si nuestra confianza es al 95\%, sabemos que el ``true value'' de la estimaci\'on caer\'a el 95\% de las veces dentro del margen de los intervalos de confianza. Es en base a esto que antes hablabamos de ``significancia estad\'istica''.
+Ya sabemos lo que un intervalo de confianza significa: si nuestra confianza es al 95\%, sabemos que el ``true value'' de la estimaci\'on caer\'a el 95\% de las veces dentro del margen de los intervalos de confianza. Es en base a esto que antes habl\'abamos de ``significancia estad\'istica''.
 
 Carguemos los datos.
 
@@ -253,9 +253,9 @@ ln \Omega(\text{x}) & = \text{x}\beta \\
 \end{split}
 \end{equation}
 
-donde \autoref{odd:ratio} es el \emph{odd ratio} de que $y$ sea 1 dado $x$, relativo a que $y$ sea 0 dado $x$. Es un ratio, una fracci\'on. Su interpretaci\'on es intuititiva: ``cuando $x$ cambia, cu\'anto cambia el logit estimado ($\hat\theta$) manteniendo los otros parametros constantes''?
+donde \autoref{odd:ratio} es el \emph{odd ratio} de que $y$ sea 1 dado $x$, relativo a que $y$ sea 0 dado $x$. Es un ratio, una fracci\'on. Su interpretaci\'on es intuitiva: ``cuando $x$ cambia, cu\'anto cambia el logit estimado ($\hat\theta$) manteniendo los otros par\'ametros constantes''?
 
-{\bf Lo bueno} de esta interpretacion es que podemos observar el cambio de la variable dependiente. Ten en cuenta que los \emph{odds ratios} son comparables s\'olo con la misma variable. {\bf Lo malo} es que seguimos en unidades de la escala logit (que sigue siendo poco interpretable).
+{\bf Lo bueno} de esta interpretaci\'on es que podemos observar el cambio de la variable dependiente. Ten en cuenta que los \emph{odds ratios} son comparables s\'olo con la misma variable. {\bf Lo malo} es que seguimos en unidades de la escala logit (que sigue siendo poco interpretable).
 
 
 
@@ -277,7 +277,7 @@ hist(mydata$gpa, main = "GPA")
 hist(mydata$gre, main = "GRE")
 @
 
-Como interpretamos \texttt{GRE}?
+C\'omo interpretamos \texttt{GRE}?
 
 <<means, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
 mean(mydata$gpa)
@@ -289,13 +289,13 @@ mean(mydata$gre)
 
 \paragraph{\emph{Partial/Marginal Changes} in y}
 
-Los ``cambios parciales'' son muy parecidos a los \emph{odds ratios}. Son parecidos porque nos muestra ``cuando cambia $\hat y$ cuando cambia $x$''. Formalmente, 
+Los ``cambios parciales'' son muy parecidos a los \emph{odds ratios}. Son parecidos porque nos muestra ``cu\'anto cambia $\hat y$ cuando cambia $x$''. Formalmente, 
 
 \begin{equation}\label{part:chan:1}
 \frac{\partial \hat y}{\partial x_{k}} = \beta_{k}
 \end{equation}
 
-lo que significa ``por un cambio en $x_{k}$, se espera que $\hat y$ cambie $\beta_{k}$'' (manteniendo todas las otras variables constantes en su media). Sin embargo, debido a que la varianza de $\hat y$ es desconocida (la varianza es un \emph{population parameter}), entonces, esto complica la interpretacion de $\beta_{k}$. Para resolver esto, lo que hacemos es pensar en coeficientes $\beta_{k}$ estandarizados. Siguiendo \autoref{part:chan:1}, lo que pensamos es en ``por un cambio en $x_{k}$, se espera que $\hat y$ cambie $\beta_{k}$ {\bf desviaciones est\'andard}''. Formalmente, 
+lo que significa ``por un cambio en $x_{k}$, se espera que $\hat y$ cambie $\beta_{k}$'' (manteniendo todas las otras variables constantes en su media). Sin embargo, debido a que la varianza de $\hat y$ es desconocida (la varianza es un \emph{population parameter}), entonces, esto complica la interpretaci\'on de $\beta_{k}$. Para resolver esto, lo que hacemos es pensar en coeficientes $\beta_{k}$ estandarizados. Siguiendo \autoref{part:chan:1}, lo que pensamos es en ``por un cambio en $x_{k}$, se espera que $\hat y$ cambie $\beta_{k}$ {\bf desviaciones est\'andard}''. Formalmente, 
 
 \begin{equation}\label{part:chan:2}
 \beta_{k}^{S} = \frac{\sigma_{k} \beta_{k}}{\sigma_{\hat y}} = \sigma_{k}\beta_{k}^{S_{\hat y}}
@@ -397,7 +397,7 @@ p_load("effects")
 plot(predictorEffects(logit.1)) # Todo el modelo 
 @
 
-Nota que incluye autom\'aticamente intervalos de confianza. De qu\'e dependen?
+Nota que incluye autom\'aticamente intervalos de confianza. {\color{red}De qu\'e dependen?}
 
 \paragraph{Predicted Probabilities: Tablas}
 
@@ -448,7 +448,7 @@ predict(logit.1, gpa.alto, type="response") # gpa.alto
 
 {\color{red}Cu\'al es el problema?}
 
-<<archivo, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE, debug=TRUE>>=
+<<archivo, warning = FALSE, message = FALSE, cache=FALSE, include = T, debug=TRUE>>=
 knitr::purl('Inferencia_Interpretacion.Rnw')
 Stangle('Inferencia_Interpretacion.Rnw')
 @
