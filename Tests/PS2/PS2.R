@@ -1,0 +1,36 @@
+# PS2
+# MLE
+
+# En este ej pensaremos en las variables que hacen que la gente apoye o rechace la guerra del Golfo Persico ("gulfwarworthit")
+
+
+# Carga la base de datos.
+library(foreign) 
+dat = read.dta("https://github.com/hbahamonde/MLE/raw/master/Datasets/golfo.dta")
+
+## Este es el Codebook
+# ideology (Respondent's ideological placement; 1=Very liberal thru 7=Very conservative);
+# bushideo (Bush's ideological placement by the respondent);
+# clintideo (Clinton's ideological placement by the respondent);
+# distbushideo (Distance between respondent and Bushís ideological placement);
+# distclintideo (Distance between respondent and Clintonís ideological place- ment);
+# econworse (Economy worse than a year ago? 1=Much better 2=Better 3=Same 4=Worse 5=Much worse)
+# oppforce (Opposition to use of military force)
+# gulfwarworthit (0/1 dummy coded 1 if respondent thinks it was worth the cost);
+# pid (Party ID, from -3=Str Dem thru 3=Str Rep);
+# educyears (Years of schooling);
+# govtemp (0/1 where 1 if Government employee);
+# union (0/1 where 1 if someone in the household belongs to a union);
+# faminc (Household income, in thousands of dollars);
+# minority (0/1 where 1 if respondent non-white.
+
+
+# 1. Resume las variables de esta base (puede ser un grafico o una tabla).
+
+# 2. Nuestra variable dependiente es "gulfwarworthit" (si acaso la Guerra del Golfo valio la pena). Piensa en que variables dependientes puedan explicar este fenomeno (entre 2 y 4 variables). Estima un modelo logit y un modelo probit para el mismo set de variables. Discute brevemente los resultados del modelo logit y probit. Cual es la diferencia? Cual es el supuesto mas importante que difiere entre el modelo logit y el probit? (cita la bibliografia correspondiente leida en el curso).
+
+# 3. Desde este momento solo trabajaremos con la especificacion logit. Usa el modelo que disenaste en #2 (ese modelo es el modelo  "no restringido"). Explica por que. Ahora disena un modelo "restringido". Compara el modelo restringido con el no restringido usando el Wald Test, el  Likelihood Ratio Test y el Lagrange Multiplier. Que puedes aprender de cada comparacion en cada uno de estos tests?
+
+# 4. Usando la especificacion no restringida, emplea la tecnica de predicted probabilities (mediante el uso de graficos) para interpretar substantivamente el modelo. Que puedes aprender del modelo?
+
+# 5. Empleando los DFBETAS y DFFITS, el pseudo-R2 y los dos information criteria (BIC & AIC), diagnostica los residuos de tu modelo restringido y no restringido. Cual modelo es mejor? 
