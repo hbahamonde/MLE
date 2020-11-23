@@ -1,0 +1,394 @@
+\documentclass[onesided]{article}
+\usepackage[T1]{fontenc}
+\linespread{1.5} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[hmarginratio=1:1,columnsep=20pt]{geometry} % Document margins
+%\usepackage{multicol} % Used for the two-column layout of the document
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+\usepackage{float} % Required for tables and figures in the multi-column environment - they need to be placed in specific locations with the [H] (e.g. \begin{table}[H])
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+\usepackage{paralist} % Used for the compactitem environment which makes bullet points with less space between them
+
+% to ignore texts: good for thank messages and paper submissions.
+      % \fbox{\phantom{This text will be invisible too, but a box will be printed arround it.}}
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+%\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage[]{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\Roman{subsection}} % Roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancybox, fancyvrb, calc}
+\usepackage[svgnames]{xcolor}
+\usepackage{physics}
+\usepackage{epigraph}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{graphics}
+\usepackage{pbox} % \pbox{20cm}{This is the first \\ cell}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{rotating}
+\usepackage{paracol}
+\usepackage{textcomp}
+\usepackage[export]{adjustbox}
+\usepackage{afterpage}
+\usepackage{filecontents}
+\usepackage{color}
+\usepackage{latexsym}
+\usepackage{lscape}       %\begin{landscape} and \end{landscape}
+\usepackage{wasysym}
+\usepackage{dashrule}
+\usepackage{marvosym} % face package
+\usepackage{framed}
+\usepackage{tree-dvips}
+\usepackage{pgffor}
+\usepackage[]{authblk}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage[latin1]{inputenc}
+\usepackage{hyperref}     %desactivar para link rojos
+\usepackage{graphicx}
+\usepackage{dcolumn} % for R tables
+\usepackage{multirow} % For multirow in tables
+\usepackage{pifont}
+\usepackage{listings}
+\usepackage{bm}
+
+
+
+
+% hypothesis / theorem package begin
+\usepackage{amsthm}
+\usepackage{thmtools}
+\declaretheoremstyle[
+spaceabove=6pt, spacebelow=6pt,
+headfont=\normalfont\bfseries,
+notefont=\mdseries, notebraces={(}{)},
+bodyfont=\normalfont,
+postheadspace=0.6em,
+headpunct=:
+]{mystyle}
+\declaretheorem[style=mystyle, name=Hypothesis, preheadhook={\renewcommand{\thehyp}{H\textsubscript{\arabic{hyp}}}}]{hyp}
+
+\usepackage{cleveref}
+\crefname{hyp}{hypothesis}{hypotheses}
+\Crefname{hyp}{Hypothesis}{Hypotheses}
+% hypothesis / theorem package end
+
+
+%----------------------------------------------------------------------------------------
+% Other ADDS-ON
+%----------------------------------------------------------------------------------------
+
+% independence symbol \independent
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+
+
+
+
+
+
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat's bookmarks
+    pdftoolbar=true,        % show Acrobat's toolbar?
+    pdfmenubar=true,        % show Acrobat's menu?
+    pdffitwindow=true,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={My title},    % title
+    pdfauthor={Author},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={keyword1} {key2} {key3}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=ForestGreen,          % color of internal links (change box color with linkbordercolor)
+    citecolor=ForestGreen,        % color of links to bibliography
+    filecolor=ForestGreen,      % color of file links
+    urlcolor=ForestGreen           % color of external links
+}
+
+%\usepackage[nodayofweek,level]{datetime} % to have date within text
+
+\newcommand{\LETT}[3][]{\lettrine[lines=4,loversize=.2,#1]{\smash{#2}}{#3}} % letrine customization
+
+
+
+% comments on margin
+  % Select what to do with todonotes: 
+  % \usepackage[disable]{todonotes} % notes not showed
+  \usepackage[draft]{todonotes}   % notes showed
+  % usage: \todo{This is a note at margin}
+
+\usepackage{cooltooltips}
+
+%%% bib begin
+\usepackage[american]{babel}
+\usepackage{csquotes}
+\usepackage[backend=biber,style=authoryear,dashed=false,doi=false,isbn=false,url=false,arxiv=false]{biblatex}
+%\DeclareLanguageMapping{american}{american-apa}
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/library.bib} 
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/Bahamonde_BibTex2013.bib} 
+
+% USAGES
+%% use \textcite to cite normal
+%% \parencite to cite in parentheses
+%% \footcite to cite in footnote
+%% the default can be modified in autocite=FOO, footnote, for ex. 
+%%% bib end
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{MLE para Outcomes Ordenados: Ordered Logit/Probit} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+
+\begin{document}
+% DOCUMENT ID
+%----------------------------------------------------------------------------------------
+%	CONTENT
+%----------------------------------------------------------------------------------------
+
+%\graphicspath{
+%{/Users/hectorbahamonde/RU/Term5/Experiments_Redlawsk/Experiment/Data/}
+%}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% begin knitr stuff
+<<setup, include=FALSE, cache=F>>=
+if (!require("pacman")) install.packages("pacman"); library(pacman)
+p_load(knitr)
+set.seed(2020)
+options(scipen=9999999)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\hspace{-5mm}{\bf Profesor}: H\'ector Bahamonde, PhD.\\
+\texttt{e:}\href{mailto:hector.bahamonde@uoh.cl}{\texttt{hector.bahamonde@uoh.cl}}\\
+\texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.hectorbahamonde.com}}\\
+{\bf Curso}: MLE.\\
+\hspace{-5mm}{\bf TA}: Gonzalo Barr\'ia.
+
+\section{Outcomes Ordenados: Ordered Logit/Probit}
+
+
+Los \emph{outcomes ordenados} son aquellos donde la variable dependiente es categ\'orica, pero representa cierto orden. Uno de los ejemplos m\'as t\'ipicos, es el de la \emph{escala de Likert}. La escala de Likert se utiliza para caracterizar, por ejemplo, niveles de aprobaci\'on/desaprobaci\'on de candidatos, pol\'iticas p\'ublicas, etc. La escala de Likert tiene en general cinco niveles de respuesta: \emph{muy de acuerdo}, \emph{acuerdo}, \emph{neutral}, \emph{desacuerdo}, \emph{muy en desacuerdo}. 
+
+Lamentablemente, analistas insisten en analizar estas variables dependientes intervalares usando m\'etodos lineales OLS \parencite[115]{Long:1997wv}. Esto genera sesgos en los an\'alisis porque asume  El otro punto que sugiera la figura (en el panel inferior) es que los errores son heteroesqued\'asticos.que los intervalos num\'ericos entre cada categor\'ia son constantes. Es decir, la distancia (num\'erica) que existe entre  \emph{muy de acuerdo} y \emph{acuerdo} es la misma que \emph{desacuerdo} y \emph{muy en desacuerdo}. Y esto no es cierto. Es por esto que debemos considerar este \emph{data generating process} distinto, y utilizar m\'etodos de MLE. En otras palabras, no podemos asumir que el proceso ordinal sea necesariamente intervalar. 
+
+\paragraph{Modelo Latente} Una manera de motivar este modelo es v\'ia modelos latentes. En esta motivaci\'on, t\'u ver\'ias una variable dependiente $y_{i}$ s\'olo con 1's, 2's, 3's, 4's y 5's (continuando con el ejemplo de la escala de Likert). Sin embargo, el \emph{data generating process} de $y_{i}$ sigue un proceso \emph{latente} $y_{i}^{\star}$ (que no ves), que de manera an\'aloga a la motivaci\'on logit, es gatillado por umbrales (o ``thresholds'') $\tau$. Formalmente, 
+
+
+\begin{equation}\label{latente}
+\begin{split}
+y_{i}=  
+  \begin{Bmatrix} 
+    1_{\text{muy de acuerdo}} & \;\text{si}\; \tau_{0} = -\infty \leq y_{i}^{\star} < \tau_{1} \\ 
+    2_{\text{acuerdo}} & \;\text{si}\; \tau_{1}   \leq y_{i}^{\star} < \tau_{2} \\ 
+    3_{\text{neutral}} & \;\text{si}\; \tau_{2}   \leq y_{i}^{\star} < \tau_{3} \\ 
+    4_{\text{desacuerdo}} & \;\text{si}\; \tau_{3}   \leq y_{i}^{\star} < \tau_{4} \\ 
+    5_{\text{muy en desacuerdo}} & \;\text{si}\; \tau_{4}   \leq y_{i}^{\star} < \tau_{5} = \infty \\ 
+  \end{Bmatrix}
+\end{split}
+\end{equation}
+
+Como lo podr\'as notar, esta motivaci\'on es muy similar al modelo latente del modelo logit,
+
+\begin{equation}\label{logit}
+\begin{split}
+y_{i}=  
+  \begin{Bmatrix} 
+    1 & \;\text{si}\; y_{i}^{\star}>\tau \\ 
+    0 & \;\text{si}\; y_{i}^{\star}\le\tau 
+  \end{Bmatrix}
+\end{split}
+\end{equation}
+
+Y de hecho, el modelo estructural ordered probit/logit te tendr\'ia que ser muy familiar,
+
+\begin{equation}\label{logit.structural}
+y_{i}^{\star} = x_{i}\beta + \epsilon_{i}
+\end{equation}
+
+Una manera gr\'afica de ver esta motivaci\'on v\'ia modelos latentes, es a trav\'es de la siguiente figura,
+
+{\centering \includegraphics[width=\maxwidth]{latente_observed.png}}
+
+Como sabemos, la estimaci\'on v\'ia modelos latentes no es posible, no podemos estimar una regresi\'on entre $y_{i}^{\star}$ y $x$ \parencite[117]{Long:1997wv}. El otro punto que sugiera la figura (en el panel inferior) es que los errores son heteroesqued\'asticos. 
+
+\paragraph{Supuestos Distribucionales} Debido a que esta es una extensi\'on directa del modelo logit/probit, tenemos dos opciones de distribuciones, logit y probit. Como ya sabemos, {\bf estas son distribuciones de los errores}. El PDF del modelo ordered probit es formalmente,
+
+
+\begin{equation}%\label{logit.structural}
+\phi(e) = \frac{1}{\sqrt{2\pi}}\text{exp}(-\frac{\epsilon^{2}}{2})
+\end{equation}
+
+donde $E[\phi(e)]\sim (0,1)$.
+
+El PDF del modelo ordered logit es formalmente definido como sigue,
+
+\begin{equation}%\label{logit.structural}
+\lambda(\epsilon) = \frac{\text{exp}(\epsilon)}{[1+\text{exp}(\epsilon)]^{2}}
+\end{equation}
+
+donde $E[\lambda(\epsilon)]\sim(0, \frac{\pi^{2}}{3})$.
+
+\paragraph{Estimacion: Probabilidades y Likelihood} Continuando con el \autoref{logit.structural}, $x_{i}\beta + \epsilon_{i}$ es posible de ser calculado en t\'erminos de probabilidades de la siguiente manera,
+
+
+\begin{equation}%\label{logit.structural}
+\text{Pr}(y_{i}=1|x_{i}) = \text{Pr}(\tau_{0} \leq x_{i}\beta + \epsilon_{i} < \tau_{1}|x_{i})
+\end{equation}
+
+Y asumiendo que las observaciones son independientes entre s\'i, el likelihood est\'a dado por,
+
+\begin{equation}%\label{logit.structural}
+L(\beta,\tau|y, X) = \prod_{i=1}^{N}\text{Pr}(y_{i})
+\end{equation}
+
+\section{Programaci\'on}
+
+Carguemos los datos
+<<dat, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(foreign) 
+dat = read.dta("https://github.com/hbahamonde/MLE/raw/master/Datasets/nes92_ordered.dta")
+@
+
+Hagamos un resumen,
+
+<<summary, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+summary(dat)
+@
+
+En esta aplicaci\'on pensaremos en la variable \texttt{econworse}: \emph{Cree usted que la economia ha empeorado?} [\texttt{Muy de acuerdo}, \texttt{de acuerdo}, \texttt{neutral}, \texttt{desacuerdo}, \texttt{muy en desacuerdo}]. Ve\'amos c\'omo se ve esta variable.
+
+<<hist, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+hist(dat$econworse)
+@
+
+El paquete de \texttt{R} que usaremos se llama \texttt{polr}---\'este especifica que la variable dependiente de ser \texttt{factor}. 
+
+<<factor, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+dat$econworse.f = as.factor(dat$econworse) # transforma a factor
+head(dat$econworse.f) # ve como queda
+@
+
+Ahora estimemos un \texttt{ologit} y un \texttt{oprobit}.
+
+<<modelo, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(MASS) 
+o.logit = polr(econworse.f ~ ideology + educyears + faminc, data = dat,  method = "logistic") # o-logit
+o.probit = polr(econworse.f ~ ideology + educyears + faminc, data = dat,  method = "probit") # o-probit
+@
+
+Desde ahora en adelante, prestaremos m\'as atenci\'on a la presentaci\'on de resultados. Hagamos una tabla.
+
+<<texreg, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(texreg)
+texreg(list(o.logit, o.probit)) # usa "screenreg" no "texreg".
+@
+
+Ya que los resultados son (casi) siempre similares, durante el resto de la clase solo veremos el \texttt{o.logit}.
+
+F\'ijate que vemos mas interceptos, uno por cada $\tau$. Debido a que $y_{i}$ tiene cinco valores, hay cuatro $\tau$. Esto se puede interpretar as\'i,
+
+\begin{equation}\label{logit.inter}
+\begin{split}
+\text{logit}(Pr(y_{i}\leq1)) = \Sexpr{round(as.numeric(o.logit$zeta[1]), 2)} \Sexpr{round(as.numeric(coefficients(o.logit)[1]),2)}\times\text{\texttt{ideology}}_{i} \Sexpr{round(as.numeric(coefficients(o.logit)[2]),2)}\times\text{\texttt{educyears}}_{i} - \Sexpr{round(as.numeric(coefficients(o.logit)[3]),2)}\times\text{\texttt{faminc}}_{i} \\
+\text{logit}(Pr(y_{i}\leq2)) = \Sexpr{round(as.numeric(o.logit$zeta[2]), 2)} \Sexpr{round(as.numeric(coefficients(o.logit)[1]),2)}\times\text{\texttt{ideology}}_{i} \Sexpr{round(as.numeric(coefficients(o.logit)[2]),2)}\times\text{\texttt{educyears}}_{i} - \Sexpr{round(as.numeric(coefficients(o.logit)[3]),2)}\times\text{\texttt{faminc}}_{i} \\
+\text{logit}(Pr(y_{i}\leq3)) = \Sexpr{round(as.numeric(o.logit$zeta[3]), 2)} \Sexpr{round(as.numeric(coefficients(o.logit)[1]),2)}\times\text{\texttt{ideology}}_{i} \Sexpr{round(as.numeric(coefficients(o.logit)[2]),2)}\times\text{\texttt{educyears}}_{i} - \Sexpr{round(as.numeric(coefficients(o.logit)[3]),2)}\times\text{\texttt{faminc}}_{i} \\
+\text{logit}(Pr(y_{i}\leq4)) = \Sexpr{round(as.numeric(o.logit$zeta[4]), 2)} \Sexpr{round(as.numeric(coefficients(o.logit)[1]),2)}\times\text{\texttt{ideology}}_{i} \Sexpr{round(as.numeric(coefficients(o.logit)[2]),2)}\times\text{\texttt{educyears}}_{i} - \Sexpr{round(as.numeric(coefficients(o.logit)[3]),2)}\times\text{\texttt{faminc}}_{i} 
+\end{split}
+\end{equation}
+
+\section{Interpretaci\'on} 
+
+Ahora interpretaremos el modelo. 
+
+\paragraph{Intervalos de Confianza} Inspeccionemos los intervalos de confianza,
+
+<<coefplot, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(coefplot)
+coefplot(o.logit)
+@
+
+El eje $x$ del gr\'afico est\'a en escala de logit, o \emph{log-odds}. Es decir, si subo una unidad en \texttt{ideology}, esperamos que \texttt{econworse.f} suba  \Sexpr{round(as.numeric(coefficients(o.logit)[1]),2)} {\bf en la escala logit, o log-odds} manteniendo las otras variables constantes en sus medias. 
+
+\paragraph{Odds Ratios} Calculemos ahora los \emph{odds ratios}.
+
+
+<<log.oods, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+exp(coef(o.logit))
+@
+
+Esto quiere decir que cuando subo una unidad en \texttt{ideology} (i.e. me vuelvo mas derechista) es \Sexpr{round(as.numeric(exp(coef(o.logit))[1]),2)} m\'as \emph{posible} que encuentre la econom\'ia peor (\texttt{econworse}), manteniendo el resto de las variables constantes en sus medias. El supuesto que permite esta comparacion, i.e. de que los odds ratios se aplican a cualquier nivel de la $y_{i}$, se llama {\bf parallel regression assumption} \parencite[140]{Long:1997wv}. Por esto es que estos \emph{odds ratios} son \emph{proporcionales} (aplican en cualquier intervalo de \texttt{ideology}). 
+
+
+\paragraph{Cambios Marginales} Calculemos ahora los cambios marginales. Pensemos en dos perfiles.
+
+
+<<margins, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(margins)
+# 1
+margins(o.logit, at = list(
+  ideology = max(dat$ideology, na.rm = T), # derechista 
+  educyears = min(dat$educyears, na.rm = T)) # sin educ
+  )
+# 2
+margins(o.logit, at = list(
+  ideology = min(dat$ideology, na.rm = T), # izquierdista
+  educyears = min(dat$educyears, na.rm = T)) # sin educ
+)
+@
+
+
+\paragraph{Predicted probabilities} Calculemos ahora los \emph{predicted probabilities}. 
+
+<<pp, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=8,dpi=1000,cache=F, include = TRUE>>=
+p_load(effects)
+plot(effect("ideology", o.logit))
+plot(effect("educyears", o.logit))
+plot(effect("faminc", o.logit))
+@
+
+<<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+knitr::purl('Diagnosticos.Rnw')
+Stangle('Diagnosticos.Rnw')
+@
+
+
+
+
+%\newpage
+%\paragraph{}
+%\paragraph{}
+%\pagenumbering{Roman}
+%\setcounter{page}{1}
+%\printbibliography
+
+
+
+\end{document}
+
+
