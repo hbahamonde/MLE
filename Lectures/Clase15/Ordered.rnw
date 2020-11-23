@@ -228,14 +228,14 @@ y_{i}=
 Y de hecho, el modelo estructural ordered probit/logit te tendr\'ia que ser muy familiar,
 
 \begin{equation}\label{logit.structural}
-y_{i}^{\star} = x_{i}\beta + \epsilon_{i}
+y_{i}^{\star} = \boldsymbol{x_{i}}\boldsymbol{\beta} + \epsilon_{i}
 \end{equation}
 
 Una manera gr\'afica de ver esta motivaci\'on v\'ia modelos latentes, es a trav\'es de la siguiente figura,
 
 {\centering \includegraphics[width=\maxwidth]{latente_observed.png}}
 
-Como sabemos, la estimaci\'on v\'ia modelos latentes no es posible, no podemos estimar una regresi\'on entre $y_{i}^{\star}$ y $x$ \parencite[117]{Long:1997wv}. El otro punto que sugiera la figura (en el panel inferior) es que los errores son heteroesqued\'asticos. 
+Como sabemos, la estimaci\'on v\'ia modelos latentes no es posible, no podemos estimar una regresi\'on entre $y_{i}^{\star}$ y $\boldsymbol{x}$ \parencite[117]{Long:1997wv}. El otro punto que sugiera la figura (en el panel inferior) es que los errores son heteroesqued\'asticos. 
 
 \paragraph{Supuestos Distribucionales} Debido a que esta es una extensi\'on directa del modelo logit/probit, tenemos dos opciones de distribuciones, logit y probit. Como ya sabemos, {\bf estas son distribuciones de los errores}. El PDF del modelo ordered probit es formalmente,
 
@@ -244,7 +244,7 @@ Como sabemos, la estimaci\'on v\'ia modelos latentes no es posible, no podemos e
 \phi(e) = \frac{1}{\sqrt{2\pi}}\text{exp}(-\frac{\epsilon^{2}}{2})
 \end{equation}
 
-donde $E[\phi(e)]\sim (0,1)$.
+donde $\phi(e) \sim (0,1)$.
 
 El PDF del modelo ordered logit es formalmente definido como sigue,
 
@@ -252,19 +252,19 @@ El PDF del modelo ordered logit es formalmente definido como sigue,
 \lambda(\epsilon) = \frac{\text{exp}(\epsilon)}{[1+\text{exp}(\epsilon)]^{2}}
 \end{equation}
 
-donde $E[\lambda(\epsilon)]\sim(0, \frac{\pi^{2}}{3})$.
+donde $\lambda(\epsilon)\sim(0, \frac{\pi^{2}}{3})$.
 
-\paragraph{Estimacion: Probabilidades y Likelihood} Continuando con el \autoref{logit.structural}, $x_{i}\beta + \epsilon_{i}$ es posible de ser calculado en t\'erminos de probabilidades de la siguiente manera,
+\paragraph{Estimacion: Probabilidades y Likelihood} Continuando con el \autoref{logit.structural}, $\boldsymbol{x_{i}}\boldsymbol{\beta} + \epsilon_{i}$ es posible de ser calculado en t\'erminos de probabilidades de la siguiente manera,
 
 
 \begin{equation}%\label{logit.structural}
-\text{Pr}(y_{i}=1|x_{i}) = \text{Pr}(\tau_{0} \leq x_{i}\beta + \epsilon_{i} < \tau_{1}|x_{i})
+\text{Pr}(y_{i}=1|\boldsymbol{x_{i}}) = \text{Pr}(\tau_{0} \leq \boldsymbol{x_{i}}\boldsymbol{\beta} + \epsilon_{i} < \tau_{1}|x_{i})
 \end{equation}
 
 Y asumiendo que las observaciones son independientes entre s\'i, el likelihood est\'a dado por,
 
 \begin{equation}%\label{logit.structural}
-L(\beta,\tau|y, X) = \prod_{i=1}^{N}\text{Pr}(y_{i})
+L(\boldsymbol{\beta},\boldsymbol{\tau}|y, \boldsymbol{X}) = \prod_{i=1}^{N}\text{Pr}(y_{i})
 \end{equation}
 
 \section{Programaci\'on}
@@ -342,8 +342,14 @@ El eje $x$ del gr\'afico est\'a en escala de logit, o \emph{log-odds}. Es decir,
 exp(coef(o.logit))
 @
 
-Esto quiere decir que cuando subo una unidad en \texttt{ideology} (i.e. me vuelvo mas derechista) es \Sexpr{round(as.numeric(exp(coef(o.logit))[1]),2)} m\'as \emph{posible} que encuentre la econom\'ia peor (\texttt{econworse}), manteniendo el resto de las variables constantes en sus medias. El supuesto que permite esta comparacion, i.e. de que los odds ratios se aplican a cualquier nivel de la $y_{i}$, se llama {\bf parallel regression assumption} \parencite[140]{Long:1997wv}. Por esto es que estos \emph{odds ratios} son \emph{proporcionales} (aplican en cualquier intervalo de \texttt{ideology}). 
+Esto quiere decir que cuando subo una unidad en \texttt{ideology} (i.e. me vuelvo mas derechista) es \Sexpr{round(as.numeric(exp(coef(o.logit))[1]),2)} m\'as \emph{posible} que encuentre la econom\'ia peor (\texttt{econworse}), manteniendo el resto de las variables constantes en sus medias. El supuesto que permite esta comparacion, i.e. de que los odds ratios se aplican a cualquier nivel de la $y_{i}$, se llama {\bf parallel regression assumption} \parencite[140]{Long:1997wv}. Por esto es que estos \emph{odds ratios} son \emph{proporcionales} (aplican en cualquier intervalo de \texttt{ideology}). Este supuesto es testable v\'ia el \emph{Brant test}.
 
+<<brant, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(brant)
+brant(o.logit)
+@
+
+La $H_{0}$ es que se cumple el supuesto de la regresi\'on paralela. Si la probabilidad de la $H_{1}$ (que aparece en la tabla) es ``alta'', el supuesto---probablemente---no se cumple.
 
 \paragraph{Cambios Marginales} Calculemos ahora los cambios marginales. Pensemos en dos perfiles.
 
@@ -373,8 +379,8 @@ plot(effect("faminc", o.logit))
 @
 
 <<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
-knitr::purl('Diagnosticos.Rnw')
-Stangle('Diagnosticos.Rnw')
+knitr::purl('Ordered.Rnw')
+Stangle('Ordered.Rnw')
 @
 
 
