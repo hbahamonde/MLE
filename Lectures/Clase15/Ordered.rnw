@@ -195,9 +195,9 @@ options(scipen=9999999)
 
 Los \emph{outcomes ordenados} son aquellos donde la variable dependiente es categ\'orica, pero representa cierto orden. Uno de los ejemplos m\'as t\'ipicos, es el de la \emph{escala de Likert}. La escala de Likert se utiliza para caracterizar, por ejemplo, niveles de aprobaci\'on/desaprobaci\'on de candidatos, pol\'iticas p\'ublicas, etc. La escala de Likert tiene en general cinco niveles de respuesta: \emph{muy de acuerdo}, \emph{acuerdo}, \emph{neutral}, \emph{desacuerdo}, \emph{muy en desacuerdo}. 
 
-Lamentablemente, analistas insisten en analizar estas variables dependientes intervalares usando m\'etodos lineales OLS \parencite[115]{Long:1997wv}. Esto genera sesgos en los an\'alisis porque asume  El otro punto que sugiera la figura (en el panel inferior) es que los errores son heteroesqued\'asticos.que los intervalos num\'ericos entre cada categor\'ia son constantes. Es decir, la distancia (num\'erica) que existe entre  \emph{muy de acuerdo} y \emph{acuerdo} es la misma que \emph{desacuerdo} y \emph{muy en desacuerdo}. Y esto no es cierto. Es por esto que debemos considerar este \emph{data generating process} distinto, y utilizar m\'etodos de MLE. En otras palabras, no podemos asumir que el proceso ordinal sea necesariamente intervalar. 
+Lamentablemente, analistas insisten en analizar estas variables dependientes intervalares usando m\'etodos lineales OLS \parencite[115]{Long:1997wv}. Esto genera sesgos en los an\'alisis porque asume que los intervalos num\'ericos entre cada categor\'ia son constantes. Es decir, la distancia (num\'erica) que existe entre  \emph{muy de acuerdo} y \emph{acuerdo} es la misma que \emph{desacuerdo} y \emph{muy en desacuerdo}. Y esto no es cierto. Es por esto que debemos considerar este \emph{data generating process} distinto, y utilizar m\'etodos de MLE. En otras palabras, no podemos asumir que el proceso ordinal sea necesariamente intervalar. El otro punto que muestra la figura (en el panel inferior) es que los errores son heteroesqued\'asticos. Y modelar estos errores asumiendo residuos homoesquedasticos tambi\'en es un error.
 
-\paragraph{Modelo Latente} Una manera de motivar este modelo es v\'ia modelos latentes. En esta motivaci\'on, t\'u ver\'ias una variable dependiente $y_{i}$ s\'olo con 1's, 2's, 3's, 4's y 5's (continuando con el ejemplo de la escala de Likert). Sin embargo, el \emph{data generating process} de $y_{i}$ sigue un proceso \emph{latente} $y_{i}^{\star}$ (que no ves), que de manera an\'aloga a la motivaci\'on logit, es gatillado por umbrales (o ``thresholds'') $\tau$. Formalmente, 
+\paragraph{Modelo Latente} Una manera de motivar este modelo es v\'ia modelos latentes. En esta motivaci\'on, t\'u ver\'ias una variable dependiente $y_{i}$ s\'olo con 1's, 2's, 3's, 4's y 5's (continuando con el ejemplo de la escala de Likert). Sin embargo, el \emph{data generating process} de $y_{i}$ es un proceso \emph{latente} $y_{i}^{\star}$ (que no ves), que de manera an\'aloga a la motivaci\'on logit, es gatillado por umbrales (o ``thresholds'') $\tau$. Formalmente, 
 
 
 \begin{equation}\label{latente}
@@ -235,9 +235,9 @@ Una manera gr\'afica de ver esta motivaci\'on v\'ia modelos latentes, es a trav\
 
 {\centering \includegraphics[width=\maxwidth]{latente_observed.png}}
 
-Como sabemos, la estimaci\'on v\'ia modelos latentes no es posible, no podemos estimar una regresi\'on entre $y_{i}^{\star}$ y $\boldsymbol{x}$ \parencite[117]{Long:1997wv}. El otro punto que sugiera la figura (en el panel inferior) es que los errores son heteroesqued\'asticos. 
+Como sabemos, la estimaci\'on v\'ia modelos latentes no es posible: no podemos estimar una regresi\'on entre $y_{i}^{\star}$ y $\boldsymbol{x}$ \parencite[117]{Long:1997wv}. El otro punto que muestra la figura (en el panel inferior) es que los errores son heteroesqued\'asticos. 
 
-\paragraph{Supuestos Distribucionales} Debido a que esta es una extensi\'on directa del modelo logit/probit, tenemos dos opciones de distribuciones, logit y probit. Como ya sabemos, {\bf estas son distribuciones de los errores}. El PDF del modelo ordered probit es formalmente,
+\paragraph{Supuestos Distribucionales} Debido a que esta es una extensi\'on directa del modelo logit/probit, tenemos dos opciones de distribuciones, logit y probit. Como ya sabemos, {\bf estas son las distribuciones de los errores}. El PDF del modelo ordered probit es formalmente,
 
 
 \begin{equation}%\label{logit.structural}
@@ -261,7 +261,7 @@ donde $\lambda(\epsilon)\sim(0, \frac{\pi^{2}}{3})$.
 \text{Pr}(y_{i}=1|\boldsymbol{x_{i}}) = \text{Pr}(\tau_{0} \leq \boldsymbol{x_{i}}\boldsymbol{\beta} + \epsilon_{i} < \tau_{1}|x_{i})
 \end{equation}
 
-Y asumiendo que las observaciones son independientes entre s\'i, el likelihood est\'a dado por,
+donde es posible de generalizar esta notaci\'on con el resto de los valores de $y_{i}$. Y asumiendo que las observaciones son independientes entre s\'i, el likelihood est\'a dado por,
 
 \begin{equation}%\label{logit.structural}
 L(\boldsymbol{\beta},\boldsymbol{\tau}|y, \boldsymbol{X}) = \prod_{i=1}^{N}\text{Pr}(y_{i})
@@ -287,7 +287,7 @@ En esta aplicaci\'on pensaremos en la variable \texttt{econworse}: \emph{Cree us
 hist(dat$econworse)
 @
 
-El paquete de \texttt{R} que usaremos se llama \texttt{polr}---\'este especifica que la variable dependiente de ser \texttt{factor}. 
+El paquete de \texttt{R} que usaremos se llama \texttt{polr}---\'este especifica que la variable dependiente debe ser \texttt{factor}. 
 
 <<factor, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
 dat$econworse.f = as.factor(dat$econworse) # transforma a factor
