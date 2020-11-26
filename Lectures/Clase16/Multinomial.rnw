@@ -192,12 +192,12 @@ options(scipen=9999999)
 
 \section{Outcomes Desordenados: Multinomial Logit/Probit}
 
-Muchas veces estamos interesados en variables dependientes que son nominales (``cualitativas''), pero donde no necesariamente cada valor representa un n\'umero o cantidad. Algunos ejemplos son el tipo de fruta que te guste mas (``pera'', ``manzana'', ``uva''). O por ejemplo, profesi\'on (``profesor'', ``ingeniero'', ``m\'edico'').\footnote{Aunque algunas veces el modelo m-logit/probit es usado cuando el supuesto de la regresi\'on paralela no se cumple \parencite[148]{Long:1997wv}.} No es posible ordenar frutas o profesiones porque estas categor\'ias no representan cantidades. Es por esto que estos modelos son ``desordenados''.
+Muchas veces estamos interesados en variables dependientes que son nominales (``cualitativas''), pero donde no necesariamente cada valor representa un n\'umero o cantidad. Algunos ejemplos son el tipo de fruta que te guste mas (``pera'', ``manzana'', ``uva''). En esta clase, el conjunto de todas las posibles categor\'ias la denominaremos $M$. Por ejemplo $M=\{\text{profesor},\text{ingeniero} , \text{m\'edico}\}$.\footnote{Aunque algunas veces el modelo m-logit/probit es usado cuando el supuesto de la regresi\'on paralela no se cumple \parencite[148]{Long:1997wv}.} No es posible ordenar frutas o profesiones porque estas categor\'ias no representan cantidades. Es por esto que estos modelos son ``desordenados''.
 
 \paragraph{Motivaci\'on} El m-logit/probit sigue siendo una extensi\'on del modelo logit/probit, y por extensi\'on, muy parecido al o-logit/probit. 
 
 \begin{enumerate}
-\item En primer lugar, si bien es cierto que el modelo o-logit/probit tiene un efecto estimado $\hat\beta$ constante para cada uno de los valores de $y_{i}$, en la especificaci\'on m-logit/probit los $\hat\beta$ pueden variar seg\'un los valores de $y_{i}$.
+\item En primer lugar, si bien es cierto que el modelo o-logit/probit tiene un efecto estimado \boldsymbol{$\hat\beta$} constante para cada uno de los valores de $y_{i}$, en la especificaci\'on m-logit/probit los \boldsymbol{$\hat\beta$} pueden variar seg\'un los valores de $y_{M}$.
 \item En segundo lugar, se puede pensar en el modelo m-logit/probit como una secuencia de modelos logits/probits: en base a combinatorias, se estiman modelos logit/probits individuales entre cada uno de los valores de $y_{i}$.
 \end{enumerate}
 
@@ -211,7 +211,7 @@ ln[\frac{\text{Pr}(\text{p}|\boldsymbol{x})}{\text{Pr}(\text{u}|\boldsymbol{x})}
 \end{split}
 \end{equation}
 
-Nota que cada $\beta$ es distinto (no como en la parametrizaci\'on) del o-logit/probit.
+Nota que cada $\boldsymbol{\hat\beta}$ es distinto (no como en la parametrizaci\'on) del o-logit/probit.
 
 Ahora nota que debido a que,
 
@@ -219,7 +219,7 @@ Ahora nota que debido a que,
 ln[\frac{\text{Pr}(\text{p}|\boldsymbol{x})}{\text{Pr}(\text{m}|\boldsymbol{x})}] +  ln[\frac{\text{Pr}(\text{m}|\boldsymbol{x})}{\text{Pr}(\text{u}|\boldsymbol{x})}] = ln[\frac{\text{Pr}(\text{p}|\boldsymbol{x})}{\text{Pr}(\text{u}|\boldsymbol{x})}]
 \end{equation}
 
-y que debido a que $M=\{p,m,u \}$, el modelo m-logit/probit se reduce a $M-1=2$ modelos logit \parencite[163]{Ward2018}. Substantivamente, lo que esto requiere es que el analista especifique una {\bf categor\'ia de referencia}. Es decir, una categor\'ia de M para poner en el denominador y realizar el modelo logit. {\bf \'Esta se escoge siguiendo criterios substantivos}. Matem\'aticamente, los resultados \emph{no} se alteran (esto es claro en \autoref{fruta:2}). Pero substantivamente s\'i importa: cada coeficiente $\boldsymbol{\hat\beta}$ ahora representar\'a el cambio de una de las categor\'ias respecto de la categor\'ia base. 
+y que debido a que $M=\{p,m,u \}$, el modelo m-logit/probit se reduce a $M-1=2$ modelos logit \parencite[163]{Ward2018}. Substantivamente, lo que esto requiere es que el analista especifique una {\bf categor\'ia de referencia}. Es decir, una categor\'ia de $M$ para poner en el denominador y realizar el modelo logit. {\bf \'Esta se escoge siguiendo criterios substantivos}. Matem\'aticamente, los resultados \emph{no} se alteran (esto es claro en \autoref{fruta:2}). Pero substantivamente s\'i importa: cada coeficiente $\boldsymbol{\hat\beta}$ ahora representar\'a el cambio de una de las categor\'ias respecto de la categor\'ia base. 
 
 
 \paragraph{Supuestos Distribucionales: La distribuci\'on multinomial} 
@@ -234,29 +234,29 @@ y cuyo \emph{probability mass function} (PMF) est\'a definido por,\footnote{Los 
 
 
 \begin{equation}\label{pmf.mlogit}
-y_{i} = (\sum_{i}^{k}x_{i})!\prod_{i}^{k}\frac{p_{i}^{x_{i}}}{x_{i}!}
+y_{i} = (\sum_{i}^{M}x_{i})!\prod_{i}^{m}\frac{p_{i}^{x_{i}}}{x_{i}!}
 \end{equation}
 
-donde $k$ es el n\'umero total de eventos ocurridos (\emph{frutas}) $x$ veces (distribuci\'on de \emph{frutas}), y $p_{i}$ denota la probabilidad de cada observaci\'on $i$. En simple, esta distribuci\'on clasifica un \emph{data generating process} en funci\'on de la probabilidad de que cada evento ocurra $x$ veces, i.e. genera esa distribuci\'on.
+donde $M$ es el n\'umero total de eventos ocurridos (\emph{frutas}), $x$ son las veces en que se realizan cada uno de los $m$ eventos (distribuci\'on de \emph{frutas}), y $p_{i}$ denota la probabilidad de cada observaci\'on $i$. En simple, esta distribuci\'on clasifica un \emph{data generating process} en funci\'on de la probabilidad de que cada evento ocurra $x$ veces, i.e. genera esa distribuci\'on.
 
-Sin embargo, esta es la versi\'on generalizada del modelo ologit. En el modelo estimado existen un par de detalles en el numerador que representan la inclusi\'on de la categoria base. Por simpleza, omitiremos estos detalles.\footnote{El estudiante interesado podr\'a referirse a \textcite{Ward2018}, en la ecuaci\'on 9.2.}
+Sin embargo, esta es la versi\'on generalizada del modelo mlogit. En el modelo estimado existen un par de detalles en el numerador que representan la inclusi\'on de la categoria base. Por simpleza, omitiremos estos detalles.\footnote{El estudiante interesado podr\'a referirse a \textcite{Ward2018}, en la ecuaci\'on 9.2.}
 
 Finalmente, y tomando el modelo estructural,
 
 \begin{equation}\label{m.structural}
-x_{i}\beta_{m} + \epsilon_{i}
+\boldsymbol{x}_{i}\boldsymbol{\beta}_{m} + \epsilon_{i}
 \end{equation}
 
 el analista puede asumir que $\epsilon_{i}$ est\'a normalmente distribuido con $\phi(\epsilon_{i})\sim(0,1)$ llegando a la distribuci\'on multinomial probit, o est\'a distribuido seg\'un la distribuci\'on log\'istica con $\lambda(\epsilon_{i})\sim(0,\frac{\pi^{2}}{3})$, llegando a la distribuci\'on multinomial logit.
 
 
-\paragraph{Estimaci\'on: Probabilidades y Likelihood} Continuando con el \autoref{pmf.mlogit}, y tomando en cuenta el modelo estructural generalizado $x_{i}\beta_{m} + \epsilon_{i}$ en la \autoref{m.structural}, es posible calcular probabilidades de la siguiente manera,
+\paragraph{Estimaci\'on: Probabilidades y Likelihood} Continuando con el \autoref{pmf.mlogit}, y tomando en cuenta el modelo estructural $\boldsymbol{x}_{i}\boldsymbol{\beta}_{m} + \epsilon_{i}$ en la \autoref{m.structural}, es posible calcular probabilidades de la siguiente manera,
 
 \begin{equation}\label{prob.mlogit}
 Pr(y_{i}=m) = \frac{exp(\boldsymbol{x}_{i}\boldsymbol{\beta}_{m})}{\sum_{i}^{M}\boldsymbol{x}_{i}\boldsymbol{\beta}_{m}}
 \end{equation}
 
-Es f\'acil ver entonces que existe un $\beta_{m}$ por cada categor\'ia $m$ (fruta). No es como en el modelo o-logit/probit donde gracias al supuesto de la regresi\'on paralela, exist\'ia un $\beta$ para todas las categor\'ias. 
+Es f\'acil ver entonces que existe un $\boldsymbol{\beta}_{m}$ por cada categor\'ia $m$ (fruta). No es como en el modelo o-logit/probit donde gracias al supuesto de la regresi\'on paralela, exist\'ia un $\beta$ para todas las categor\'ias. 
 
 Si todas las observaciones $i$ son independientes, el likelihood esta definido como sigue,
 
