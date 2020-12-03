@@ -204,7 +204,7 @@ En la primera mitad de la clase abordaremos el modelo Zero-Inflated (con variant
 
 La caracter\'istica principal de la regresi\'on zero-inflated es que modela dos procesos de manera separada. Por un lado, modela aquellos casos donde $y_{i}>0$, y aparte, modela aquellos casos donde $y_{i}=0$. 
 
-Los eventos que no son ceros se modelan segun la distribuci\'on Poisson, donde
+\paragraph{Supuestos distribucionales} Los eventos que no son ceros se modelan seg\'un la distribuci\'on Poisson, donde
 
 
 \begin{equation}\label{poisson:d}
@@ -233,14 +233,18 @@ Veamos en m\'as detalle c\'omo combinamos las probabilidades del modelo Poisson 
 
 \autoref{zip:p} es lo que llamamos el modelo Zero-inflated Poisson (``ZIP''). Como ya sabemos, el modelo Poisson descansa sobre el supuesto de la {\bf equidispersi\'on}. Este supuesto no siempre se cumple. Afortunadamente, existe una extensi\'on que (sorpresa!) se llama {\bf Zero-Inflated Negative Binomial} (``ZINB''). Aunque no entraremos en el detalle de la notaci\'on de los modelos ZINB, ya sabemos que se obtiene modificando la varianza y el valor esperado de cuentas $\mu$.
 
+Sin embargo, lo que s\'i discutiremos es como ayudar a dilucidar qu\'e modelo hace un mejor trabajo maximizando el likelihood. Para esto usaremos el Vuong test que nos dice si el ``ZIP'' tiene un mejor \emph{fit} que el ``ZINB''.
+
+
+
 
 \subsection{Rare-event Logistic}
 
-Los modelos generalizados son flexibles y existen muchas maneras posibles de abordar procesos que son similares. Tanto el ZIP como el ZINB parten de la base que el \emph{data generating process} genera outcomes poco frecuentes. Ambos modelan cuentas. Qu\'e pasa cuando no quieres estimar cuentas si no que un proceso binario (0,1) pero donde es muy raro encontrar 1's? Para estos casos existen modelos log\'isticos especiales llamados ``\emph{rare event logistic regressions}'' (\texttt{relogit}).
+\paragraph{Motivaci\'on} Los modelos generalizados son flexibles y existen muchas maneras posibles de abordar procesos que son similares. Tanto el ZIP como el ZINB parten de la base que el \emph{data generating process} genera outcomes poco frecuentes. Ambos modelan cuentas. Qu\'e pasa cuando no quieres estimar cuentas si no que un proceso binario (0,1) pero donde es muy raro encontrar 1's? Para estos casos existen modelos log\'isticos especiales llamados ``\emph{rare event logistic regressions}'' (\emph{relogit}).
 
 \textcite{King2001} derivan el \emph{rare-event logistic regression}. Particularmente, ellos lo piensan para casos de guerra (1) o paz (0), donde la guerra es (afortunadamente) mucho menos frecuente que la paz \parencite{King2001a}.
 
-Recordemos el modelo logit tradicional que est\'a dado por,
+\paragraph{Parametrizaci\'on} Recordemos el modelo logit tradicional que est\'a dado por,
 
 \begin{equation}\label{logit:pr}
 \text{Pr}(y_{i}=1)=\pi_{i}
@@ -254,15 +258,15 @@ donde,
 \pi_{i} = \frac{exp(\boldsymbol{x}_{i}^{\prime}\boldsymbol{\beta})}{1+exp(\boldsymbol{x}_{i}^{\prime}\boldsymbol{\beta})}
 \end{equation}
 
-Como explican \textcite[149]{King2001}, el modelo logit para eventos raros, est\'a caracterizado por un \emph{{\bf corrector factor}} $C_{i}$ que {\bf incrementa en 50\% la contribuci\'on relativa} de instancias donde $y_{i}=1$, i.e. haciendo ``menos raras'' las instancias $y_{i}=0$. El entendido es que un ``evento raro'' ocurre menos de la mitad de las veces. 
+Como explican \textcite[149]{King2001}, el modelo logit para eventos raros, est\'a caracterizado por un ``\emph{{\bf corrector factor}}'' $C_{i}$ que {\bf incrementa en 50\% la contribuci\'on relativa} de instancias donde $y_{i}=1$, i.e. haciendo ``menos raras'' estas realizaciones. El entendido es que un ``evento raro'' ocurre menos de la mitad de las veces. 
 
-Formalmente, la probabilidad estimada del \emph{rare event logistic regression} est\'a dado por,
+De manera muy similar a la regresi\'on logit en \autoref{logit:pr}, la probabilidad estimada del \emph{rare event logistic regression} est\'a dado por,
 
 \begin{equation}\label{corrector:factor:1}
 \text{Pr}(y_{i}=1)=\pi_{i} + C_{i}
 \end{equation}
 
-donde
+donde el \emph{corrector factor} est\'a caracterizado por,
 
 
 \begin{equation}\label{corrector:factor:2}
@@ -282,11 +286,13 @@ donde ``[t]he part of this matrix affected by rare events is the factor $\pi_{i}
 
 \section{Programaci\'on}
 
-\paragraph{Zero-inflated} En esta secci\'on estimaremos un \texttt{ZIP} y un \texttt{ZINB}.
+\subsection{Zero-inflated}
+
+En esta secci\'on estimaremos un \texttt{ZIP} y un \texttt{ZINB}.
 
 Carguemos los datos:
 
-<<dat, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+<<dat:1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
 p_load(foreign)
 dat = read.dta("https://github.com/hbahamonde/MLE/raw/master/Datasets/banks.dta")
 dat = na.omit(dat) # excluir NAs
@@ -294,17 +300,15 @@ dat = na.omit(dat) # excluir NAs
 
 Hagamos un resumen,
 
-<<summary, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+<<summary:1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
 summary(dat)
 @
 
 En esta aplicaci\'on pensaremos en la variable \texttt{coups}: n\'umero de golpes de estado.
 
-<<table, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+<<table:2:1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
 table(dat$coups)
 @
-
-
 
 
 El paquete de \texttt{R} que usaremos se llama \texttt{pscl}. 
@@ -333,79 +337,118 @@ texreg(list(modelo.zip,modelo.zinb)) # usa "screenreg" no "texreg".
 
 
 
-\section{Interpretaci\'on} 
+\paragraph{Interpretaci\'on}  En cualquier caso, ya sabemos que la tabla poco valor tiene. Ahora procederemos a estimar los \emph{predicted probabilities}. Por simpleza s\'olo procederemos a ver las probabilidades del \texttt{ZINB}.
 
-En cualquier caso, ya sabemos que la tabla poco valor tiene. Ahora procederemos a estimar los \emph{predicted probabilities}. Por simpleza s\'olo procederemos a ver las probabilidades del \texttt{ZINB}.
 
+Estimemos las \emph{predicted probabilities},
 
 <<pp, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
-p_load(effects)
-plot(effect("demonstrations", modelo.zinb))
-plot(effect("guerilla", modelo.zinb))
-plot(effect("regime.type", modelo.zinb))
+zinb.y.p = data.frame(predict(modelo.zinb,type = "prob"))
 @
 
+Si te fijas, hemos estimado cuatro columnas: una para cada cuenta de golpes de estado:
 
+<<pp:0, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+head(zinb.y.p)
+@
+
+Ahora hagamos un gr\'afico para cada cuenta de golpe de estado. Nota que tenemos una prediccion para cada cuenta (0, 1, 2, 3), y recuerda que la cuenta zero $y_{i}=0$ fue estimada por separado. Finalmente, por simpleza estimaremos las \emph{predicted probabilities} para el coeficiente \texttt{demonstrations}. El proceso sigue siendo el mismo para el resto de los par\'ametros estimados. 
+
+<<pp:plot, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=8, fig.height=8,dpi=1000,cache=F, include = TRUE>>=
+par(mfrow=c(2,2)) # divide la consola de graf en 2 cols y 2 filas
+# cuenta 0
+plot(x=dat$demonstrations,y=zinb.y.p$X0,xlab="demonstrations",ylab="Predicted coups",main = "0")
+lines(lowess(dat$demonstrations, zinb.y.p$X0), col = "blue")
+# cuenta 1
+plot(x=dat$demonstrations,y=zinb.y.p$X1,xlab="demonstrations",ylab="Predicted coups",main = "1")
+lines(lowess(dat$demonstrations, zinb.y.p$X1), col = "blue")
+# cuenta 2
+plot(x=dat$demonstrations,y=zinb.y.p$X2,xlab="demonstrations",ylab="Predicted coups",main = "2")
+lines(lowess(dat$demonstrations, zinb.y.p$X2), col = "blue")
+# cuenta 3
+plot(x=dat$demonstrations,y=zinb.y.p$X3,xlab="demonstrations",ylab="Predicted coups",main = "3")
+lines(lowess(dat$demonstrations, zinb.y.p$X3), col = "blue")
+@
+
+Ahora veamos si la especificaci\'on ZIP tiene un mejor \emph{fit} que la especificaci\'on ZINB. Para esto usaremos el Vuong test. Primero
+
+<<vuong, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+p_load(MASS)
+vuong(modelo.zip, modelo.zinb)
+@
+
+Considerando que la hip\'otesis nula es que \emph{the models are indistinguishible}, y que nuestro p-value no es significativo, no tenemos evidencia suficiente para determinar que la hipotesis alternativa (``the two models are {\bf NOT} indistinguishible'') se sostiene. Por lo tanto, los dos modelos son iguales (o ``indistinguishible'') y el segundo modelo (``ZINB'') {\bf NO} hace un mejor trabajo que el ``ZIP''.
 
 \subsection{Rare-event Logistic Regression}
 
+En esta secci\'on estimaremos un \texttt{relogit}. El paquete de \texttt{R} que usaremos se llama \texttt{Zelig}. 
 
 
-\begin{equation}\label{nb:mu}
-\tilde{\mu}_{i} = \text{exp}(\boldsymbol{x}_{i}\boldsymbol{\beta}) + \text{exp}(\epsilon_{i})
-\end{equation}
+Carguemos los datos:
 
-Nota que ahora $\mu_{i}$ es un vector (i.e. una distribuci\'on), no un escalar. Esto se traduce en el hecho de que tendremos distintos valores de $\mu_{i}$ seg\'un las distintas combinamos de valores en las variables independientes $\boldsymbol{x}_{i}$. 
-
-\paragraph{Supuestos Distribucionales} El supuesto distribucional es que $\text{exp}(\epsilon_{i})$ (o muchas veces llamado el par\'ametro $\delta$)  toma el valor de $E(\text{exp}(\epsilon_{i}))=1$. 
-
-\begin{itemize}
-\item De manera muy importante, esta sigue siendo una distribuci\'on Poisson, pero ``modificada'' (de hecho el valor esperado sigue siendo el mismo, s\'olo cambia la varianza). 
-\item Nota adem\'as que $\delta$ (como cualquier varianza) es \emph{desconocida} (es un ``\emph{population parameter}''). 
-\item Finalmente, parte del supuesto es que $\delta$ se distribuye siguiendo la distribuci\'on Gamma.
-\end{itemize}
-
-\paragraph{Contagio} La flexibilidad del modelo Negative-Binomial permite modelar situaciones de {\bf contagio}. Esto se refiere a situaciones donde la probabilidad de obtener ciertas cuentas est\'a correlacionada con el n\'umero de cuentas. Volviendo al ejemplo de \emph{papers} publicados, en la especificaci\'on Negative-Binomial podr\'iamos modelar la situaci\'on donde los acad\'emicos tienen m\'as probabilidades de publicar \emph{papers} mientras m\'as \emph{papers} tengan publicados! Esto se refiere a que el modelo permite tomar en cuenta \emph{data generating processes} que {\bf no asuman independencia estoc\'astica}.
-
-\paragraph{Estimaci\'on}  Ahora procedamos a estimar el modelo.
-
-<<nbrm, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
-p_load(MASS)
-modelo.nb = glm.nb(exec.chg ~ demonstrations + guerilla + regime.type, data=dat)
+<<dat:2, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+install.packages("https://cran.r-project.org/src/contrib/Archive/Zelig/Zelig_5.0-12.tar.gz", repos=NULL, type="source")
+library(Zelig)
+data(mid) # Militarized Interstate Disputes
+mid = na.omit(mid) # Omitir NAs
 @
 
-Y de hecho comparemos ambos modelos,
+Hagamos un resumen,
 
-<<texreg2, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
-p_load(texreg)
-texreg(list(modelo.p, modelo.nb)) # usa "screenreg" no "texreg".
+<<summary:2, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+summary(mid)
 @
 
-Encontramos---sin sorpresa---que los modelos son altamente parecidos. 
+En esta aplicaci\'on pensaremos en la variable \texttt{conflict}: dummy para conflictos armados.
 
-\paragraph{Interpretaci\'on} En cualquier caso, ya sabemos que la tabla poco valor tiene. Ahora procederemos a estimar los \emph{predicted probabilities}.
-
-
-<<pp2, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
-p_load(effects)
-plot(effect("demonstrations", modelo.nb))
-plot(effect("guerilla", modelo.nb))
-plot(effect("regime.type", modelo.nb))
+<<table:2, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+table(mid$conflict)
 @
+
+
+Estimemos un \texttt{relogit}.
+
+<<modelo:2, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+relogit.m <- zelig(conflict ~ major + contig + power + maxdem + mindem + years, 
+                data = mid, model = "relogit")
+@
+
+
+
+
+Ve\'amos el modelo,
+
+<<tabla, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+summary(relogit.m)
+@
+
+
+Usemos \emph{predicted probabilities}. Este enfoque de interpretaci\'on mezcla la tradici\'on Bayesiana y frecuentista. El estudiante interesado podr\'a referirse a \textcite{King2000}.
+
+<<zelig:plot, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=8,dpi=1000,cache=F, include = TRUE>>=
+x.high <- setx(relogit.m, power = quantile(mid$power, prob = 0.75))
+x.low <- setx(relogit.m, power = quantile(mid$power, prob = 0.25))
+s.out2 <- sim(relogit.m, x = x.high, x1 = x.low)
+par(mar=c(1,1,1,1))
+plot(s.out2)
+@
+
+
 
 
 
 <<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
-knitr::purl('Multinomial.Rnw')
-Stangle('Multinomial.Rnw')
+knitr::purl('ZIP_ZINB_RELOGIT.Rnw')
+Stangle('ZIP_ZINB_RELOGIT.Rnw')
 @
 
-%\newpage
-%\paragraph{}
-%\paragraph{}
-%\pagenumbering{Roman}
-%\setcounter{page}{1}
-%\printbibliography
+
+\newpage
+\paragraph{}
+\paragraph{}
+\pagenumbering{Roman}
+\setcounter{page}{1}
+\printbibliography
 
 
 

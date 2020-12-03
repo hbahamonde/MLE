@@ -248,7 +248,7 @@ En la primera mitad de la clase abordaremos el modelo Zero-Inflated (con variant
 
 La caracter\'istica principal de la regresi\'on zero-inflated es que modela dos procesos de manera separada. Por un lado, modela aquellos casos donde $y_{i}>0$, y aparte, modela aquellos casos donde $y_{i}=0$. 
 
-Los eventos que no son ceros se modelan segun la distribuci\'on Poisson, donde
+\paragraph{Supuestos distribucionales} Los eventos que no son ceros se modelan seg\'un la distribuci\'on Poisson, donde
 
 
 \begin{equation}\label{poisson:d}
@@ -277,14 +277,18 @@ Veamos en m\'as detalle c\'omo combinamos las probabilidades del modelo Poisson 
 
 \autoref{zip:p} es lo que llamamos el modelo Zero-inflated Poisson (``ZIP''). Como ya sabemos, el modelo Poisson descansa sobre el supuesto de la {\bf equidispersi\'on}. Este supuesto no siempre se cumple. Afortunadamente, existe una extensi\'on que (sorpresa!) se llama {\bf Zero-Inflated Negative Binomial} (``ZINB''). Aunque no entraremos en el detalle de la notaci\'on de los modelos ZINB, ya sabemos que se obtiene modificando la varianza y el valor esperado de cuentas $\mu$.
 
+Sin embargo, lo que s\'i discutiremos es como ayudar a dilucidar qu\'e modelo hace un mejor trabajo maximizando el likelihood. Para esto usaremos el Vuong test que nos dice si el ``ZIP'' tiene un mejor \emph{fit} que el ``ZINB''.
+
+
+
 
 \subsection{Rare-event Logistic}
 
-Los modelos generalizados son flexibles y existen muchas maneras posibles de abordar procesos que son similares. Tanto el ZIP como el ZINB parten de la base que el \emph{data generating process} genera outcomes poco frecuentes. Ambos modelan cuentas. Qu\'e pasa cuando no quieres estimar cuentas si no que un proceso binario (0,1) pero donde es muy raro encontrar 1's? Para estos casos existen modelos log\'isticos especiales llamados ``\emph{rare event logistic regressions}'' (\texttt{relogit}).
+\paragraph{Motivaci\'on} Los modelos generalizados son flexibles y existen muchas maneras posibles de abordar procesos que son similares. Tanto el ZIP como el ZINB parten de la base que el \emph{data generating process} genera outcomes poco frecuentes. Ambos modelan cuentas. Qu\'e pasa cuando no quieres estimar cuentas si no que un proceso binario (0,1) pero donde es muy raro encontrar 1's? Para estos casos existen modelos log\'isticos especiales llamados ``\emph{rare event logistic regressions}'' (\emph{relogit}).
 
 \textcite{King2001} derivan el \emph{rare-event logistic regression}. Particularmente, ellos lo piensan para casos de guerra (1) o paz (0), donde la guerra es (afortunadamente) mucho menos frecuente que la paz \parencite{King2001a}.
 
-Recordemos el modelo logit tradicional que est\'a dado por,
+\paragraph{Parametrizaci\'on} Recordemos el modelo logit tradicional que est\'a dado por,
 
 \begin{equation}\label{logit:pr}
 \text{Pr}(y_{i}=1)=\pi_{i}
@@ -298,15 +302,15 @@ donde,
 \pi_{i} = \frac{exp(\boldsymbol{x}_{i}^{\prime}\boldsymbol{\beta})}{1+exp(\boldsymbol{x}_{i}^{\prime}\boldsymbol{\beta})}
 \end{equation}
 
-Como explican \textcite[149]{King2001}, el modelo logit para eventos raros, est\'a caracterizado por un \emph{{\bf corrector factor}} $C_{i}$ que {\bf incrementa en 50\% la contribuci\'on relativa} de instancias donde $y_{i}=1$, i.e. haciendo ``menos raras'' las instancias $y_{i}=0$. El entendido es que un ``evento raro'' ocurre menos de la mitad de las veces. 
+Como explican \textcite[149]{King2001}, el modelo logit para eventos raros, est\'a caracterizado por un ``\emph{{\bf corrector factor}}'' $C_{i}$ que {\bf incrementa en 50\% la contribuci\'on relativa} de instancias donde $y_{i}=1$, i.e. haciendo ``menos raras'' estas realizaciones. El entendido es que un ``evento raro'' ocurre menos de la mitad de las veces. 
 
-Formalmente, la probabilidad estimada del \emph{rare event logistic regression} est\'a dado por,
+De manera muy similar a la regresi\'on logit en \autoref{logit:pr}, la probabilidad estimada del \emph{rare event logistic regression} est\'a dado por,
 
 \begin{equation}\label{corrector:factor:1}
 \text{Pr}(y_{i}=1)=\pi_{i} + C_{i}
 \end{equation}
 
-donde
+donde el \emph{corrector factor} est\'a caracterizado por,
 
 
 \begin{equation}\label{corrector:factor:2}
@@ -326,7 +330,9 @@ donde ``[t]he part of this matrix affected by rare events is the factor $\pi_{i}
 
 \section{Programaci\'on}
 
-\paragraph{Zero-inflated} En esta secci\'on estimaremos un \texttt{ZIP} y un \texttt{ZINB}.
+\subsection{Zero-inflated}
+
+En esta secci\'on estimaremos un \texttt{ZIP} y un \texttt{ZINB}.
 
 Carguemos los datos:
 
@@ -403,8 +409,6 @@ En esta aplicaci\'on pensaremos en la variable \texttt{coups}: n\'umero de golpe
 \end{knitrout}
 
 
-
-
 El paquete de \texttt{R} que usaremos se llama \texttt{pscl}. 
 
 Estimemos un \texttt{ZIP} y un \texttt{ZINB}.
@@ -469,123 +473,259 @@ Num. obs.                   & $6173$        & $6173$        \\
 
 
 
-\section{Interpretaci\'on} 
+\paragraph{Interpretaci\'on}  En cualquier caso, ya sabemos que la tabla poco valor tiene. Ahora procederemos a estimar los \emph{predicted probabilities}. Por simpleza s\'olo procederemos a ver las probabilidades del \texttt{ZINB}.
 
-En cualquier caso, ya sabemos que la tabla poco valor tiene. Ahora procederemos a estimar los \emph{predicted probabilities}. Por simpleza s\'olo procederemos a ver las probabilidades del \texttt{ZINB}.
 
+Estimemos las \emph{predicted probabilities},
 
 \begin{kframe}
 \begin{alltt}
-\hlkwd{p_load}\hlstd{(effects)}
-\hlkwd{plot}\hlstd{(}\hlkwd{effect}\hlstd{(}\hlstr{"demonstrations"}\hlstd{, modelo.zinb))}
+\hlstd{zinb.y.p} \hlkwb{=} \hlkwd{data.frame}\hlstd{(}\hlkwd{predict}\hlstd{(modelo.zinb,}\hlkwc{type} \hlstd{=} \hlstr{"prob"}\hlstd{))}
 \end{alltt}
+\end{kframe}
 
+Si te fijas, hemos estimado cuatro columnas: una para cada cuenta de golpes de estado:
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in mod.matrix \%*\% scoef: argumentos no compatibles}}\begin{alltt}
-\hlkwd{plot}\hlstd{(}\hlkwd{effect}\hlstd{(}\hlstr{"guerilla"}\hlstd{, modelo.zinb))}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{head}\hlstd{(zinb.y.p)}
 \end{alltt}
+\begin{verbatim}
+##           X0         X1          X2           X3
+## 35 0.9543118 0.04223456 0.003246963 0.0001959787
+## 36 0.9543118 0.04223456 0.003246963 0.0001959787
+## 39 0.9543118 0.04223456 0.003246963 0.0001959787
+## 41 0.8759063 0.11440875 0.009086316 0.0005665505
+## 42 0.9543118 0.04223456 0.003246963 0.0001959787
+## 43 0.8759063 0.11440875 0.009086316 0.0005665505
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
+Ahora hagamos un gr\'afico para cada cuenta de golpe de estado. Nota que tenemos una prediccion para cada cuenta (0, 1, 2, 3), y recuerda que la cuenta zero $y_{i}=0$ fue estimada por separado. Finalmente, por simpleza estimaremos las \emph{predicted probabilities} para el coeficiente \texttt{demonstrations}. El proceso sigue siendo el mismo para el resto de los par\'ametros estimados. 
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in mod.matrix \%*\% scoef: argumentos no compatibles}}\begin{alltt}
-\hlkwd{plot}\hlstd{(}\hlkwd{effect}\hlstd{(}\hlstr{"regime.type"}\hlstd{, modelo.zinb))}
+\begin{kframe}
+\begin{alltt}
+\hlkwd{par}\hlstd{(}\hlkwc{mfrow}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{2}\hlstd{,}\hlnum{2}\hlstd{))} \hlcom{# divide la consola de graf en 2 cols y 2 filas}
+\hlcom{# cuenta 0}
+\hlkwd{plot}\hlstd{(}\hlkwc{x}\hlstd{=dat}\hlopt{$}\hlstd{demonstrations,}\hlkwc{y}\hlstd{=zinb.y.p}\hlopt{$}\hlstd{X0,}\hlkwc{xlab}\hlstd{=}\hlstr{"demonstrations"}\hlstd{,}\hlkwc{ylab}\hlstd{=}\hlstr{"Predicted coups"}\hlstd{,}\hlkwc{main} \hlstd{=} \hlstr{"0"}\hlstd{)}
+\hlkwd{lines}\hlstd{(}\hlkwd{lowess}\hlstd{(dat}\hlopt{$}\hlstd{demonstrations, zinb.y.p}\hlopt{$}\hlstd{X0),} \hlkwc{col} \hlstd{=} \hlstr{"blue"}\hlstd{)}
+\hlcom{# cuenta 1}
+\hlkwd{plot}\hlstd{(}\hlkwc{x}\hlstd{=dat}\hlopt{$}\hlstd{demonstrations,}\hlkwc{y}\hlstd{=zinb.y.p}\hlopt{$}\hlstd{X1,}\hlkwc{xlab}\hlstd{=}\hlstr{"demonstrations"}\hlstd{,}\hlkwc{ylab}\hlstd{=}\hlstr{"Predicted coups"}\hlstd{,}\hlkwc{main} \hlstd{=} \hlstr{"1"}\hlstd{)}
+\hlkwd{lines}\hlstd{(}\hlkwd{lowess}\hlstd{(dat}\hlopt{$}\hlstd{demonstrations, zinb.y.p}\hlopt{$}\hlstd{X1),} \hlkwc{col} \hlstd{=} \hlstr{"blue"}\hlstd{)}
+\hlcom{# cuenta 2}
+\hlkwd{plot}\hlstd{(}\hlkwc{x}\hlstd{=dat}\hlopt{$}\hlstd{demonstrations,}\hlkwc{y}\hlstd{=zinb.y.p}\hlopt{$}\hlstd{X2,}\hlkwc{xlab}\hlstd{=}\hlstr{"demonstrations"}\hlstd{,}\hlkwc{ylab}\hlstd{=}\hlstr{"Predicted coups"}\hlstd{,}\hlkwc{main} \hlstd{=} \hlstr{"2"}\hlstd{)}
+\hlkwd{lines}\hlstd{(}\hlkwd{lowess}\hlstd{(dat}\hlopt{$}\hlstd{demonstrations, zinb.y.p}\hlopt{$}\hlstd{X2),} \hlkwc{col} \hlstd{=} \hlstr{"blue"}\hlstd{)}
+\hlcom{# cuenta 3}
+\hlkwd{plot}\hlstd{(}\hlkwc{x}\hlstd{=dat}\hlopt{$}\hlstd{demonstrations,}\hlkwc{y}\hlstd{=zinb.y.p}\hlopt{$}\hlstd{X3,}\hlkwc{xlab}\hlstd{=}\hlstr{"demonstrations"}\hlstd{,}\hlkwc{ylab}\hlstd{=}\hlstr{"Predicted coups"}\hlstd{,}\hlkwc{main} \hlstd{=} \hlstr{"3"}\hlstd{)}
+\hlkwd{lines}\hlstd{(}\hlkwd{lowess}\hlstd{(dat}\hlopt{$}\hlstd{demonstrations, zinb.y.p}\hlopt{$}\hlstd{X3),} \hlkwc{col} \hlstd{=} \hlstr{"blue"}\hlstd{)}
 \end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/pp:plot-1} 
+
+}
 
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in factors[, term2]: sub'indice fuera de\ \ los l'imites}}\end{kframe}
 
 
-
-\subsection{Rare-event Logistic Regression}
-
-
-
-\begin{equation}\label{nb:mu}
-\tilde{\mu}_{i} = \text{exp}(\boldsymbol{x}_{i}\boldsymbol{\beta}) + \text{exp}(\epsilon_{i})
-\end{equation}
-
-Nota que ahora $\mu_{i}$ es un vector (i.e. una distribuci\'on), no un escalar. Esto se traduce en el hecho de que tendremos distintos valores de $\mu_{i}$ seg\'un las distintas combinamos de valores en las variables independientes $\boldsymbol{x}_{i}$. 
-
-\paragraph{Supuestos Distribucionales} El supuesto distribucional es que $\text{exp}(\epsilon_{i})$ (o muchas veces llamado el par\'ametro $\delta$)  toma el valor de $E(\text{exp}(\epsilon_{i}))=1$. 
-
-\begin{itemize}
-\item De manera muy importante, esta sigue siendo una distribuci\'on Poisson, pero ``modificada'' (de hecho el valor esperado sigue siendo el mismo, s\'olo cambia la varianza). 
-\item Nota adem\'as que $\delta$ (como cualquier varianza) es \emph{desconocida} (es un ``\emph{population parameter}''). 
-\item Finalmente, parte del supuesto es que $\delta$ se distribuye siguiendo la distribuci\'on Gamma.
-\end{itemize}
-
-\paragraph{Contagio} La flexibilidad del modelo Negative-Binomial permite modelar situaciones de {\bf contagio}. Esto se refiere a situaciones donde la probabilidad de obtener ciertas cuentas est\'a correlacionada con el n\'umero de cuentas. Volviendo al ejemplo de \emph{papers} publicados, en la especificaci\'on Negative-Binomial podr\'iamos modelar la situaci\'on donde los acad\'emicos tienen m\'as probabilidades de publicar \emph{papers} mientras m\'as \emph{papers} tengan publicados! Esto se refiere a que el modelo permite tomar en cuenta \emph{data generating processes} que {\bf no asuman independencia estoc\'astica}.
-
-\paragraph{Estimaci\'on}  Ahora procedamos a estimar el modelo.
+Ahora veamos si la especificaci\'on ZIP tiene un mejor \emph{fit} que la especificaci\'on ZINB. Para esto usaremos el Vuong test. Primero
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlkwd{p_load}\hlstd{(MASS)}
-\hlstd{modelo.nb} \hlkwb{=} \hlkwd{glm.nb}\hlstd{(exec.chg} \hlopt{~} \hlstd{demonstrations} \hlopt{+} \hlstd{guerilla} \hlopt{+} \hlstd{regime.type,} \hlkwc{data}\hlstd{=dat)}
+\hlkwd{vuong}\hlstd{(modelo.zip, modelo.zinb)}
 \end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(predvars, data, env): objeto 'exec.chg' no encontrado}}\end{kframe}
+\begin{verbatim}
+## Vuong Non-Nested Hypothesis Test-Statistic: 
+## (test-statistic is asymptotically distributed N(0,1) under the
+##  null that the models are indistinguishible)
+## -------------------------------------------------------------
+##               Vuong z-statistic             H_A p-value
+## Raw                  -0.3531275 model2 > model1   0.362
+## AIC-corrected        -0.3531275 model2 > model1   0.362
+## BIC-corrected        -0.3531275 model2 > model1   0.362
+\end{verbatim}
+\end{kframe}
 \end{knitrout}
 
-Y de hecho comparemos ambos modelos,
+Considerando que la hip\'otesis nula es que \emph{the models are indistinguishible}, y que nuestro p-value no es significativo, no tenemos evidencia suficiente para determinar que la hipotesis alternativa (``the two models are {\bf NOT} indistinguishible'') se sostiene. Por lo tanto, los dos modelos son iguales (o ``indistinguishible'') y el segundo modelo (``ZINB'') {\bf NO} hace un mejor trabajo que el ``ZIP''.
 
-\begin{kframe}
+\subsection{Rare-event Logistic Regression}
+
+En esta secci\'on estimaremos un \texttt{relogit}. El paquete de \texttt{R} que usaremos se llama \texttt{Zelig}. 
+
+
+Carguemos los datos:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{p_load}\hlstd{(texreg)}
-\hlkwd{texreg}\hlstd{(}\hlkwd{list}\hlstd{(modelo.p, modelo.nb))} \hlcom{# usa "screenreg" no "texreg".}
+\hlkwd{install.packages}\hlstd{(}\hlstr{"https://cran.r-project.org/src/contrib/Archive/Zelig/Zelig_5.0-12.tar.gz"}\hlstd{,} \hlkwc{repos}\hlstd{=}\hlkwa{NULL}\hlstd{,} \hlkwc{type}\hlstd{=}\hlstr{"source"}\hlstd{)}
+\hlkwd{library}\hlstd{(Zelig)}
+\hlkwd{data}\hlstd{(mid)} \hlcom{# Militarized Interstate Disputes}
+\hlstd{mid} \hlkwb{=} \hlkwd{na.omit}\hlstd{(mid)} \hlcom{# Omitir NAs}
 \end{alltt}
+\end{kframe}
+\end{knitrout}
 
+Hagamos un resumen,
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in "{}list"{} \%in\% class(l)[1]: objeto 'modelo.p' no encontrado}}\end{kframe}
-
-Encontramos---sin sorpresa---que los modelos son altamente parecidos. 
-
-\paragraph{Interpretaci\'on} En cualquier caso, ya sabemos que la tabla poco valor tiene. Ahora procederemos a estimar los \emph{predicted probabilities}.
-
-
-\begin{kframe}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{p_load}\hlstd{(effects)}
-\hlkwd{plot}\hlstd{(}\hlkwd{effect}\hlstd{(}\hlstr{"demonstrations"}\hlstd{, modelo.nb))}
+\hlkwd{summary}\hlstd{(mid)}
 \end{alltt}
+\begin{verbatim}
+##     conflict          major            contig           power          
+##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0004201  
+##  1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0945675  
+##  Median :0.0000   Median :0.0000   Median :0.0000   Median :0.3030594  
+##  Mean   :0.3333   Mean   :0.1711   Mean   :0.2514   Mean   :0.3703210  
+##  3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:1.0000   3rd Qu.:0.6013527  
+##  Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :0.9998207  
+##      maxdem            mindem            years      
+##  Min.   :-10.000   Min.   :-10.000   Min.   : 0.00  
+##  1st Qu.: -5.000   1st Qu.: -9.000   1st Qu.: 3.00  
+##  Median :  8.000   Median : -7.000   Median :11.00  
+##  Mean   :  3.689   Mean   : -5.282   Mean   :13.97  
+##  3rd Qu.: 10.000   3rd Qu.: -6.000   3rd Qu.:23.00  
+##  Max.   : 10.000   Max.   : 10.000   Max.   :46.00
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
+En esta aplicaci\'on pensaremos en la variable \texttt{conflict}: dummy para conflictos armados.
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in effect("{}demonstrations"{}, modelo.nb): objeto 'modelo.nb' no encontrado}}\begin{alltt}
-\hlkwd{plot}\hlstd{(}\hlkwd{effect}\hlstd{(}\hlstr{"guerilla"}\hlstd{, modelo.nb))}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{table}\hlstd{(mid}\hlopt{$}\hlstd{conflict)}
 \end{alltt}
+\begin{verbatim}
+## 
+##    0    1 
+## 2084 1042
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in effect("{}guerilla"{}, modelo.nb): objeto 'modelo.nb' no encontrado}}\begin{alltt}
-\hlkwd{plot}\hlstd{(}\hlkwd{effect}\hlstd{(}\hlstr{"regime.type"}\hlstd{, modelo.nb))}
+Estimemos un \texttt{relogit}.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{relogit.m} \hlkwb{<-} \hlkwd{zelig}\hlstd{(conflict} \hlopt{~} \hlstd{major} \hlopt{+} \hlstd{contig} \hlopt{+} \hlstd{power} \hlopt{+} \hlstd{maxdem} \hlopt{+} \hlstd{mindem} \hlopt{+} \hlstd{years,}
+                \hlkwc{data} \hlstd{= mid,} \hlkwc{model} \hlstd{=} \hlstr{"relogit"}\hlstd{)}
 \end{alltt}
+\begin{verbatim}
+## How to cite this model in Zelig:
+##   Christine Choirat, James Honaker, Kosuke Imai, Gary King, and Olivia Lau. 2020.
+##   relogit: Rare Events Logistic Regression for Dichotomous Dependent Variables
+##   in Christine Choirat, James Honaker, Kosuke Imai, Gary King, and Olivia Lau,
+##   "Zelig: Everyone's Statistical Software," http://zeligproject.org/
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in effect("{}regime.type"{}, modelo.nb): objeto 'modelo.nb' no encontrado}}\end{kframe}
+
+
+Ve\'amos el modelo,
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(relogit.m)}
+\end{alltt}
+\begin{verbatim}
+## Model: 
+## 
+## Call:
+## z5$zelig(formula = conflict ~ major + contig + power + maxdem + 
+##     mindem + years, data = mid)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.0742  -0.4444  -0.2772   0.3295   3.1556  
+## 
+## Coefficients:
+##              Estimate Std. Error z value             Pr(>|z|)
+## (Intercept) -2.535496   0.179685 -14.111 < 0.0000000000000002
+## major        2.432525   0.157561  15.439 < 0.0000000000000002
+## contig       4.121869   0.157650  26.146 < 0.0000000000000002
+## power        1.053351   0.217243   4.849          0.000001243
+## maxdem       0.048164   0.010065   4.785          0.000001708
+## mindem      -0.064825   0.012802  -5.064          0.000000411
+## years       -0.063197   0.005705 -11.078 < 0.0000000000000002
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 3979.5  on 3125  degrees of freedom
+## Residual deviance: 1868.5  on 3119  degrees of freedom
+## AIC: 1882.5
+## 
+## Number of Fisher Scoring iterations: 6
+## 
+## Next step: Use 'setx' method
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+Usemos \emph{predicted probabilities}. Este enfoque de interpretaci\'on mezcla la tradici\'on Bayesiana y frecuentista. El estudiante interesado podr\'a referirse a \textcite{King2000}.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{x.high} \hlkwb{<-} \hlkwd{setx}\hlstd{(relogit.m,} \hlkwc{power} \hlstd{=} \hlkwd{quantile}\hlstd{(mid}\hlopt{$}\hlstd{power,} \hlkwc{prob} \hlstd{=} \hlnum{0.75}\hlstd{))}
+\hlstd{x.low} \hlkwb{<-} \hlkwd{setx}\hlstd{(relogit.m,} \hlkwc{power} \hlstd{=} \hlkwd{quantile}\hlstd{(mid}\hlopt{$}\hlstd{power,} \hlkwc{prob} \hlstd{=} \hlnum{0.25}\hlstd{))}
+\hlstd{s.out2} \hlkwb{<-} \hlkwd{sim}\hlstd{(relogit.m,} \hlkwc{x} \hlstd{= x.high,} \hlkwc{x1} \hlstd{= x.low)}
+\hlkwd{par}\hlstd{(}\hlkwc{mar}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{1}\hlstd{,}\hlnum{1}\hlstd{,}\hlnum{1}\hlstd{))}
+\hlkwd{plot}\hlstd{(s.out2)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/zelig:plot-1} 
+
+}
+
+
+
+\end{knitrout}
+
+
 
 
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlstd{knitr}\hlopt{::}\hlkwd{purl}\hlstd{(}\hlstr{'Multinomial.Rnw'}\hlstd{)}
+\hlstd{knitr}\hlopt{::}\hlkwd{purl}\hlstd{(}\hlstr{'ZIP_ZINB_RELOGIT.Rnw'}\hlstd{)}
 \end{alltt}
 
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in file(con, "{}r"{}): no se puede abrir la conexi'on}}\begin{alltt}
-\hlkwd{Stangle}\hlstd{(}\hlstr{'Multinomial.Rnw'}\hlstd{)}
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in parse\_block(g[-1], g[1], params.src, markdown\_mode): Duplicate chunk label 'setup', which has been used for the chunk:\\\#\# if (!require("{}pacman"{})) install.packages("{}pacman"{}); library(pacman)\\\#\# p\_load(knitr)\\\#\# set.seed(2020)\\\#\# options(scipen=9999999)}}\begin{alltt}
+\hlkwd{Stangle}\hlstd{(}\hlstr{'ZIP_ZINB_RELOGIT.Rnw'}\hlstd{)}
 \end{alltt}
+\begin{verbatim}
+## Writing to file ZIP_ZINB_RELOGIT.R
+\end{verbatim}
 
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in SweaveReadFile(file, syntax, encoding = encoding): no Sweave file with name 'Multinomial.Rnw' found}}\end{kframe}
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in match.arg(options\$results, c("{}verbatim"{}, "{}tex"{}, "{}hide"{})): 'arg' should be one of "{}verbatim"{}, "{}tex"{}, "{}hide"{}}}\end{kframe}
 \end{knitrout}
 
-%\newpage
-%\paragraph{}
-%\paragraph{}
-%\pagenumbering{Roman}
-%\setcounter{page}{1}
-%\printbibliography
+
+\newpage
+\paragraph{}
+\paragraph{}
+\pagenumbering{Roman}
+\setcounter{page}{1}
+\printbibliography
 
 
 
