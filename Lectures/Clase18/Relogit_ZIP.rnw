@@ -1,0 +1,413 @@
+\documentclass[onesided]{article}
+\usepackage[T1]{fontenc}
+\linespread{1.5} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[hmarginratio=1:1,columnsep=20pt]{geometry} % Document margins
+%\usepackage{multicol} % Used for the two-column layout of the document
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+\usepackage{float} % Required for tables and figures in the multi-column environment - they need to be placed in specific locations with the [H] (e.g. \begin{table}[H])
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+\usepackage{paralist} % Used for the compactitem environment which makes bullet points with less space between them
+
+% to ignore texts: good for thank messages and paper submissions.
+      % \fbox{\phantom{This text will be invisible too, but a box will be printed arround it.}}
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+%\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage[]{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\Roman{subsection}} % Roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancybox, fancyvrb, calc}
+\usepackage[svgnames]{xcolor}
+\usepackage{physics}
+\usepackage{epigraph}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{graphics}
+\usepackage{pbox} % \pbox{20cm}{This is the first \\ cell}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{rotating}
+\usepackage{paracol}
+\usepackage{textcomp}
+\usepackage[export]{adjustbox}
+\usepackage{afterpage}
+\usepackage{filecontents}
+\usepackage{color}
+\usepackage{latexsym}
+\usepackage{lscape}       %\begin{landscape} and \end{landscape}
+\usepackage{wasysym}
+\usepackage{dashrule}
+\usepackage{marvosym} % face package
+\usepackage{framed}
+\usepackage{tree-dvips}
+\usepackage{pgffor}
+\usepackage[]{authblk}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage[latin1]{inputenc}
+\usepackage{hyperref}     %desactivar para link rojos
+\usepackage{graphicx}
+\usepackage{dcolumn} % for R tables
+\usepackage{multirow} % For multirow in tables
+\usepackage{pifont}
+\usepackage{listings}
+\usepackage{bm}
+
+
+
+
+% hypothesis / theorem package begin
+\usepackage{amsthm}
+\usepackage{thmtools}
+\declaretheoremstyle[
+spaceabove=6pt, spacebelow=6pt,
+headfont=\normalfont\bfseries,
+notefont=\mdseries, notebraces={(}{)},
+bodyfont=\normalfont,
+postheadspace=0.6em,
+headpunct=:
+]{mystyle}
+\declaretheorem[style=mystyle, name=Hypothesis, preheadhook={\renewcommand{\thehyp}{H\textsubscript{\arabic{hyp}}}}]{hyp}
+
+\usepackage{cleveref}
+\crefname{hyp}{hypothesis}{hypotheses}
+\Crefname{hyp}{Hypothesis}{Hypotheses}
+% hypothesis / theorem package end
+
+
+%----------------------------------------------------------------------------------------
+% Other ADDS-ON
+%----------------------------------------------------------------------------------------
+
+% independence symbol \independent
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+
+
+
+
+
+
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat's bookmarks
+    pdftoolbar=true,        % show Acrobat's toolbar?
+    pdfmenubar=true,        % show Acrobat's menu?
+    pdffitwindow=true,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={My title},    % title
+    pdfauthor={Author},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={keyword1} {key2} {key3}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=ForestGreen,          % color of internal links (change box color with linkbordercolor)
+    citecolor=ForestGreen,        % color of links to bibliography
+    filecolor=ForestGreen,      % color of file links
+    urlcolor=ForestGreen           % color of external links
+}
+
+%\usepackage[nodayofweek,level]{datetime} % to have date within text
+
+\newcommand{\LETT}[3][]{\lettrine[lines=4,loversize=.2,#1]{\smash{#2}}{#3}} % letrine customization
+
+
+
+% comments on margin
+  % Select what to do with todonotes: 
+  % \usepackage[disable]{todonotes} % notes not showed
+  \usepackage[draft]{todonotes}   % notes showed
+  % usage: \todo{This is a note at margin}
+
+\usepackage{cooltooltips}
+
+%%% bib begin
+\usepackage[american]{babel}
+\usepackage{csquotes}
+\usepackage[backend=biber,style=authoryear,dashed=false,doi=false,isbn=false,url=false,arxiv=false]{biblatex}
+%\DeclareLanguageMapping{american}{american-apa}
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/library.bib} 
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/Bahamonde_BibTex2013.bib} 
+
+% USAGES
+%% use \textcite to cite normal
+%% \parencite to cite in parentheses
+%% \footcite to cite in footnote
+%% the default can be modified in autocite=FOO, footnote, for ex. 
+%%% bib end
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{MLE para Outcomes Poco Frecuentes: Zero-Inflated Poisson y Rare Event Logistic } % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+
+\begin{document}
+% DOCUMENT ID
+%----------------------------------------------------------------------------------------
+%	CONTENT
+%----------------------------------------------------------------------------------------
+
+%\graphicspath{
+%{/Users/hectorbahamonde/RU/Term5/Experiments_Redlawsk/Experiment/Data/}
+%}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% begin knitr stuff
+<<setup, include=FALSE, cache=F>>=
+if (!require("pacman")) install.packages("pacman"); library(pacman)
+p_load(knitr)
+set.seed(2020)
+options(scipen=9999999)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\hspace{-5mm}{\bf Profesor}: H\'ector Bahamonde, PhD.\\
+\texttt{e:}\href{mailto:hector.bahamonde@uoh.cl}{\texttt{hector.bahamonde@uoh.cl}}\\
+\texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.hectorbahamonde.com}}\\
+{\bf Curso}: MLE.\\
+\hspace{-5mm}{\bf TA}: Gonzalo Barr\'ia.
+
+\section{Outcomes Poco Frecuentes}
+
+En esta clase seguiremos con los \emph{outcomes} de ``cuentas''. En las ciencias sociales existen \emph{data generating processes} que son raros. Es decir, ocurren con poca frecuencia. Ejemplos son n\'umero de atentados terroristas, secuestros, etc. Ser\'ia muy raro que por ejemplo al d\'ia y de manera constante, existiera mas de cero secuestro. 
+
+Aunque una opci\'on ser\'ia dejar de lado un estudio as\'i (porque ``\emph{qui\'en se interesar\'ia en estudiar algo que casi nunca pasa?}''), existen razones substantivas para estudiar fen\'omenos que ocurren rara vez. Que un evento ocurra rara vez no lo hace menos importante. Por ejemplo, atentados a autoridades ocurren rara vez, pero {\bf ser\'ia incorrecto pensar que el fen\'omeno carece de inter\'es}.
+
+En la primera mitad de la clase abordaremos el modelo Zero-Inflated (con variantes Poisson/Negative-Binomial). En la segunda mitad del curso veremos una generalizaci\'on del modelo logit pero calibrado para dar cuenta a eventos raros. 
+
+\subsection{Zero-Inflated}
+
+\paragraph{Motivaci\'on} El modelo zero-inflated justamente da cuenta de fen\'omenos donde los casos donde el evento ocurre es casi en su gran mayor\'ia un ``0''. Es por esto que se llama ``zero-inflated'', i.e. la cantidad 0 est\'a ``inflada''.
+
+La caracter\'istica principal de la regresi\'on zero-inflated es que modela dos procesos de manera separada. Por un lado, modela aquellos casos donde $y_{i}>0$, y aparte, modela aquellos casos donde $y_{i}=0$. 
+
+Los eventos que no son ceros se modelan segun la distribuci\'on Poisson, donde
+
+
+\begin{equation}\label{poisson:d}
+Pr(y_{i}|\mu) = \frac{\text{exp}(-\mu)\mu^{y_{i}}}{y_{i}!}
+\end{equation}
+
+donde $\mu=\text{exp}(\boldsymbol{x}_{i}\boldsymbol{\beta})$. Si te fijas, hasta el momento, todo sigue igual al modelo Poisson. 
+
+Donde el modelo Zero-inflated (Poisson) se diferencia del modelo Poisson (a secas) es que los casos donde $y_{i}=0$ son modelados de manera separada, donde $Pr(y_{i})=0=\psi$. Lo interesante, es que estas probabilidades $\psi$ son modeladas como funci\'on de las caracteristicas de los respondentes/firmas/ciudades, i.e. de la unidad de an\'alisis. M\'as formalmente,
+
+
+\begin{equation}\label{psi:p}
+\psi_{i} = F(\boldsymbol{x}_{i}\boldsymbol{\beta})
+\end{equation}
+
+donde $F$ es el \emph{cumulative density function} de la distribuci\'on normal ($\Phi$) o de la distribuci\'on logit ($\pi$), es decir $F=\{\Phi, \pi\}$. Si te fijas, el proceso que modela los 0's se gu\'ia por el mismo proceso que modelaba \emph{outcomes} binarios. En este caso, el proceso que modela los 0's modela casos donde hay ceros (1) o no (0).
+
+Veamos en m\'as detalle c\'omo combinamos las probabilidades del modelo Poisson que modela los \emph{outcomes} $y_{i}>0$ y las probabilidades del modelo binario para \emph{outcomes} $y_{i}=0$,
+
+\begin{equation}\label{zip:p}
+\begin{split}
+\text{Pr}(y_{i}=0|\boldsymbol{x}_{i}) &= \psi_{i}+(1-\psi_{i})\text{exp}(-\mu)\\
+\text{Pr}(y_{i}|\boldsymbol{x}_{i}) &= (1-\psi_{i})\frac{\text{exp}(-\mu)\mu^{y_{i}}}{y_{i}!} \;\; \text{for} \; y_{i}>0
+\end{split}
+\end{equation}
+
+\autoref{zip:p} es lo que llamamos el modelo Zero-inflated Poisson (``ZIP''). Como ya sabemos, el modelo Poisson descansa sobre el supuesto de la {\bf equidispersi\'on}. Este supuesto no siempre se cumple. Afortunadamente, existe una extensi\'on que (sorpresa!) se llama {\bf Zero-Inflated Negative Binomial} (``ZINB''). Aunque no entraremos en el detalle de la notaci\'on de los modelos ZINB, ya sabemos que se obtiene modificando la varianza y el valor esperado de cuentas $\mu$.
+
+
+\subsection{Rare-event Logistic}
+
+Los modelos generalizados son flexibles y existen muchas maneras posibles de abordar procesos que son similares. Tanto el ZIP como el ZINB parten de la base que el \emph{data generating process} genera outcomes poco frecuentes. Ambos modelan cuentas. Qu\'e pasa cuando no quieres estimar cuentas si no que un proceso binario (0,1) pero donde es muy raro encontrar 1's? Para estos casos existen modelos log\'isticos especiales llamados ``\emph{rare event logistic regressions}'' (\texttt{relogit}).
+
+\textcite{King2001} derivan el \emph{rare-event logistic regression}. Particularmente, ellos lo piensan para casos de guerra (1) o paz (0), donde la guerra es (afortunadamente) mucho menos frecuente que la paz \parencite{King2001a}.
+
+Recordemos el modelo logit tradicional que est\'a dado por,
+
+\begin{equation}\label{logit:pr}
+\text{Pr}(y_{i}=1)=\pi_{i}
+\end{equation}
+
+
+donde,
+
+
+\begin{equation}\label{logit}
+\pi_{i} = \frac{exp(\boldsymbol{x}_{i}^{\prime}\boldsymbol{\beta})}{1+exp(\boldsymbol{x}_{i}^{\prime}\boldsymbol{\beta})}
+\end{equation}
+
+Como explican \textcite[149]{King2001}, el modelo logit para eventos raros, est\'a caracterizado por un \emph{{\bf corrector factor}} $C_{i}$ que {\bf incrementa en 50\% la contribuci\'on relativa} de instancias donde $y_{i}=1$, i.e. haciendo ``menos raras'' las instancias $y_{i}=0$. El entendido es que un ``evento raro'' ocurre menos de la mitad de las veces. 
+
+Formalmente, la probabilidad estimada del \emph{rare event logistic regression} est\'a dado por,
+
+\begin{equation}\label{corrector:factor:1}
+\text{Pr}(y_{i}=1)=\pi_{i} + C_{i}
+\end{equation}
+
+donde
+
+
+\begin{equation}\label{corrector:factor:2}
+C_{i} = (0.5-\pi_{i})\pi_{i}(1-\pi_{i})\boldsymbol{x}V(\boldsymbol{\beta})\boldsymbol{x}^{T}
+\end{equation}
+
+Como ellos explican, ``[w]hen $\pi_{i} < 0.5$, as is usually the case for rare events, the correction factor adds to the estimated probability of an event'' \parencite[149]{King2001}. Uno de los entendidos m\'as importantes de esta soluci\'on es que en {\bf finite samples} la incertidumbre relativa de los eventos del tipo $y_{i}=1$ es mayor e inconsistente. 
+
+Esto se puede ver en la varianza de un modelo logit,
+
+\begin{equation}\label{var:logit}
+V(\boldsymbol{\beta}) = [\sum_{1}^{N}\pi_{i}(1-\pi_{i})\boldsymbol{x}_{i}^{T}\boldsymbol{x}_{i}]^{-1}
+\end{equation}
+
+donde ``[t]he part of this matrix affected by rare events is the factor $\pi_{i}(1-\pi_{i})$'' \parencite[141]{King2001}. Como ellos explican, en los estudios con eventos raros, el resultado es que ``$\pi_{i}(1-\pi_{i})$ will usually be larger for ones than zeros, and so the variance [...] will be smaller. In this situation, additional {\bf ones} will cause the variance to drop more and hence {\bf are more informative than additional zeros}.''\footnote{Mi \'enfasis.} La manera de compensar por este desbalance estructural del modelo logit aplicado en casos raros es a\~nadiendo el \emph{{\bf corrector factor}} $C_{i}$.
+
+
+\section{Programaci\'on}
+
+\paragraph{Zero-inflated} En esta secci\'on estimaremos un \texttt{ZIP} y un \texttt{ZINB}.
+
+Carguemos los datos:
+
+<<dat, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(foreign)
+dat = read.dta("https://github.com/hbahamonde/MLE/raw/master/Datasets/banks.dta")
+dat = na.omit(dat) # excluir NAs
+@
+
+Hagamos un resumen,
+
+<<summary, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+summary(dat)
+@
+
+En esta aplicaci\'on pensaremos en la variable \texttt{coups}: n\'umero de golpes de estado.
+
+<<table, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+table(dat$coups)
+@
+
+
+
+
+El paquete de \texttt{R} que usaremos se llama \texttt{pscl}. 
+
+Estimemos un \texttt{ZIP} y un \texttt{ZINB}.
+
+<<modelo, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(pscl)
+modelo.zip = zeroinfl(coups ~ demonstrations + guerilla + party_frac | guerilla, 
+dist = 'poisson', 
+data = dat)
+modelo.zinb = zeroinfl(coups ~ demonstrations + guerilla + party_frac | guerilla, 
+dist = 'negbin', 
+data = dat)
+@
+
+F\'ijate c\'omo {\bf antes} del s\'imbolo ``|'' ponemos los procesos Poisson, y {\bf despu\'es del s\'imbolo} ponemos el proceso logit para estimar los ceros. Nota tambi\'en que las variables se pueden repetir (o no). Esto depende de la teor\'ia que tengas. {\bf Nunca olvides justificar tu elecci\'on}!
+
+Hagamos una tabla.
+
+<<texreg, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(texreg)
+texreg(list(modelo.zip,modelo.zinb)) # usa "screenreg" no "texreg".
+@
+
+
+
+
+\section{Interpretaci\'on} 
+
+En cualquier caso, ya sabemos que la tabla poco valor tiene. Ahora procederemos a estimar los \emph{predicted probabilities}. Por simpleza s\'olo procederemos a ver las probabilidades del \texttt{ZINB}.
+
+
+<<pp, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+p_load(effects)
+plot(effect("demonstrations", modelo.zinb))
+plot(effect("guerilla", modelo.zinb))
+plot(effect("regime.type", modelo.zinb))
+@
+
+
+
+\subsection{Rare-event Logistic Regression}
+
+
+
+\begin{equation}\label{nb:mu}
+\tilde{\mu}_{i} = \text{exp}(\boldsymbol{x}_{i}\boldsymbol{\beta}) + \text{exp}(\epsilon_{i})
+\end{equation}
+
+Nota que ahora $\mu_{i}$ es un vector (i.e. una distribuci\'on), no un escalar. Esto se traduce en el hecho de que tendremos distintos valores de $\mu_{i}$ seg\'un las distintas combinamos de valores en las variables independientes $\boldsymbol{x}_{i}$. 
+
+\paragraph{Supuestos Distribucionales} El supuesto distribucional es que $\text{exp}(\epsilon_{i})$ (o muchas veces llamado el par\'ametro $\delta$)  toma el valor de $E(\text{exp}(\epsilon_{i}))=1$. 
+
+\begin{itemize}
+\item De manera muy importante, esta sigue siendo una distribuci\'on Poisson, pero ``modificada'' (de hecho el valor esperado sigue siendo el mismo, s\'olo cambia la varianza). 
+\item Nota adem\'as que $\delta$ (como cualquier varianza) es \emph{desconocida} (es un ``\emph{population parameter}''). 
+\item Finalmente, parte del supuesto es que $\delta$ se distribuye siguiendo la distribuci\'on Gamma.
+\end{itemize}
+
+\paragraph{Contagio} La flexibilidad del modelo Negative-Binomial permite modelar situaciones de {\bf contagio}. Esto se refiere a situaciones donde la probabilidad de obtener ciertas cuentas est\'a correlacionada con el n\'umero de cuentas. Volviendo al ejemplo de \emph{papers} publicados, en la especificaci\'on Negative-Binomial podr\'iamos modelar la situaci\'on donde los acad\'emicos tienen m\'as probabilidades de publicar \emph{papers} mientras m\'as \emph{papers} tengan publicados! Esto se refiere a que el modelo permite tomar en cuenta \emph{data generating processes} que {\bf no asuman independencia estoc\'astica}.
+
+\paragraph{Estimaci\'on}  Ahora procedamos a estimar el modelo.
+
+<<nbrm, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(MASS)
+modelo.nb = glm.nb(exec.chg ~ demonstrations + guerilla + regime.type, data=dat)
+@
+
+Y de hecho comparemos ambos modelos,
+
+<<texreg2, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(texreg)
+texreg(list(modelo.p, modelo.nb)) # usa "screenreg" no "texreg".
+@
+
+Encontramos---sin sorpresa---que los modelos son altamente parecidos. 
+
+\paragraph{Interpretaci\'on} En cualquier caso, ya sabemos que la tabla poco valor tiene. Ahora procederemos a estimar los \emph{predicted probabilities}.
+
+
+<<pp2, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+p_load(effects)
+plot(effect("demonstrations", modelo.nb))
+plot(effect("guerilla", modelo.nb))
+plot(effect("regime.type", modelo.nb))
+@
+
+
+
+<<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+knitr::purl('Multinomial.Rnw')
+Stangle('Multinomial.Rnw')
+@
+
+%\newpage
+%\paragraph{}
+%\paragraph{}
+%\pagenumbering{Roman}
+%\setcounter{page}{1}
+%\printbibliography
+
+
+
+\end{document}
+
