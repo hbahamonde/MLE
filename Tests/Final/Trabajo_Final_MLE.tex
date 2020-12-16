@@ -1,0 +1,260 @@
+%----------------------------------------------------------------------------------------
+% PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[10pt]{article}
+\usepackage{lipsum} % Package to generate dummy text throughout this template
+
+%\usepackage[light, math]{iwona}
+%\usepackage[sc]{mathpazo} % Use the Palatino font
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\linespread{1.05} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
+\usepackage{multicol} % Used for the two-column layout of the document
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+\usepackage{float} % Required for tables and figures in the multi-column environment - they need to be placed in specific locations with the [H] (e.g. \begin{table}[H])
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+\usepackage{paralist} % Used for the compactitem environment which makes bullet points with less space between them
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\Roman{subsection}} % Roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancybox, fancyvrb, calc}
+\usepackage[svgnames]{xcolor}
+\usepackage{tabularx}
+\usepackage{afterpage}
+\usepackage{multirow}
+
+%----------------------------------------------------------------------------------------
+% DOCUMENT ID (Department, Professor, Course, etc.) 
+%----------------------------------------------------------------------------------------
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{$\bullet$ Trabajo Final Grupal $\bullet$} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+%----------------------------------------------------------------------------------------
+% MY PACKAGES 
+%----------------------------------------------------------------------------------------
+
+\usepackage{amsmath}  
+%\usepackage{rotating}
+\usepackage{textcomp}
+\usepackage{caption}
+\usepackage{etex}
+%\usepackage[export]{adjustbox}
+%\usepackage{afterpage}
+%\usepackage{filecontents}
+\usepackage{color}
+\usepackage{latexsym}
+\usepackage{lscape}       %\begin{landscape} and \end{landscape}
+\usepackage{amsfonts}
+%\usepackage{mathabx}
+\usepackage{amssymb}
+%\usepackage{dashrule}
+%\usepackage{txfonts}
+%\usepackage{pgfkeys}
+%\usepackage{framed}
+\usepackage{tree-dvips}
+\usepackage{caption}
+%\usepackage{fancyvrb}
+%\usepackage{pgffor}
+\usepackage{xcolor}
+%\usepackage{pxfonts}
+\usepackage{wasysym}
+\usepackage{authblk}
+%\usepackage{paracol}
+\usepackage{setspace}
+%\usepackage{qtree}
+%\usepackage{tree-dvips}
+\usepackage{sgame}        % shouldn't have neither array nor tabularx packages
+\usepackage{tikz}
+%\usetikzlibrary{trees}
+\usepackage[latin1]{inputenc}
+%\label{tab:1}    %\autoref{tab:1}  %ocupar para citar.
+% \hyperlik{table1} \hypertarget{table1} 
+% \textquoteright     %apostrofe
+\usepackage{hyperref}     %desactivar para link rojos
+\usepackage{natbib}
+%\usepackage{proof}       %for proofs
+
+
+
+
+
+%----------------------------------------------------------------------------------------
+% Other ADDS-ON
+%----------------------------------------------------------------------------------------
+
+% independence symbol \independent
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+
+% VERBATIM WITH BACKGROUND COLOR
+\newenvironment{colframe}{%
+  \begin{Sbox}
+    \begin{minipage}
+      {\columnwidth%-\leftmargin-\rightmargin-6pt
+      }
+    }{%
+    \end{minipage}
+  \end{Sbox}
+  \begin{center}
+    \colorbox{LightSteelBlue}{\TheSbox}
+  \end{center}
+}
+
+
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat$'$s bookmarks
+    pdftoolbar=true,        % show Acrobat$'$s toolbar?
+    pdfmenubar=true,        % show Acrobat$'$s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={My title},    % title
+    pdfauthor={Author},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={keyword1} {key2} {key3}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=ForestGreen,          % color of internal links (change box color with linkbordercolor)
+    citecolor=ForestGreen,        % color of links to bibliography
+    filecolor=ForestGreen,      % color of file links
+    urlcolor=ForestGreen           % color of external links
+}
+
+
+% PROPOSITIONS
+\newtheorem{proposition}{Proposition}
+
+%\linespread{1.5}
+
+%----------------------------------------------------------------------------------------
+% TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+%\title{\vspace{-15mm}\fontsize{18pt}{7pt}\selectfont\textbf{Experimental Economists and Psychologists: Two Worlds Apart}} % Article title
+
+%\author[1]{
+%\large
+%\textsc{H\'ector Bahamonde}\\ 
+%\thanks{}
+%\normalsize Political Science Dpt. $\bullet$ Rutgers University \\ % Your institution
+%\normalsize \texttt{e:}\href{mailto:hector.bahamonde@rutgers.edu}{\texttt{hector.bahamonde@rutgers.edu}}\\
+%\normalsize \texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.hectorbahamonde.com}}
+%\vspace{-5mm}
+%}
+%\date{\today}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%\maketitle % Insert title
+
+
+\thispagestyle{fancy} % All pages have headers and footers
+
+%----------------------------------------------------------------------------------------
+% ABSTRACT
+%----------------------------------------------------------------------------------------
+
+%\begin{abstract}
+% ABSTRACT
+%\end{abstract}
+
+
+%----------------------------------------------------------------------------------------
+% CONTENT
+%----------------------------------------------------------------------------------------
+
+%\graphicspath{
+%{/Users/hectorbahamonde/RU/Term5/Experiments_Redlawsk/Experiment/Data/}
+%}
+\hspace{-5mm}{\bf Profesor}: H\'ector Bahamonde, PhD.\\
+\texttt{e:}\href{mailto:hector.bahamonde@uoh.cl}{\texttt{hector.bahamonde@uoh.cl}}\\
+\texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.HectorBahamonde.com}}\\
+{\bf Curso}: MLE.\\
+\hspace{-5mm}{\bf TA}: Gonzalo Barr\'ia.
+
+
+\vspace{-0.8cm}
+\section*{Instrucciones Generales}
+
+Usando la base de datos que ser\'a asignada al azar y dentro de los plazos establecidos en la secci\'on \emph{Tareas} de \texttt{uCampus}, deber\'as:
+
+\begin{enumerate}
+  \item {\bf Generar una pregunta de investigaci\'on}. Un ejemplo de pregunta de investigaci\'on puede ser \emph{Qu\'e explica Y?} Para esto, ay\'udate del \emph{codebook} (archivo de texto que contiene el nombre de la variable y su definici\'on).
+  
+  \item {\bf Generar una hip\'otesis de trabajo}. Una hip\'otesis de trabajo es una respuesta (una afirmaci\'on) \emph{hipot\'etica} a esta pregunta. Un ejemplo podr\'ia ser: \emph{Y es explicado por $X_{1}$}. En general, aqu\'i tambi\'en explicas \emph{por qu\'e} $X_{1}$ explica $Y$.
+  
+  
+  \item {\bf Seleccionar las especificaciones que m\'as estimes convenientes}. Para ello deber\'as estimar GLM's usando t\'ecnicas de MLE. T\'u deber\'as justificar la especificaci\'on que m\'as estimas conveniente. {\bf Ten en cuenta que si fallas en este paso, todo el resto del trabajo estar\'a malo. Te sugiero que te juntes conmigo en horario de atenci\'on de alumnos}. En esta secci\'on deber\'as {\bf usar \emph{todos} los \emph{tests} necesarios} para justificar que tu especificaci\'on est\'a correcta. {\bf Ser\'a de tu exclusiva responsabilidad \emph{testear} todos los supuestos distribucionales abordados en clases}. Recuerda incluir {\bf todos} los diagn\'osticos pertinentes (rem\'itete a la clase ``\emph{Diagn\'osticos}'').
+
+  
+  \item {\bf Deber\'as tener controles}. Recuerda que los controles son otras variables que entran en la misma ecuaci\'on, y que ayudan a mantener los efectos constantes en las medias de esas variables. Para cada control deber\'as justificar la decisi\'on de incluir los controles que incluiste. Esto es discursivo, y como vimos en clases, deriva de la teor\'ia, la revisi\'on bibliogr\'afica, y hasta de la intuici\'on. 
+
+
+  \item {\bf Testear la hip\'otesis}. \emph{Testea} tu hip\'otesis de trabajo.  Recuerda entonces que deber\'as formular una pregunta de investigaci\'on y una hip\'otesis de trabajo que puedas testear. Para efectos del trabajo, no te servir\'a formular una hip\'otesis (o pregunta), si es que no tienes variables relevantes para contestar la pregunta de investigaci\'on. Entonces la recomendaci\'on es que orientes tus hip\'otesis y pregunta de investigaci\'on a la informaci\'on que tengas disponible en la base de datos.
+
+  \item {\bf Interpretaci\'on y presentaci\'on de resultados}. Usa {\bf todas} las t\'ecnicas espec\'ificas de cada modelo para su interpretaci\'on. Concentra tus esfuerzos en lo substantivo a la hora de ``construir perfiles'' (si es que fuera necesario). Deber\'as tambi\'en interpretar los controles.
+
+  \item {\bf Presentaci\'on final en clases}. En la presentaci\'on final deber\'an abordar todos estos puntos. La presentaci\'on no deber\'a durar m\'as de quince minutos. \emph{Todos los integrantes del grupo deber\'an presentar}. La idea de presentar es que puedan recibir comentarios del resto de los compa\~neros---estas preguntas cuentan como participaci\'on. El trabajo del grupo ser\'a convencer a la audiencia que han hecho todo lo posible para (1) encontrar la especificaci\'on correcta y (2) \emph{testear} la hip\'otesis de la mejor manera posible. 
+
+  \item {\bf Productos finales}: 
+
+    \begin{enumerate}
+      \item {\bf Trabajo Final}: un \emph{script} de \texttt{R} enviado por \texttt{uCampus}. No habr\'a un informe final. Aseg\'urate que el \emph{script} corra sin problemas, que los paquetes que usas est\'en declarados, etc.
+      \item {\bf Presentaci\'on final}: un \emph{Power Point} presentado en clases por todos los integrantes del grupo. Todos los aspectos se\~nalados arriba deber\'an estar abordados en esta presentaci\'on.
+    \end{enumerate}
+
+\end{enumerate}
+
+\section*{Bases de Datos}
+
+Este semestre asignaremos al azar alguna de las siguientes bases de datos.
+
+%\afterpage{
+\begin{table}[ph!]
+\begin{center}
+\begin{scriptsize}
+{\renewcommand{\arraystretch}{2}%
+\begin{tabular}{  c |  c | c | c }
+\toprule
+\textbf{Librer\'ia}             & \textbf{Base de Datos}  & \textbf{Codebook} & \textbf{Variable Dependiente} \\
+\midrule
+\multirow{6}{*}{\texttt{library(AER)}}  & \texttt{data(Fatalities)}          & \texttt{help(Fatalities)}          & \texttt{Fatalities\$fatal}          \\\cline{2-4}
+                                        & \texttt{data(Guns)}                & \texttt{help(Guns)}                & \texttt{Guns\$law}                  \\\cline{2-4}
+                                        & \texttt{data(PhDPublications)}     & \texttt{help(PhDPublications)}     & \texttt{PhDPublications\$articles}  \\\cline{2-4}
+                                        & \texttt{data(ResumeNames)}         & \texttt{help(ResumeNames)}         & \texttt{ResumeNames\$call}          \\\cline{2-4}
+                                        & \texttt{data(TravelMode)}          & \texttt{help(TravelMode)}          & \texttt{TravelMode\$mode}          \\\cline{2-4}
+                                        & \texttt{data(Arrests)}             & \texttt{help(Arrests)}             & \texttt{Arrests\$released}          \\\cline{2-4}
+\hline
+\multirow{1}{*}{\texttt{library(carData)}}  & \texttt{data(Chile)}               & \texttt{help(Chile)}          & \texttt{Chile\$vote}          \\\cline{2-4}
+\bottomrule
+\end{tabular}}
+\end{scriptsize}
+\end{center}
+\end{table}
+%}
+
+
+\end{document}
