@@ -1,0 +1,283 @@
+\documentclass[onesided]{article}
+\usepackage[T1]{fontenc}
+\linespread{1.5} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[hmarginratio=1:1,columnsep=20pt]{geometry} % Document margins
+%\usepackage{multicol} % Used for the two-column layout of the document
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+\usepackage{float} % Required for tables and figures in the multi-column environment - they need to be placed in specific locations with the [H] (e.g. \begin{table}[H])
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+\usepackage{paralist} % Used for the compactitem environment which makes bullet points with less space between them
+
+% to ignore texts: good for thank messages and paper submissions.
+      % \fbox{\phantom{This text will be invisible too, but a box will be printed arround it.}}
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+%\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage[]{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\Roman{subsection}} % Roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancybox, fancyvrb, calc}
+\usepackage[svgnames]{xcolor}
+\usepackage{physics}
+\usepackage{epigraph}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{graphics}
+\usepackage{pbox} % \pbox{20cm}{This is the first \\ cell}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{rotating}
+\usepackage{paracol}
+\usepackage{textcomp}
+\usepackage[export]{adjustbox}
+\usepackage{afterpage}
+\usepackage{filecontents}
+\usepackage{color}
+\usepackage{latexsym}
+\usepackage{lscape}       %\begin{landscape} and \end{landscape}
+\usepackage{wasysym}
+\usepackage{dashrule}
+\usepackage{marvosym} % face package
+\usepackage{framed}
+\usepackage{tree-dvips}
+\usepackage{pgffor}
+\usepackage[]{authblk}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage[latin1]{inputenc}
+\usepackage{hyperref}     %desactivar para link rojos
+\usepackage{graphicx}
+\usepackage{dcolumn} % for R tables
+\usepackage{multirow} % For multirow in tables
+\usepackage{pifont}
+\usepackage{listings}
+\usepackage{bm}
+
+
+
+
+% hypothesis / theorem package begin
+\usepackage{amsthm}
+\usepackage{thmtools}
+\declaretheoremstyle[
+spaceabove=6pt, spacebelow=6pt,
+headfont=\normalfont\bfseries,
+notefont=\mdseries, notebraces={(}{)},
+bodyfont=\normalfont,
+postheadspace=0.6em,
+headpunct=:
+]{mystyle}
+\declaretheorem[style=mystyle, name=Hypothesis, preheadhook={\renewcommand{\thehyp}{H\textsubscript{\arabic{hyp}}}}]{hyp}
+
+\usepackage{cleveref}
+\crefname{hyp}{hypothesis}{hypotheses}
+\Crefname{hyp}{Hypothesis}{Hypotheses}
+% hypothesis / theorem package end
+
+
+%----------------------------------------------------------------------------------------
+% Other ADDS-ON
+%----------------------------------------------------------------------------------------
+
+% independence symbol \independent
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+
+
+
+
+
+
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat's bookmarks
+    pdftoolbar=true,        % show Acrobat's toolbar?
+    pdfmenubar=true,        % show Acrobat's menu?
+    pdffitwindow=true,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={My title},    % title
+    pdfauthor={Author},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={keyword1} {key2} {key3}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=ForestGreen,          % color of internal links (change box color with linkbordercolor)
+    citecolor=ForestGreen,        % color of links to bibliography
+    filecolor=ForestGreen,      % color of file links
+    urlcolor=ForestGreen           % color of external links
+}
+
+%\usepackage[nodayofweek,level]{datetime} % to have date within text
+
+\newcommand{\LETT}[3][]{\lettrine[lines=4,loversize=.2,#1]{\smash{#2}}{#3}} % letrine customization
+
+
+
+% comments on margin
+  % Select what to do with todonotes: 
+  % \usepackage[disable]{todonotes} % notes not showed
+  \usepackage[draft]{todonotes}   % notes showed
+  % usage: \todo{This is a note at margin}
+
+\usepackage{cooltooltips}
+
+%%% bib begin
+\usepackage[american]{babel}
+\usepackage{csquotes}
+\usepackage[backend=biber,style=authoryear,dashed=false,doi=false,isbn=false,url=false,arxiv=false]{biblatex}
+%\DeclareLanguageMapping{american}{american-apa}
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/library.bib} 
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/Bahamonde_BibTex2013.bib} 
+
+% USAGES
+%% use \textcite to cite normal
+%% \parencite to cite in parentheses
+%% \footcite to cite in footnote
+%% the default can be modified in autocite=FOO, footnote, for ex. 
+%%% bib end
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{PS3: Pauta} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+
+\begin{document}
+% DOCUMENT ID
+%----------------------------------------------------------------------------------------
+%	CONTENT
+%----------------------------------------------------------------------------------------
+
+%\graphicspath{
+%{/Users/hectorbahamonde/RU/Term5/Experiments_Redlawsk/Experiment/Data/}
+%}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% begin knitr stuff
+<<setup, include=FALSE, cache=F>>=
+if (!require("pacman")) install.packages("pacman"); library(pacman)
+p_load(knitr)
+set.seed(2020)
+options(scipen=9999999)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\hspace{-5mm}{\bf Profesor}: H\'ector Bahamonde, PhD.\\
+\texttt{e:}\href{mailto:hector.bahamonde@uoh.cl}{\texttt{hector.bahamonde@uoh.cl}}\\
+\texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.hectorbahamonde.com}}\\
+{\bf Curso}: MLE.\\
+\hspace{-5mm}{\bf TA}: Gonzalo Barr\'ia.
+
+\section{1}
+
+Carguemos los datos
+
+<<dat, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+load(url("https://github.com/hbahamonde/MLE/raw/master/Datasets/Contraceptive_Method_Choice.RData"))
+@
+
+Ahora, veamos de qu\'e se trata la variable dependiente.
+
+
+<<v:d:d, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+plot(dat$cmc)
+@
+
+\begin{enumerate}
+\item[$1.1$] Es un multinomial ordenado. Corresponde o un ordered probit o un ordered logit.
+\item[$1.2$] La diferencia es que en la especificaci\'on probit {\bf el error} est\'a distribuido normalmente (con promedio 0 y varianza 1), mientras que la distribucion logit {\bf el error} tiene un promedio 0 y una varianza $\frac{\pi^{2}}{3}$. {\bf El estudiante debe mencionar todo esto}.
+\end{enumerate}
+
+
+\section{2}
+
+En este caso, estimaremos el modelo seg\'un las variables que se especifican. El estudiante puede hacer su propia selecci\'on de variables. {\bf Siempre deben estar justificadas}. Ambos modelos deben ser iguales en el n\'umero y tipo de variables independientes.
+
+\begin{enumerate}
+\item[$2.1$] Variables se muestran abajo. No incluyo justificaci\'on aqu\'i porque esto depender\'a de la selecci\'on del estudiante. Se incluye tabla.
+\end{enumerate}
+
+<<modelos, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(MASS)
+o.logit = polr(cmc ~ wife_edu + wife_age + num_child + islam + wife_working, 
+data = dat, method = "logistic")
+o.probit = polr(cmc ~ wife_edu + wife_age + num_child + islam + wife_working, 
+data = dat, method = "probit") 
+@
+
+Hagamos la tabla.
+
+<<texreg, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(texreg)
+texreg(list(o.logit, o.probit)) # usa "screenreg" no "texreg".
+@
+
+
+\begin{enumerate}
+\item[$2.2$] Es esperable que el estudiante use el {\bf BIC} o {\bf AIC}. N\'umeros m\'as peque\~nos indican mejor \emph{fit}. En este caso, el modelo probit (``Model 2'') hace un mejor trabajo. Pero esto depender\'a de la selecci\'on de variables del estudiante. El estudiante tambi\'en puede usar el log-lik (numeros m\'as cercanos a cero son mejores).
+\end{enumerate}
+
+\section{3}
+
+\begin{enumerate}
+\item[$3$] El estudiante no necesariamente debe interpretar la tabla. Si lo hace, debe ser cap\'az de:
+  \begin{enumerate}
+    \item Decir ``cuando $x$ sube en una unidad, $y$ sube en $\beta$ ``log-odds'', manteniendo el resto de las variables constantes en su media.''
+    \item El estudiante {\bf debe} identificar correctamente la unidad de cambio de los coeficientes: ``log-odds''.
+  \end{enumerate}
+\end{enumerate}
+
+Calculemos ahora los \emph{predicted probabilities}. 
+
+<<pp, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=8,dpi=1000,cache=F, include = TRUE>>=
+p_load(effects)
+plot(effect("wife_edu", o.logit))
+plot(effect("wife_age", o.logit))
+plot(effect("num_child", o.logit))
+plot(effect("islam", o.logit))
+plot(effect("wife_workin", o.logit))
+@
+
+No interpretar\'e las \emph{predicted probabilities} aqu\'i (ya que es contigente en el modelo del estudiante). El estudiante debe:
+
+\begin{enumerate}
+\item {\bf Interpretar \underline{todos} los par\'ametros de manera \underline{substantiva}}.
+\item Seleccionar el set de interpretaciones en base al mejor modelo (en este caso, el modelo probit).
+\item Identificar las unidades de los ejes de los gr\'aficos: el eje $Y$ es probabilidad, el eje $X$ son los niveles de las variables dependientes.
+\end{enumerate}
+
+
+%\newpage
+%\paragraph{}
+%\paragraph{}
+%\pagenumbering{Roman}
+%\setcounter{page}{1}
+%\printbibliography
+
+
+
+\end{document}
+
+
