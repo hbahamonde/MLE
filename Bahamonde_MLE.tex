@@ -100,22 +100,6 @@
 }
 
 
-% email input begin
-\newread\fid
-\newcommand{\readfile}[1]% #1 = filename
-{\bgroup
-  \endlinechar=-1
-  \openin\fid=#1
-  \read\fid to\filetext
-  \loop\ifx\empty\filetext\relax% skip over comments
-    \read\fid to\filetext
-  \repeat
-  \closein\fid
-  \global\let\filetext=\filetext
-\egroup}
-\readfile{/Users/hectorbahamonde/Bibliografia_PoliSci/email.txt}
-% email input end
-
 
 %%% bib begin
 \usepackage[american]{babel}
@@ -185,33 +169,33 @@
 {\bf Profesor}: H\'ector Bahamonde, PhD.\\
 \texttt{e:}\href{mailto:hector.bahamonde@uoh.cl}{\texttt{hector.bahamonde@uoh.cl}}\\
 \texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.HectorBahamonde.com}}\\
-\texttt{Zoom ID:} \href{https://us02web.zoom.us/j/9513261038?pwd=S3BSWXQxZW11NC9CRjRoMmd0TkpEZz09}{\texttt{951-326-1038}}.\\
+%\texttt{Zoom ID:} \href{https://us02web.zoom.us/j/9513261038?pwd=S3BSWXQxZW11NC9CRjRoMmd0TkpEZz09}{\texttt{951-326-1038}}.\\
 {\bf Office Hours (Zoom)}: Toma una hora \href{https://calendly.com/bahamonde/officehours}{\texttt{aqu\'i}}.
 
 
 \vspace{5mm}
-{\bf Hora de c\'atedra}: Martes: 10:15---11:45; Jueves: 14:30---16:00 hrs.\\
+{\bf Hora de c\'atedra}: TBA.\\
 {\bf Lugar de c\'atedra}: Zoom (no hay clases presenciales este semestre).\\
 
-{\bf Acceso a materiales del curso}: \href{https://ucampus.uoh.cl/uoh/2020/2/ICE3202/1/}{\texttt{uCampus}}.
+%{\bf Acceso a materiales del curso}: \href{https://ucampus.uoh.cl/uoh/2020/2/ICE3202/1/}{\texttt{uCampus}}.
 
 \vspace{5mm}
 {\bf Ayudante de c\'atedra (TA)}: Gonzalo Barr\'ia (Mg.).\\
 \texttt{e:}\href{mailto:gonzalo.barria@uoh.cl}{\texttt{gonzalo.barria@uoh.cl}}\\
-\texttt{Zoom ID:} 988-891-7227.\\
+%\texttt{Zoom ID:} 988-891-7227.\\
 {\bf TA Bio}: Gonzalo Barr\'ia es Cientista Pol\'itico (PUC) y Mag\'ister en Ciencia Pol\'itica (PUC).\\
-{\bf Hora de ayudant\'ia}: \emph{On-demand}.\\
-{\bf Lugar de ayudant\'ia}: Zoom (no hay ayudant\'ias presenciales este semestre).\\
+{\bf Hora de ayudant\'ia}: TBA.\\
+{\bf Lugar de ayudant\'ia}: TBA.\\
 
 
 \vspace{5mm}
 {\bf Carrera}:  Ingenier\'ia Comercial.\\
 {\bf Eje de Formaci\'on}: M\'etodos Cuantitativos.\\
-{\bf Semestre/A\~no}: Sexto Semestre/2020.\\
+%{\bf Semestre/A\~no}: Sexto Semestre/2020.\\
 {\bf Pre-requisitos}: Metodos Cuanti I.\\
 {\bf SCT}: 6.\\
-{\bf Horas semanales}: C\'atedra (45-60 minutos v\'ia Zoom), Ayudant\'ia  (45-60 minutos v\'ia Zoom). \\
-{\bf Semanas}:  12.
+%{\bf Horas semanales}: C\'atedra (45-60 minutos v\'ia Zoom), Ayudant\'ia  (45-60 minutos v\'ia Zoom). \\
+%{\bf Semanas}:  12.
 
 
 
@@ -322,13 +306,13 @@ En este curso usaremos principalmente \texttt{R}. Sin embargo, y debido a que \t
 		El paper (\emph{script}) se puede entregar antes, pero una vez cerrado el plazo, no se recibir\'an trabajos. Los \emph{scripts} que se entreguen tarde o v\'ia \emph{email} tendr\'an un 1 (sin opci\'on a reclamo). {\bf No hay excepciones}. 
 \\
 \\
-		En un formato muy parecido a una conferencia acad\'emica (virtual, no presencial), tendr\'as (junto a tu grupo) que presentar los principales hallazgos (10\%). Todos/as presentan. Cada presentaci\'on debe durar no menos de 15 minutos, pero nunca m\'as de 20 minutos. Las presentaciones se realizar\'an virtualmente (i.e. v\'ia Zoom) el \'ultimo d\'ia de clases. Tendr\'as que ocupar \emph{slides} (``Power Point''). Para tales efectos, tendr\'as que compartir pantalla desde tu casa, y hacer tu presentaci\'on de esa manera.
+		En un formato muy parecido a una conferencia acad\'emica, tendr\'as (junto a tu grupo) que presentar los principales hallazgos (10\%). Todos/as presentan. Cada presentaci\'on debe durar no menos de 15 minutos, pero nunca m\'as de 20 minutos. Las presentaciones se realizar\'an virtualmente (i.e. v\'ia Zoom) el \'ultimo d\'ia de clases. Tendr\'as que ocupar \emph{slides} (``Power Point''). Para tales efectos, tendr\'as que compartir pantalla desde tu casa, y hacer tu presentaci\'on de esa manera.
 
 
 
 %\\
 %\\
-Les recomiendo ``verme'' (v\'ia Zoom) en \href{https://calendly.com/bahamonde/officehours}{mis office hours} \emph{antes} del plazo de entrega. Si quieres, \href{mailto:\filetext}{env\'iame un email} con tu borrador, y yo te devolver\'e comentarios. V\'elo como una pre-correcci\'on. Esto es voluntario. Tambi\'en puedes contactar al/la TA. {\bf No se procesar\'an preguntas durante fines de semana, y/o festivos}.
+Les recomiendo ``verme'' (v\'ia Zoom) en \href{https://calendly.com/bahamonde/officehours}{mis office hours} \emph{antes} del plazo de entrega. Si quieres, \href{mailto:hector.bahamonde@uoh.cl}{env\'iame un email} con tu borrador, y yo te devolver\'e comentarios. V\'elo como una pre-correcci\'on. Esto es voluntario. Tambi\'en puedes contactar al/la TA. {\bf No se procesar\'an preguntas durante fines de semana, y/o festivos}.
 
 
 \end{enumerate}
