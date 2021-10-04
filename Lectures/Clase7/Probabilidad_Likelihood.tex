@@ -10,6 +10,7 @@
 \usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
 \linespread{1.05} % Line spacing - Palatino needs more space between lines
 \usepackage{microtype} % Slightly tweak font spacing for aesthetics
+\usepackage{bm} % bold math
 
 \usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
 \usepackage{multicol} % Used for the two-column layout of the document
@@ -209,15 +210,15 @@ Usualmente, nosotros estimamos la relaci\'on entre $x$ e $y$ v\'ia un modelo lin
 y_{i} = \alpha + \beta_{1}x_{1} + \epsilon_{i}
 \end{equation}
 
-\paragraph{} En este setup, siempre hablamos de ``probabilidad''. Es claro que \autoref{ols} nos muestra que los valores de $y_{i}$ dependen de ${\mathbf x}$ (que es una matrix que contiene $\alpha$ y todos los $x$'s), m\'as el residuo $\epsilon$. Cada par\'ametro tiene un statement de probabilidad (recuerden el \emph{p-value}). 
+\paragraph{} En este setup, siempre hablamos de ``probabilidad''. Es claro que \autoref{ols} nos muestra que los valores de $y_{i}$ dependen de $\bm{x}$ (que es una matrix que contiene $\alpha$ y todos los $x$'s), m\'as el residuo $\epsilon$. Cada par\'ametro tiene un statement de probabilidad (recuerden el \emph{p-value}). 
 
-\paragraph{} Es decir, la probabilidad de $y$ depende de $x$, lo que significa que en este paradigma, ${\mathbf y}$ {\bf depende de un modelo} ($M$). Recuerda que cada vez que pones una $x$ a la mano derecha de la igualdad, est\'as haciendo un modelo (est\'as especificando que la realidad depende de ciertas variables independientes). M\'as formalmente, esta noci\'on se demuestra en \autoref{prob}:
+\paragraph{} Es decir, la probabilidad de $y$ depende de $\bm{x}$, lo que significa que en este paradigma, ${\mathbf y}$ {\bf depende de un modelo} ($M$). Recuerda que cada vez que pones una $x$ a la mano derecha de la igualdad, est\'as haciendo un modelo (est\'as especificando que la realidad depende de ciertas variables independientes). M\'as formalmente, esta noci\'on se demuestra en \autoref{prob}:
 
 \begin{equation} \label{prob}
 Pr(y|M) = Pr(\text{datos}|\text{modelo})
 \end{equation}
 
-donde en \autoref{prob} $M$  es asumido ``fijo'' o ``conocido'' (``fixed'') y los datos ``random''. \emph{Lo son?} \textcite[16]{King1998} explica que ``$M$ is treated as given is a problem because uncertainty in inference lies with the model, not the data.'' 
+donde en \autoref{prob} $M$  es asumido ``fijo'' o ``conocido'' (``fixed'') y los datos ``random''. \emph{Lo son?} Recuerda que incluso existe la noci\'on del \emph{true model} (un modelo verdadero que existe ``por ah\'i'', pero que es inaccesible para nosotros).  \textcite[16]{King1998} explica que cuando ``$M$ is treated as given is a problem because uncertainty in inference lies with the model, not the data.'' 
 
 \begin{itemize}
   \item {\bf $M$: no puede ser tratado como conocido}. Los modelos se construyen. Nadie viene a darnos el modelo correcto.
@@ -233,17 +234,17 @@ Las probabilidades, todas, ``viven'' entre el 0 y 1.
 \begin{equation} \label{prob:model}
 \begin{split}
 Y & \sim f(y|\theta, \alpha) \\
-\theta & = g(X, \beta)
+\bm{\theta} & = g(\bm{X}, \bm{\beta})
 \end{split}
 \end{equation}
 
-donde la primera linea see lee ``$y$ se distribuye como una funci\'on de $y$ que depende de $\theta$ (que es $\hat{y}$, o el valor esperado de $y_{i}$, y $\alpha$''. El valor $\alpha$ se puede entender como parametro que est\'a presente s\'olo en algunos modelos GLMs, o est\'a dado por otros factores. Por ejemplo, $\sigma^{2}$ (la varianza) est\'a dada, no se estima (pero se asume que es {\bf constante}). La segunda l\'inea es una implicaci\'on de la primera, y se lee asi: ``donde $\theta$ es igual a una funcion $g$, donde metemos los datos observados $X$ y calculamos los parametros $\beta$''.
+donde la primera linea see lee ``$y$ se distribuye como una funci\'on de $y$ que depende de $\bm{\theta}$ (que es $\hat{y}$, o el valor esperado de $y_{i}$, y $\alpha$''. El valor $\alpha$ se puede entender como parametro que est\'a presente s\'olo en algunos modelos GLMs, o est\'a dado por otros factores. Por ejemplo, $\sigma^{2}$ (la varianza) est\'a dada, no se estima (pero se asume que es {\bf constante}). La segunda l\'inea es una implicaci\'on de la primera, y se lee asi: ``donde $\bm{\theta}$ es igual a una funcion $g$, donde metemos los datos observados $\bm{X}$ y calculamos los parametros $\bm{\beta}$''.
 
-\paragraph{} Lo unico que estamos haciendo, es hacer la transici\'on a la notaci\'on de MLE. En este caso, estamos viendo d\'onde ``viven'' los par\'ametros y los datos observados y predichos, pero en lenguaje MLE. Si te fijas, $\theta$ (la caja que contiene $X$ y $\beta$) es tomado como ``true parameter''. {\color{red}Si el modelo es tomado como ``verdadero'', qu\'e implicancias tiene el estimado $\beta$? Piensa en los intervalos de confianza}.
+\paragraph{} Lo unico que estamos haciendo, es hacer la transici\'on a la notaci\'on de MLE. En este caso, estamos viendo d\'onde ``viven'' los par\'ametros y los datos observados y predichos, pero en lenguaje MLE. Si te fijas, $\bm{\theta}$ (la caja que contiene $\bm{X}$ y $\bm{\beta}$) es tomado como ``true parameter''. {\color{red}Si el modelo es tomado como ``verdadero'', qu\'e implicancias tiene el estimado $\beta$? Piensa en los intervalos de confianza}.
 
 \subsection*{\emph{Likelihood}: Incertidumbre Relativa}
 
-En lenguaje de likelihood (que se expresa con el car\'acter griego $\theta$) se refiere a un par\'ametro de los infinitos par\'ametros entre todos los modelos posibles ($\tilde{\theta}$). Recuerda, en \autoref{prob:model} $\beta$ se refiere al ``true value''. Eso quiere decir que OLS y MLE tienen llegadas distintas: en MLE existen tantos $\theta$ como hay datos. Esto implica que la incertidumbre en MLE est\'a anclada a los datos (no al modelo). En otras palabras, en likelihood la incertidumbre es \emph{relativa} porque $\tilde{\theta}$ no depende del modelo sino que de los datos. Es por esto que en likelihood uno piensa en t\'erminos de qu\'e modelo ($\tilde{\theta}$) \emph{{\bf maximiza}} el likelihood de haber creado los datos $y$. {\bf A diferencia del lenguaje de probabilidad, los datos no son tomados como ``dados''.}
+En lenguaje de likelihood (que se expresa con el car\'acter griego $\bm{\theta}$) se refiere a un par\'ametro $\theta_{i}$ de los infinitos par\'ametros $\bm{\theta}$ entre todos los modelos posibles ($\bm{\tilde{\theta}}$). Recuerda, en \autoref{prob:model} $\bm{\beta}$ se refiere a los ``true values''. Eso quiere decir que OLS y MLE tienen llegadas distintas: en MLE existen tantos $\bm{\theta}$ como hay datos. Esto implica que la incertidumbre en MLE est\'a anclada a los datos (no al modelo). En otras palabras, en likelihood la incertidumbre es \emph{relativa} porque el likelihood $\theta$ no depende del modelo ($\bm{\tilde{\theta}}$) sino que de los datos. Es por esto que en likelihood uno piensa en t\'erminos de qu\'e modelo ($\tilde{\theta}$) \emph{{\bf maximiza}} el likelihood de haber creado los datos $y$. {\bf A diferencia del lenguaje de probabilidad, los datos no son tomados como ``dados''.}
 
 
  
