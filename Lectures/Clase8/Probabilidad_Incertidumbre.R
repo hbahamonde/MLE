@@ -33,14 +33,14 @@ hist(binomial.cargada, main = "")
 ###################################################
 ### code chunk number 3: binomial
 ###################################################
-# 1 Eleccion (observas el total por cada individuo)
-rbbinom(20, # N
-size = 1 # "Trials" o pruebas
+# 1 Eleccion (observas el total por cada individuo, 20 personas en total)
+rbbinom(20, # N (personas)
+size = 1 # "Trials", pruebas o elecciones en este ej.
 )
 
-# 10 Elecciones (solo observas el total por cada individuo)
-rbbinom(20,#N
-size = 10 # "Trials" o pruebas
+# 10 Elecciones (solo observas el total por cada individuo, 20 personas en total)
+rbbinom(20, # N (personas)
+size = 10 # "Trials", pruebas o elecciones en este ej.
 )
 
 

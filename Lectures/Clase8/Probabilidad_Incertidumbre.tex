@@ -273,7 +273,7 @@ M\'as formalmente, la {\bf f\'ormula de la distribuci\'on Bernoulli} es la sigui
 
 \begin{equation}\label{Bernoulli}
 \begin{split}
-f(y_{i}|\pi) =	\begin{Bmatrix} \pi^{y_{i}}(1-\pi)^{1-y_{i}} & \;\text{for}\; y_{i}=0,1, \\ 
+f(y_{i}|\pi) =	\begin{Bmatrix} \pi^{y_{i}}(1-\pi)^{1-y_{i}} & \;\text{for}\; y_{i}=1, \\ 
 0 & \text{otherwise} \end{Bmatrix}
 \end{split}
 \end{equation}
@@ -311,7 +311,6 @@ f(y_{i}|\pi) =	\begin{Bmatrix} \pi^{y_{i}}(1-\pi)^{1-y_{i}} & \;\text{for}\; y_{
 }
 
 
-
 \end{knitrout}
 
 
@@ -330,7 +329,7 @@ Es importante tener en cuenta que el supuesto es que las tres decisiones son {\b
 
 \begin{equation}\label{Binomial}
 \begin{split}
-f(y_{i}|\pi) =	\begin{Bmatrix} \frac{N!}{y_{i}!(N-y_{i})} \pi^{y_{i}}(1-\pi)^{N-y_{i}} & \;\text{for}\; y_{i}=0,1,\ldots,n, \\ 
+f(y_{i}|\pi) =	\begin{Bmatrix} \frac{N!}{y_{i}!(N-y_{i})} \pi^{y_{i}}(1-\pi)^{N-y_{i}} & \;\text{for}\; y_{i}=1,\ldots,n, \\ 
 0 & \text{otherwise} \end{Bmatrix}
 \end{split}
 \end{equation}
@@ -339,18 +338,18 @@ f(y_{i}|\pi) =	\begin{Bmatrix} \frac{N!}{y_{i}!(N-y_{i})} \pi^{y_{i}}(1-\pi)^{N-
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlcom{# 1 Eleccion (observas el total por cada individuo)}
-\hlkwd{rbbinom}\hlstd{(}\hlnum{20}\hlstd{,} \hlcom{# N}
-\hlkwc{size} \hlstd{=} \hlnum{1} \hlcom{# "Trials" o pruebas}
+\hlcom{# 1 Eleccion (observas el total por cada individuo, 20 personas en total)}
+\hlkwd{rbbinom}\hlstd{(}\hlnum{20}\hlstd{,} \hlcom{# N (personas)}
+\hlkwc{size} \hlstd{=} \hlnum{1} \hlcom{# "Trials", pruebas o elecciones en este ej.}
 \hlstd{)}
 \end{alltt}
 \begin{verbatim}
 ##  [1] 1 0 1 0 0 0 0 0 0 1 1 0 0 1 1 1 1 0 0 0
 \end{verbatim}
 \begin{alltt}
-\hlcom{# 10 Elecciones (solo observas el total por cada individuo)}
-\hlkwd{rbbinom}\hlstd{(}\hlnum{20}\hlstd{,}\hlcom{#N}
-\hlkwc{size} \hlstd{=} \hlnum{10} \hlcom{# "Trials" o pruebas}
+\hlcom{# 10 Elecciones (solo observas el total por cada individuo, 20 personas en total)}
+\hlkwd{rbbinom}\hlstd{(}\hlnum{20}\hlstd{,} \hlcom{# N (personas)}
+\hlkwc{size} \hlstd{=} \hlnum{10} \hlcom{# "Trials", pruebas o elecciones en este ej.}
 \hlstd{)}
 \end{alltt}
 \begin{verbatim}
