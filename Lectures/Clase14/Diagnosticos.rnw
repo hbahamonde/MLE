@@ -192,7 +192,7 @@ options(scipen=9999999)
 
 \section{Diagn\'osticos}
 
-Al igual que en el ``mundo'' OLS, existen formas para evaluar cu\'an bueno (o malo) es nuestro modelo. {\color{red}Qu\'e tipo de diagn\'osticos existen en el ``mundo'' OLS?}
+Al igual que en el ``mundo'' OLS, existen formas para evaluar cuan bueno (o malo) es nuestro modelo. {\color{red}Qu\'e tipo de diagn\'osticos existen en el ``mundo'' OLS?}
 
 Recuerda que en OLS, el residuo $\epsilon_{i}$ es la diferencia entre lo que predecimos y lo que observamos, o $\epsilon_{i}=y_{i}-x_{ij}\beta_{j}$ (donde $y_{i}$ son los valores de la variable dependiente para observaci\'on $i$, $x_{ij}$ son los $j$ variables dependientes para cada una de las observaciones $i$, y $\beta_{j}$ son los $j$ par\'ametros estimados). 
 
