@@ -354,18 +354,18 @@ La $H_{0}$ es que se cumple el supuesto de la regresi\'on paralela. Si la probab
 \paragraph{Cambios Marginales} Calculemos ahora los cambios marginales. Pensemos en dos perfiles.
 
 
-<<margins, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+<<margins, echo = TRUE, warning = FALSE, message = F, cache=F, include = TRUE>>=
 p_load(margins)
 # 1
-margins(o.logit, at = list(
+summary(margins(o.logit, at = list(
   ideology = max(dat$ideology, na.rm = T), # derechista 
   educyears = min(dat$educyears, na.rm = T)) # sin educ
-  )
+  ))
 # 2
-margins(o.logit, at = list(
+summary(margins(o.logit, at = list(
   ideology = min(dat$ideology, na.rm = T), # izquierdista
   educyears = min(dat$educyears, na.rm = T)) # sin educ
-)
+))
 @
 
 
