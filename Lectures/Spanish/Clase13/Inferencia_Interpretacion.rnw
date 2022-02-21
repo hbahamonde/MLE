@@ -1,0 +1,467 @@
+\documentclass[onesided]{article}
+\usepackage[T1]{fontenc}
+\linespread{1.5} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[hmarginratio=1:1,columnsep=20pt]{geometry} % Document margins
+%\usepackage{multicol} % Used for the two-column layout of the document
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+\usepackage{float} % Required for tables and figures in the multi-column environment - they need to be placed in specific locations with the [H] (e.g. \begin{table}[H])
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+\usepackage{paralist} % Used for the compactitem environment which makes bullet points with less space between them
+
+% to ignore texts: good for thank messages and paper submissions.
+      % \fbox{\phantom{This text will be invisible too, but a box will be printed arround it.}}
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+%\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage[]{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\Roman{subsection}} % Roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancybox, fancyvrb, calc}
+\usepackage[svgnames]{xcolor}
+\usepackage{physics}
+\usepackage{bm}
+\usepackage{epigraph}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{graphics}
+\usepackage{pbox} % \pbox{20cm}{This is the first \\ cell}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{rotating}
+\usepackage{paracol}
+\usepackage{textcomp}
+\usepackage[export]{adjustbox}
+\usepackage{afterpage}
+\usepackage{filecontents}
+\usepackage{color}
+\usepackage{latexsym}
+\usepackage{lscape}       %\begin{landscape} and \end{landscape}
+\usepackage{wasysym}
+\usepackage{dashrule}
+\usepackage{marvosym} % face package
+\usepackage{framed}
+\usepackage{tree-dvips}
+\usepackage{pgffor}
+\usepackage[]{authblk}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage[latin1]{inputenc}
+\usepackage{hyperref}     %desactivar para link rojos
+\usepackage{graphicx}
+\usepackage{dcolumn} % for R tables
+\usepackage{multirow} % For multirow in tables
+\usepackage{pifont}
+\usepackage{listings}
+
+
+
+
+% hypothesis / theorem package begin
+\usepackage{amsthm}
+\usepackage{thmtools}
+\declaretheoremstyle[
+spaceabove=6pt, spacebelow=6pt,
+headfont=\normalfont\bfseries,
+notefont=\mdseries, notebraces={(}{)},
+bodyfont=\normalfont,
+postheadspace=0.6em,
+headpunct=:
+]{mystyle}
+\declaretheorem[style=mystyle, name=Hypothesis, preheadhook={\renewcommand{\thehyp}{H\textsubscript{\arabic{hyp}}}}]{hyp}
+
+\usepackage{cleveref}
+\crefname{hyp}{hypothesis}{hypotheses}
+\Crefname{hyp}{Hypothesis}{Hypotheses}
+% hypothesis / theorem package end
+
+
+%----------------------------------------------------------------------------------------
+% Other ADDS-ON
+%----------------------------------------------------------------------------------------
+
+% independence symbol \independent
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+
+
+
+
+
+
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat's bookmarks
+    pdftoolbar=true,        % show Acrobat's toolbar?
+    pdfmenubar=true,        % show Acrobat's menu?
+    pdffitwindow=true,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={My title},    % title
+    pdfauthor={Author},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={keyword1} {key2} {key3}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=ForestGreen,          % color of internal links (change box color with linkbordercolor)
+    citecolor=ForestGreen,        % color of links to bibliography
+    filecolor=ForestGreen,      % color of file links
+    urlcolor=ForestGreen           % color of external links
+}
+
+%\usepackage[nodayofweek,level]{datetime} % to have date within text
+
+\newcommand{\LETT}[3][]{\lettrine[lines=4,loversize=.2,#1]{\smash{#2}}{#3}} % letrine customization
+
+
+
+% comments on margin
+  % Select what to do with todonotes: 
+  % \usepackage[disable]{todonotes} % notes not showed
+  \usepackage[draft]{todonotes}   % notes showed
+  % usage: \todo{This is a note at margin}
+
+\usepackage{cooltooltips}
+
+%%% bib begin
+\usepackage[american]{babel}
+\usepackage{csquotes}
+\usepackage[backend=biber,style=authoryear,dashed=false,doi=false,isbn=false,url=false,arxiv=false]{biblatex}
+%\DeclareLanguageMapping{american}{american-apa}
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/library.bib} 
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/Bahamonde_BibTex2013.bib} 
+
+% USAGES
+%% use \textcite to cite normal
+%% \parencite to cite in parentheses
+%% \footcite to cite in footnote
+%% the default can be modified in autocite=FOO, footnote, for ex. 
+%%% bib end
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{MLE para Outcomes Binarios: Inferencia e Interpretaci\'on} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+
+\begin{document}
+% DOCUMENT ID
+%----------------------------------------------------------------------------------------
+%	CONTENT
+%----------------------------------------------------------------------------------------
+
+%\graphicspath{
+%{/Users/hectorbahamonde/RU/Term5/Experiments_Redlawsk/Experiment/Data/}
+%}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% begin knitr stuff
+<<setup, include=F, cache=F>>=
+if (!require("pacman")) install.packages("pacman"); library(pacman)
+p_load(knitr)
+set.seed(2020)
+options(scipen=9999999)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\hspace{-5mm}{\bf Profesor}: H\'ector Bahamonde, PhD.\\
+\texttt{e:}\href{mailto:hector.bahamonde@uoh.cl}{\texttt{hector.bahamonde@uoh.cl}}\\
+\texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.hectorbahamonde.com}}\\
+{\bf Curso}: MLE.\\
+\hspace{-5mm}{\bf TA}: Gonzalo Barr\'ia.
+
+\section{Inferencia e Interpretaci\'on}
+
+Los GLMs no se pueden interpretar usando la tabla. Los coeficientes no significan lo que significaban en nuestro mundo OLS. Para interpretarlos, debemos usar otras herramientas. 
+
+
+\paragraph{Intervalos de confianza}
+
+Ya sabemos lo que un intervalo de confianza significa: si nuestra confianza es al 95\%, sabemos que el ``true value'' de la estimaci\'on caer\'a el 95\% de las veces dentro del margen de los intervalos de confianza. Es en base a esto que antes habl\'abamos de ``significancia estad\'istica''.
+
+Carguemos los datos.
+
+
+<<data, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+# Data
+mydata <- read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv")
+head(mydata)
+summary(mydata)
+@
+
+Estimemos el primer modelo
+
+<<l:1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+logit.1 <- glm(admit ~ gre + gpa, data = mydata, family = binomial(link = "logit"))
+summary(logit.1)
+@
+
+Y ahora, estimemos los intervalos de confianza. Los intervalos de confianza son sencillos de calcular. Si queremos un 95\% de confianza, miramos la tabla con los valores Z. Para ese porcentaje es $1.960$ (para un 90\% es 1.645). 
+
+\begin{equation}
+\hat\theta \pm 1.960 \times \text{SE}_{\hat\theta}
+\end{equation}
+
+donde $\hat\theta$ es la estimaci\'on (el par\'ametro), $1.960$ es el valor $z$ para el 95\% y $\text{SE}_{\hat\theta}$ es el ``standard error'' del par\'ametro estimado $\hat\theta$. Si te fijas, tenemos el signo $\pm$ que implica que debemos restar para obtener el rango m\'inimo del intervalo de confianza, y sumar para obtener el rango m\'aximo del intervalo de confianza asociado a $\hat\theta$.
+
+Por ejemplo, el coeficiente de ``gre'' es $\hat\theta_{\text{GRE}}=\Sexpr{logit.1$coefficients["gre"]}$, el $SE_{\hat{\text{GRE}}}$ = \Sexpr{as.numeric(sqrt(diag(vcov(logit.1)))[2])}. Entonces, $\Sexpr{logit.1$coefficients["gre"]} + 1.96*\Sexpr{as.numeric(sqrt(diag(vcov(logit.1)))[2])}$ = \Sexpr{round(logit.1$coefficients["gre"]+ 1.96 * as.numeric(sqrt(diag(vcov(logit.1)))[2]),4)} para el intervalo superior, y $\Sexpr{logit.1$coefficients["gre"]} - 1.96*\Sexpr{as.numeric(sqrt(diag(vcov(logit.1)))[2])}$ = \Sexpr{round(logit.1$coefficients["gre"] - 1.96 * as.numeric(sqrt(diag(vcov(logit.1)))[2]),4)} para el intervalo inferior. 
+
+Usemos un paquete.
+
+
+
+<<i:c, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+confint(logit.1)
+@
+
+Tambi\'en podemos graficar:
+
+
+<<ci:plot, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+p_load(jtools,ggstance,broom.mixed)
+plot_summs(logit.1)
+@
+
+\paragraph{Odds Ratios (``Radios de Posibilidad'')}
+
+Esta manera de interpretar solo funciona con los \emph{link function} tipo logit (logit, multinomial logit, etc.), no probit links (i.e. probit, multinomial probit). Formalmente, 
+
+\begin{equation}\label{odd:ratio}
+\begin{split}
+ln \Omega(\text{x}) & = \text{x}\beta \\
+\Omega(\text{x}) & = \frac{\text{Pr}(\text{y}=1 | \text{x})}{\text{Pr}(\text{y}=0 | \text{x})} 
+\end{split}
+\end{equation}
+
+donde \autoref{odd:ratio} es el \emph{odd ratio} de que $y$ sea 1 dado $x$, relativo a que $y$ sea 0 dado $x$. Es un ratio, una fracci\'on. Su interpretaci\'on es intuitiva: ``cuando $x$ cambia, cu\'anto cambia el logit estimado ($\hat\theta$) manteniendo los otros par\'ametros constantes''?
+
+{\bf Lo bueno} de esta interpretaci\'on es que podemos observar el cambio de la variable dependiente. Ten en cuenta que los \emph{odds ratios} son comparables s\'olo con la misma variable. {\bf Lo malo} es que seguimos en unidades de la escala logit (que sigue siendo poco interpretable).
+
+
+
+<<od:ra, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+p_load(oddsratio)
+#
+odds = or_glm(data = mydata, 
+       model = logit.1, 
+       incr = list(gre = mean(mydata$gre), gpa = mean(mydata$gpa) + sd(mydata$gpa)))
+odds
+@
+
+Aqu\'i vemos que la variable dependiente (\texttt{admit}) es \Sexpr{odds$oddsratio[odds$predictor=="gpa"]} veces m\'as ``\emph{posible}'' de ocurrir cuando la variable independiente \texttt{gpa} incrementa una desviaci\'on estandard, es decir, se mueve desde su promedio (\Sexpr{mean(mydata$gpa)}) en \Sexpr{sd(mydata$gpa)} puntos de \texttt{gpa}.
+
+
+<<od:plot, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+par(mfrow=c(1,2))
+hist(mydata$gpa, main = "GPA")
+hist(mydata$gre, main = "GRE")
+@
+
+C\'omo interpretamos \texttt{GRE}?
+
+<<means, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+mean(mydata$gpa)
+mean(mydata$gre)
+@
+
+\paragraph{Lo malo} Si bien es cierto que ganamos interpretaci\'on del modelo, lo malo es seguimos hablando con poca precisi\'on. Decir que algo es \Sexpr{odds$oddsratio[odds$predictor=="gpa"]} veces m\'as ``\emph{posible}'' es interesante, pero no s\'e si tan ``cient\'ifico''.
+
+
+\paragraph{\emph{Partial/Marginal Changes} in y}
+
+Los ``cambios parciales'' son muy parecidos a los \emph{odds ratios}. Son parecidos porque nos muestra ``cu\'anto cambia $\hat y$ cuando cambia $x$''. Formalmente, 
+
+\begin{equation}\label{part:chan:1}
+\frac{\partial \hat y}{\partial x_{k}} = \beta_{k}
+\end{equation}
+
+lo que significa ``por un cambio en $x_{k}$, se espera que $\hat y$ cambie $\beta_{k}$'' (manteniendo todas las otras variables constantes en su media). Sin embargo, debido a que la varianza de $\hat y$ es desconocida (la varianza es un \emph{population parameter}), entonces, esto complica la interpretaci\'on de $\beta_{k}$. Para resolver esto, lo que hacemos es pensar en coeficientes $\beta_{k}$ estandarizados. Siguiendo \autoref{part:chan:1}, lo que pensamos es en ``por un cambio en $x_{k}$, se espera que $\hat y$ cambie $\beta_{k}$ {\bf desviaciones est\'andard}''. Formalmente, 
+
+\begin{equation}\label{part:chan:2}
+\beta_{k}^{S} = \frac{\sigma_{k} \beta_{k}}{\sigma_{\hat y}} = \sigma_{k}\beta_{k}^{S_{\hat y}}
+\end{equation}
+
+Nota que \autoref{part:chan:2} tambi\'en estandariza $\hat y$. Debido a que $\hat\sigma_{\hat y} = \sigma_{\hat y}$ (i.e. podemos estimar la varianza estandarizada de los datos), 
+
+\begin{equation}%\label{part:chan}
+{\hat\sigma_{\hat y}} = \beta^{\top}\hat\sigma(x)\beta + \sigma(\epsilon).
+\end{equation}
+
+Calculemos dos escenarios. Uno donde el estudiante le iba muy bien en el colegio (\texttt{max(mydata\$gpa)}), pero tuvo un p\'esimo puntaje GRE que es la prueba de admisi\'on de doctorado (\texttt{min(mydata\$gre)}).
+
+<<sc1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(margins)
+summary(margins(logit.1, 
+        at = list(
+          gre = min(mydata$gre), 
+          gpa = max(mydata$gpa))
+        ))
+@
+
+Ahora calculemos un escenario donde el estudiante era regular en el colegio (\texttt{mean(mydata\$gpa)}) pero le fue s\'uper bien en el GRE (\texttt{max(mydata\$gre)}):
+
+<<sc2, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+summary(margins(logit.1, 
+        at = list(
+          gre = max(mydata$gre), 
+          gpa = mean(mydata$gpa))
+          ))
+@
+
+Aqu\'i vemos en \texttt{factor} cu\'anto cambia (en unidades de log-likelihood, segun sale en \texttt{lower} y \texttt{upper}) $\hat y$, y si es significativo o no (\texttt{p}).
+
+
+Es muy \'util establecer valores seg\'un ciertos perfiles t\'ipicos o ``escenarios''. Sin embargo, esto asume que conocemos estos perfiles (lo que puede que no sea cierto todas las veces). Para compensar  por esto, podemos graficar los cambios marginales para todo el rango de $x$ e $y$. 
+
+Grafiquemos:
+
+<<sc3, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+par(mfrow=c(1,2))
+cplot(logit.1, "gre", what = "effect") # effect para mostrar cambios marginales
+cplot(logit.1, "gpa", what = "effect") # effect para mostrar cambios marginales
+@
+
+
+\paragraph{Predicted Probabilities: Gr\'aficos}
+
+Quiz\'as esta sea la manera m\'as usada para poder interpretar: graficando (o mostrando en una tabla) ``la probabilidad de que $y$ sea $1$ a distintos valores de $x$'', o de manera m\'as formal, 
+
+\begin{equation}%\label{part:chan}
+\hat{\text{Pr}}(y_{i}=1|{\mathbf x}_{i}) = f({\mathbf x}_{i}{\boldsymbol{\hat\beta}})
+\end{equation}
+
+F\'ijate que ${\mathbf x}$ y $\boldsymbol{\hat{\beta}}$ son matrices. {\color{red}Por que?} 
+
+Aqu\'i lo que queremos saber es c\'omo se comporta la probabilidad de que $y_{i}=1$ a medida que nos movemos en una de las $x$'s. {\bf Lo bueno}, es que tenemos un lenguaje f\'acil de entender: todos entienden probabilidades, y adem\'as, estas var\'ian entre 0 y 1. {\color{red}Pero qu\'e hacemos con el resto de las x's?}
+
+
+Lo que estamos tratando de comunicar es $\hat y_{i}$ que est\'a en escala logit. Ve\'amos c\'omo se ve $\hat y_{i}$ en escala logit usando el comando \texttt{predict}:
+
+
+<<predict:1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+head(predict(logit.1))
+summary(predict(logit.1))
+plot(predict(logit.1)) # logit scale
+@
+
+
+Como la escala logit no es facilmente entendible (\texttt{predict(logit.1)}), debemos mapear $\hat y_{i}$ en una funci\'on que que retorne $\hat y_{i}$ pero en escala de probabilidades (entre 0 y 1). 
+
+Asumiendo que $\hat y_{i}$ est\'a en escala logit, la funci\'on es la siguiente:
+
+\begin{equation}\label{logit:prob}
+Pr(y_{i}=1) = \frac{exp(\hat y_{i})}{1+exp(\hat y_{i}}
+\end{equation}
+
+y que se logra as\'i:
+
+<<logit:prob:1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+logit.scale = as.numeric(predict(logit.1)) # extraer vector y'
+prob.scale = exp(logit.scale)/(1+exp(logit.scale)) # exponenciar
+head(prob.scale) # ve como se ve y' en formato prob
+summary(prob.scale) # resumen de y' en formato prob (bounded)
+@
+
+Despu\'es de eso, se pueden hacer gr\'aficos:
+
+<<logit:prob:2, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=4,dpi=1000,cache=F, include = TRUE>>=
+par(mfrow=c(1,2)) # divide el panel de graf's en dos
+plot(mydata$gre, prob.scale) # para gre
+plot(mydata$gpa, prob.scale) # para gpa
+@
+
+Afortunadamente se puede hacer de manera m\'as simple. Usando la librer\'ia \texttt{effects}, podemos obtener $\hat y_{i}$ expresado en probabilidades. Aqu\'i tomamos $\hat y_{i}$ que est\'a en escala logit (que es tambi\'en lo que est\'a en la tabla de la regresi\'on log\'istica) y lo mapeamos en la funci\'on que retorna probabilidades entre 0 y 1 (\autoref{logit:prob}).
+
+<<predict:2, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+p_load("effects")
+plot(predictorEffects(logit.1)) # Todo el modelo 
+@
+
+Nota que incluye autom\'aticamente intervalos de confianza. {\color{red}De qu\'e dependen?}
+
+\paragraph{Predicted Probabilities: Tablas}
+
+La otra alternativa es poder generar tablas con \emph{predicted prob's}. La idea es ir generando ``perfiles'' que hagan sentido desde un punto de vista substantivo. 
+
+<<tabla:1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+# generar los rangos de los perfiles deseados
+gpa.bajo <- with(mydata, 
+                data.frame(
+                        gre = c(min(mydata$gre), max(mydata$gre)), 
+                        gpa = min(mydata$gpa))
+                )
+gpa.medio <- with(mydata, 
+                 data.frame(
+                         gre = c(min(mydata$gre), max(mydata$gre)), 
+                         gpa = mean(mydata$gpa, na.rm = T))
+                         )
+gpa.alto <- with(mydata, 
+                      data.frame(
+                              gre = c(min(mydata$gre), max(mydata$gre)), 
+                              gpa = max(mydata$gpa))
+                              )
+@
+
+
+<<tabla:2, echo = TRUE, warning = FALSE, message = F,cache=F, include = TRUE>>=
+# usar funcion predict
+predict(logit.1, gpa.bajo, type="response") # gpa.bajo
+predict(logit.1, gpa.medio, type="response") # gpa.medio
+predict(logit.1, gpa.alto, type="response") # gpa.alto
+@
+
+
+
+
+
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\multicolumn{2}{|c|}{\textbf{GPA Bajo}} & \multicolumn{2}{c|}{\textbf{GPA Medio}} & \multicolumn{2}{c|}{\textbf{GPA Alto}} \\ \hline
+\textit{Gre Min}   & \textit{Gre Max}   & \textit{Gre Min}   & \textit{Gre Max}   & \textit{Gre Min}   & \textit{Gre Max}  \\ \hline
+\Sexpr{round(as.numeric(predict(logit.1, gpa.bajo, type="response")[1]), 2)} & \Sexpr{round(as.numeric(predict(logit.1, gpa.bajo, type="response")[2]), 2)} &                    
+\Sexpr{round(as.numeric(predict(logit.1, gpa.medio, type="response")[1]), 2)} & \Sexpr{round(as.numeric(predict(logit.1, gpa.medio, type="response")[2]), 2)} &                    
+\Sexpr{round(as.numeric(predict(logit.1, gpa.alto, type="response")[1]), 2)} & \Sexpr{round(as.numeric(predict(logit.1, gpa.alto, type="response")[2]), 2)} \\ \hline
+\end{tabular}
+\end{table}
+
+
+{\color{red}Cu\'al es el problema?}
+
+<<archivo, warning = FALSE, message = FALSE, cache=FALSE, include = T, debug=TRUE>>=
+knitr::purl('Inferencia_Interpretacion.Rnw')
+Stangle('Inferencia_Interpretacion.Rnw')
+@
+
+%\newpage
+%\paragraph{}
+%\paragraph{}
+%\pagenumbering{Roman}
+%\setcounter{page}{1}
+%\printbibliography
+
+
+
+\end{document}
+
+

@@ -1,0 +1,416 @@
+\documentclass[onesided]{article}
+\usepackage[T1]{fontenc}
+\linespread{1.5} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[hmarginratio=1:1,columnsep=20pt]{geometry} % Document margins
+%\usepackage{multicol} % Used for the two-column layout of the document
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+\usepackage{float} % Required for tables and figures in the multi-column environment - they need to be placed in specific locations with the [H] (e.g. \begin{table}[H])
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+\usepackage{paralist} % Used for the compactitem environment which makes bullet points with less space between them
+
+% to ignore texts: good for thank messages and paper submissions.
+      % \fbox{\phantom{This text will be invisible too, but a box will be printed arround it.}}
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+%\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage[]{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\Roman{subsection}} % Roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancybox, fancyvrb, calc}
+\usepackage[svgnames]{xcolor}
+\usepackage{physics}
+\usepackage{epigraph}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{graphics}
+\usepackage{pbox} % \pbox{20cm}{This is the first \\ cell}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{rotating}
+\usepackage{paracol}
+\usepackage{textcomp}
+\usepackage[export]{adjustbox}
+\usepackage{afterpage}
+\usepackage{filecontents}
+\usepackage{color}
+\usepackage{latexsym}
+\usepackage{lscape}       %\begin{landscape} and \end{landscape}
+\usepackage{wasysym}
+\usepackage{dashrule}
+\usepackage{marvosym} % face package
+\usepackage{framed}
+\usepackage{tree-dvips}
+\usepackage{pgffor}
+\usepackage[]{authblk}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage[latin1]{inputenc}
+\usepackage{hyperref}     %desactivar para link rojos
+\usepackage{graphicx}
+\usepackage{dcolumn} % for R tables
+\usepackage{multirow} % For multirow in tables
+\usepackage{pifont}
+\usepackage{listings}
+\usepackage{bm}
+
+
+
+
+% hypothesis / theorem package begin
+\usepackage{amsthm}
+\usepackage{thmtools}
+\declaretheoremstyle[
+spaceabove=6pt, spacebelow=6pt,
+headfont=\normalfont\bfseries,
+notefont=\mdseries, notebraces={(}{)},
+bodyfont=\normalfont,
+postheadspace=0.6em,
+headpunct=:
+]{mystyle}
+\declaretheorem[style=mystyle, name=Hypothesis, preheadhook={\renewcommand{\thehyp}{H\textsubscript{\arabic{hyp}}}}]{hyp}
+
+\usepackage{cleveref}
+\crefname{hyp}{hypothesis}{hypotheses}
+\Crefname{hyp}{Hypothesis}{Hypotheses}
+% hypothesis / theorem package end
+
+
+%----------------------------------------------------------------------------------------
+% Other ADDS-ON
+%----------------------------------------------------------------------------------------
+
+% independence symbol \independent
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+
+
+
+
+
+
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat's bookmarks
+    pdftoolbar=true,        % show Acrobat's toolbar?
+    pdfmenubar=true,        % show Acrobat's menu?
+    pdffitwindow=true,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={My title},    % title
+    pdfauthor={Author},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={keyword1} {key2} {key3}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=ForestGreen,          % color of internal links (change box color with linkbordercolor)
+    citecolor=ForestGreen,        % color of links to bibliography
+    filecolor=ForestGreen,      % color of file links
+    urlcolor=ForestGreen           % color of external links
+}
+
+%\usepackage[nodayofweek,level]{datetime} % to have date within text
+
+\newcommand{\LETT}[3][]{\lettrine[lines=4,loversize=.2,#1]{\smash{#2}}{#3}} % letrine customization
+
+
+
+% comments on margin
+  % Select what to do with todonotes: 
+  % \usepackage[disable]{todonotes} % notes not showed
+  \usepackage[draft]{todonotes}   % notes showed
+  % usage: \todo{This is a note at margin}
+
+\usepackage{cooltooltips}
+
+%%% bib begin
+\usepackage[american]{babel}
+\usepackage{csquotes}
+\usepackage[backend=biber,style=authoryear,dashed=false,doi=false,isbn=false,url=false,arxiv=false]{biblatex}
+%\DeclareLanguageMapping{american}{american-apa}
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/library.bib} 
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/Bahamonde_BibTex2013.bib} 
+
+% USAGES
+%% use \textcite to cite normal
+%% \parencite to cite in parentheses
+%% \footcite to cite in footnote
+%% the default can be modified in autocite=FOO, footnote, for ex. 
+%%% bib end
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{MLE para Outcomes de Cuentas: Modelos Poisson y Negative-Binomial} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+
+\begin{document}
+% DOCUMENT ID
+%----------------------------------------------------------------------------------------
+%	CONTENT
+%----------------------------------------------------------------------------------------
+
+%\graphicspath{
+%{/Users/hectorbahamonde/RU/Term5/Experiments_Redlawsk/Experiment/Data/}
+%}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% begin knitr stuff
+<<setup, include=FALSE, cache=F>>=
+if (!require("pacman")) install.packages("pacman"); library(pacman)
+p_load(knitr)
+set.seed(2020)
+options(scipen=9999999)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\hspace{-5mm}{\bf Profesor}: H\'ector Bahamonde, PhD.\\
+\texttt{e:}\href{mailto:hector.bahamonde@uoh.cl}{\texttt{hector.bahamonde@uoh.cl}}\\
+\texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.hectorbahamonde.com}}\\
+{\bf Curso}: MLE.\\
+\hspace{-5mm}{\bf TA}: Gonzalo Barr\'ia.
+
+\section{Outcomes de Cuentas}
+
+En la primera mitad de la clase abordaremos el modelo Poisson. La idea es que cuando el supuesto clave de este modelo no se cumple, tenemos la alternativa del modelo Negative-Binomial que relaja ese supuesto
+
+\subsection{Modelo Poisson}
+
+\paragraph{Motivaci\'on} Muchas veces estamos interesados en procesos de cuentas: en n\'umero de veces que visitas a un doctor, el n\'umero de asaltos que se produce en tu ciudad, arrestos, etc. Aunque muchos analistas insisten en que estos \emph{data generating processes} pueden ser estimados v\'ia modelos OLS, este tipo de pr\'acticas seriamente sesga las estimaciones \parencite[217]{Long:1997wv}. Es para esto que necesitamos m\'etodos de MLE para estimarlos.
+
+Este tipo de procesos los llamamos ``de cuentas'' porque se refieren a cu\'antas veces cierto proceso se repite. Si te fijas, cada realizaci\'on del evento ocurre de manera discreta (es decir, \emph{sin} n\'umeros decimales) y de manera positiva. {\bf Recuerda}: los m\'etodos OLS suponen variables dependientes continuas---``con decimales'' y donde $y_{i}=\{-\infty, \infty\}$. Esto \emph{no} ocurre con los modelos Poisson.
+
+
+\paragraph{Supuestos Distribucionales} 
+
+Los modelos Poisson son uno de los modelos MLE m\'as b\'asicos. Cada evento $i$ est\'a determinado por una distribuci\'on Poisson. Existe una caracter\'istica muy importante en este tipo de distribuciones: la media (condicional) y la varianza (condicional) son iguales \parencite[218]{Long:1997wv}. 
+
+En otras palabras, 
+
+\begin{equation}\label{poisson:var}
+E(y_{i}|\boldsymbol{x}_{i})=\text{Var}(y_{i}|\boldsymbol{x}_{i})=\mu
+\end{equation}
+
+lo que llamamos {\bf equidispersion}. Nota que $\mu$ es un escalar. Que la {\bf media sea constante} es una consecuencia directa de que asumamos independencia entre las probabilidades de los eventos y la cantidad (``cuenta'') de eventos: da lo mismo la cantidad de cuentas, todas siempre tendr\'an la misma probabilidad, y por tanto, la misma media $\mu$. Esto es lo que mas abajo llamaremos {\bf independencia estoc\'astica}.
+
+Este modelo se construye en base a supuestos que no siempre se cumplir\'an. En estos casos, existen otras distribuciones (y estimaciones) alternativas:
+
+\begin{enumerate}
+  \item {\bf Negative Binomial}: cuando la varianza no es igual que la media ({\bf overdispersion}). (Esta clase).
+  \item {\bf Zero-Inflate Poisson}: cuando la cantidad de ceros es excesiva. (Otra clase).
+\end{enumerate}
+
+Continuando con la distribuci\'on Poisson, \'esta se puede definir como,
+
+\begin{equation}\label{poisson:d}
+Pr(y_{i}|\mu) = \frac{\text{exp}(-\mu)\mu^{y_{i}}}{y_{i}!}
+\end{equation}
+
+para cada $y_{i}=0, 1, 2...$. El par\'ametro $\mu$ se conoce como ``\emph{rate}'' y representa el n\'umero esperado de veces de que un evento ocurre en un espacio de tiempo. M\'as espec\'ificamente,
+
+\begin{equation}\label{poisson:mu}
+\mu = E(y_{i}|\boldsymbol{x}_{i}) = \text{exp}(\boldsymbol{x}_{i}\boldsymbol{\beta})
+\end{equation}
+
+Como lo indica la \autoref{poisson:mu}, el s\'imbolo ``$|$'' denota condicionalidad. Y como en clases anteriores, $\boldsymbol{x}_{i}\boldsymbol{\beta}$ representa el modelo estructural.
+
+
+Otro de los supuestos importantes, es que las realizaciones de los eventos son asumidas como independientes. Esta {\bf independencia estoc\'astica} implica que, por ejemplo, los procesos con realizaciones $y_{i}=1$ son independientes de los procesos $y_{i}=2$, y as\'i sucesivamente. {\bf Creemos en ese supuesto?} Piensa en la cantidad de \emph{papers} que publica un profesor: la cantidad de \emph{papers} que publicaste en el pasado no influye en la cantidad de \emph{papers} que publicas en el presente. {\color{red}Te suena bien?}
+
+\paragraph{Estimaci\'on: Probabilidades y Likelihood} 
+
+Continuando con la \autoref{poisson:mu}, la probabilidad condicional de $y_{i}$ est\'a dada por,
+
+
+\begin{equation}\label{poisson:pro}
+\text{Pr}(y_{i}|\boldsymbol{x}_{i}) = \frac{\text{exp}(-\mu)\mu^{y_{i}}}{y_{i}!}
+\end{equation}
+
+Asumiendo independencia, tenemos que la funci\'on likelihood es la siguiente,
+
+\begin{equation}\label{poisson:lik}
+L(\boldsymbol{\beta}|\boldsymbol{y}, \boldsymbol{x}) = \prod_{i=1}^{N}\text{Pr}(y_{i}|\mu)=\prod_{i=1}^{N}\frac{\text{exp}(-\mu)\mu^{y_{i}}}{y_{i}!}
+\end{equation}
+
+Tomando en cuenta la \autoref{poisson:pro} y la \autoref{poisson:lik}, es f\'acil notar que $L(\boldsymbol{\beta}|\boldsymbol{y}, \boldsymbol{x})$ es simplemente la sumatoria de las probabilidades de cada evento $y_{i}$.
+
+Sumando todas estas piezas de informaci\'on en \autoref{poisson:var} y \autoref{poisson:mu}, tenemos que,
+
+\begin{equation}\label{poisson:final}
+\mu = E(y_{i}|\boldsymbol{x}_{i}) = \text{Var}(y_{i}|\boldsymbol{x}_{i}) = \text{exp}(\boldsymbol{x}_{i}\boldsymbol{\beta})
+\end{equation}
+
+Es por esto que decimos que este es uno de los modelos sencillos que tiene MLE para ofrecer.
+
+
+\section{Programaci\'on}
+
+Carguemos los datos:
+
+<<dat, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(foreign)
+dat = read.dta("https://github.com/hbahamonde/MLE/raw/master/Datasets/banks.dta")
+# cambiemos el nombre de la variable dependiente exec_chg
+p_load(tidyverse)
+dat = dat %>% rename(exec.chg = exec_chg, regime.type = regime_type)
+
+@
+
+Hagamos un resumen,
+
+<<summary, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+summary(dat)
+@
+
+En esta aplicaci\'on pensaremos en la variable \texttt{exec.chg}: n\'umero de veces en que los poderes ejecutivos cambian.
+
+<<table, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+table(dat$exec.chg)
+@
+
+
+
+
+El paquete de \texttt{R} que usaremos se llama \texttt{glm}. 
+
+Estimemos el modelo,
+
+<<modelo, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+modelo.p = glm(exec.chg ~ demonstrations + guerilla + regime.type, family="poisson", data=dat)
+@
+
+
+Hagamos una tabla.
+
+<<texreg, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(texreg)
+texreg(modelo.p) # usa "screenreg" no "texreg".
+@
+
+Nota que tenemos varios paises:
+
+<<paises, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+length(unique(dat$ccode)) # 230 paises
+@
+
+Esto significa que nuestros errores est\'andard est\'an malos (porque nuestras observaciones no son independientes). Los coeficientes est\'an bien, pero los errores est\'andard est\'an sesgados (y en consecuencia, nuestros intervalos de confianza, y en consecuencia, nuestra significancia estad\'istica). Muchas veces los analistas dejan esto as\'i (``pooled standard errors''), sin embargo esto ha sido altamente criticado \parencite{Green2001}. Deberemos calcular los errores estandares por ``cluster'' (o controlando por el hecho de que hay ``grupos'' de pa\'ises en este an\'alisis).
+
+Este an\'alisis toma bastante tiempo porque usa t\'ecnicas de re-sampleo estad\'istico (\emph{boostrapping}). 
+
+<<cluster, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(clusterSEs)
+cluster.bs.glm(modelo.p, dat = dat, ~ ccode, seed=2020, prog.bar = FALSE)
+@
+
+
+\section{Interpretaci\'on} 
+
+En cualquier caso, ya sabemos que la tabla poco valor tiene. Ahora procederemos a estimar los \emph{predicted probabilities}.
+
+
+<<pp, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+p_load(effects)
+plot(effect("demonstrations", modelo.p))
+plot(effect("guerilla", modelo.p))
+plot(effect("regime.type", modelo.p))
+@
+
+
+Ahora, veamos si tenemos \emph{overdispersion}. Para esto, usaremos el test desarrollado por \textcite{Cameron1990a}. Ellos explican que la hip\'otesis nula $E(y_{i}|\boldsymbol{x}_{i}) = \text{Var}(y_{i}|\boldsymbol{x}_{i})$. Si el p-value es significativo, tendremos evidencia suficiente para sugerir que la media y la varianza no son iguales.
+
+
+<<dispersiontest, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(AER)
+dispersiontest(modelo.p)
+@
+
+El test es altamente significativo, por lo que s\'i tenemos evidencia a favor de overdispersion. Entonces deberemos pasar el modelo Negative-Binomial.
+
+
+\subsection{Modelo Negative-Binomial}
+
+Muy rara vez el modelo Poisson cumple su supuesto \parencite[230]{Long:1997wv}. Lo que haremos ser\'a generalizar \autoref{poisson:pro}, y permitir que exista heterogenidad no-observada v\'ia la introducci\'on de un residuo $e_{i}$ (que hasta el momento el modelo Poisson no lo permit\'ia).
+
+En consecuencia, ahora tenemos que el ``\emph{rate}'' del modelo Negative-Binomial est\'a dado por,
+
+
+\begin{equation}\label{nb:mu}
+\tilde{\mu}_{i} = \text{exp}(\boldsymbol{x}_{i}\boldsymbol{\beta}) + \text{exp}(\epsilon_{i})
+\end{equation}
+
+Nota que ahora $\mu_{i}$ es un vector (i.e. una distribuci\'on), no un escalar. Esto se traduce en el hecho de que tendremos distintos valores de $\mu_{i}$ seg\'un las distintas combinamos de valores en las variables independientes $\boldsymbol{x}_{i}$. 
+
+\paragraph{Supuestos Distribucionales} El supuesto distribucional es que $\text{exp}(\epsilon_{i})$ (o muchas veces llamado el par\'ametro $\delta$)  toma el valor de $E(\text{exp}(\epsilon_{i}))=1$. 
+
+\begin{itemize}
+\item De manera muy importante, esta sigue siendo una distribuci\'on Poisson, pero ``modificada'' (de hecho el valor esperado sigue siendo el mismo, s\'olo cambia la varianza). 
+\item Nota adem\'as que $\delta$ (como cualquier varianza) es \emph{desconocida} (es un ``\emph{population parameter}''). 
+\item Finalmente, parte del supuesto es que $\delta$ se distribuye siguiendo la distribuci\'on Gamma.
+\end{itemize}
+
+\paragraph{Contagio} La flexibilidad del modelo Negative-Binomial permite modelar situaciones de {\bf contagio}. Esto se refiere a situaciones donde la probabilidad de obtener ciertas cuentas est\'a correlacionada con el n\'umero de cuentas. Volviendo al ejemplo de \emph{papers} publicados, en la especificaci\'on Negative-Binomial podr\'iamos modelar la situaci\'on donde los acad\'emicos tienen m\'as probabilidades de publicar \emph{papers} mientras m\'as \emph{papers} tengan publicados! Esto se refiere a que el modelo permite tomar en cuenta \emph{data generating processes} que {\bf no asuman independencia estoc\'astica}.
+
+\paragraph{Estimaci\'on}  Ahora procedamos a estimar el modelo.
+
+<<nbrm, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(MASS)
+modelo.nb = glm.nb(exec.chg ~ demonstrations + guerilla + regime.type, data=dat)
+@
+
+Y de hecho comparemos ambos modelos,
+
+<<texreg2, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+p_load(texreg)
+texreg(list(modelo.p, modelo.nb)) # usa "screenreg" no "texreg".
+@
+
+Encontramos---sin sorpresa---que los modelos son altamente parecidos. 
+
+\paragraph{Interpretaci\'on} En cualquier caso, ya sabemos que la tabla poco valor tiene. Ahora procederemos a estimar los \emph{predicted probabilities}.
+
+
+<<pp2, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+p_load(effects)
+plot(effect("demonstrations", modelo.nb))
+plot(effect("guerilla", modelo.nb))
+plot(effect("regime.type", modelo.nb))
+@
+
+
+
+<<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+knitr::purl('Multinomial.Rnw')
+Stangle('Multinomial.Rnw')
+@
+
+%\newpage
+%\paragraph{}
+%\paragraph{}
+%\pagenumbering{Roman}
+%\setcounter{page}{1}
+%\printbibliography
+
+
+
+\end{document}
+

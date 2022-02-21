@@ -1,0 +1,360 @@
+\documentclass[onesided]{article}
+\usepackage[T1]{fontenc}
+\linespread{1.5} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[hmarginratio=1:1,columnsep=20pt]{geometry} % Document margins
+%\usepackage{multicol} % Used for the two-column layout of the document
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+\usepackage{float} % Required for tables and figures in the multi-column environment - they need to be placed in specific locations with the [H] (e.g. \begin{table}[H])
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+\usepackage{paralist} % Used for the compactitem environment which makes bullet points with less space between them
+
+% to ignore texts: good for thank messages and paper submissions.
+      % \fbox{\phantom{This text will be invisible too, but a box will be printed arround it.}}
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+%\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage[]{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\Roman{subsection}} % Roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancybox, fancyvrb, calc}
+\usepackage[svgnames]{xcolor}
+\usepackage{physics}
+\usepackage{epigraph}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{graphics}
+\usepackage{pbox} % \pbox{20cm}{This is the first \\ cell}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{rotating}
+\usepackage{paracol}
+\usepackage{textcomp}
+\usepackage[export]{adjustbox}
+\usepackage{afterpage}
+\usepackage{filecontents}
+\usepackage{color}
+\usepackage{latexsym}
+\usepackage{lscape}       %\begin{landscape} and \end{landscape}
+\usepackage{wasysym}
+\usepackage{dashrule}
+\usepackage{marvosym} % face package
+\usepackage{framed}
+\usepackage{tree-dvips}
+\usepackage{pgffor}
+\usepackage[]{authblk}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage[latin1]{inputenc}
+\usepackage{hyperref}     %desactivar para link rojos
+\usepackage{graphicx}
+\usepackage{dcolumn} % for R tables
+\usepackage{multirow} % For multirow in tables
+\usepackage{pifont}
+\usepackage{listings}
+\usepackage{bm}
+
+
+
+
+% hypothesis / theorem package begin
+\usepackage{amsthm}
+\usepackage{thmtools}
+\declaretheoremstyle[
+spaceabove=6pt, spacebelow=6pt,
+headfont=\normalfont\bfseries,
+notefont=\mdseries, notebraces={(}{)},
+bodyfont=\normalfont,
+postheadspace=0.6em,
+headpunct=:
+]{mystyle}
+\declaretheorem[style=mystyle, name=Hypothesis, preheadhook={\renewcommand{\thehyp}{H\textsubscript{\arabic{hyp}}}}]{hyp}
+
+\usepackage{cleveref}
+\crefname{hyp}{hypothesis}{hypotheses}
+\Crefname{hyp}{Hypothesis}{Hypotheses}
+% hypothesis / theorem package end
+
+
+%----------------------------------------------------------------------------------------
+% Other ADDS-ON
+%----------------------------------------------------------------------------------------
+
+% independence symbol \independent
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+
+
+
+
+
+
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat's bookmarks
+    pdftoolbar=true,        % show Acrobat's toolbar?
+    pdfmenubar=true,        % show Acrobat's menu?
+    pdffitwindow=true,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={My title},    % title
+    pdfauthor={Author},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={keyword1} {key2} {key3}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=ForestGreen,          % color of internal links (change box color with linkbordercolor)
+    citecolor=ForestGreen,        % color of links to bibliography
+    filecolor=ForestGreen,      % color of file links
+    urlcolor=ForestGreen           % color of external links
+}
+
+%\usepackage[nodayofweek,level]{datetime} % to have date within text
+
+\newcommand{\LETT}[3][]{\lettrine[lines=4,loversize=.2,#1]{\smash{#2}}{#3}} % letrine customization
+
+
+
+% comments on margin
+  % Select what to do with todonotes: 
+  % \usepackage[disable]{todonotes} % notes not showed
+  \usepackage[draft]{todonotes}   % notes showed
+  % usage: \todo{This is a note at margin}
+
+\usepackage{cooltooltips}
+
+%%% bib begin
+\usepackage[american]{babel}
+\usepackage{csquotes}
+\usepackage[backend=biber,style=authoryear,dashed=false,doi=false,isbn=false,url=false,arxiv=false]{biblatex}
+%\DeclareLanguageMapping{american}{american-apa}
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/library.bib} 
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/Bahamonde_BibTex2013.bib} 
+
+% USAGES
+%% use \textcite to cite normal
+%% \parencite to cite in parentheses
+%% \footcite to cite in footnote
+%% the default can be modified in autocite=FOO, footnote, for ex. 
+%%% bib end
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{MLE y Causal Inference: Matching, Covariate Balance, y el Propensity Score} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+
+\begin{document}
+% DOCUMENT ID
+%----------------------------------------------------------------------------------------
+%	CONTENT
+%----------------------------------------------------------------------------------------
+
+%\graphicspath{
+%{/Users/hectorbahamonde/RU/Term5/Experiments_Redlawsk/Experiment/Data/}
+%}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% begin knitr stuff
+<<setup, include=FALSE, cache=F>>=
+if (!require("pacman")) install.packages("pacman"); library(pacman)
+p_load(knitr)
+set.seed(2020)
+options(scipen=9999999)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\hspace{-5mm}{\bf Profesor}: H\'ector Bahamonde, PhD.\\
+\texttt{e:}\href{mailto:hector.bahamonde@uoh.cl}{\texttt{hector.bahamonde@uoh.cl}}\\
+\texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.hectorbahamonde.com}}\\
+{\bf Curso}: MLE.\\
+\hspace{-5mm}{\bf TA}: Gonzalo Barr\'ia.
+
+\section{MLE y Causal Inference: Matching, Covariate Balance, y el Propensity Score}
+
+\paragraph{Motivaci\'on} De acuerdo a \textcite[33]{Morgan:2007ty}, el \emph{treatment effect} (TE) ``naive'' $\delta_{i}$ para el sujeto $i$ es,
+
+\begin{equation}\label{eqMETH:1}
+\delta_{i} = y^{\texttt{T}}_{i} - y^{\texttt{C}}_{i}
+\end{equation}
+
+\paragraph{}donde $y$ es la variable dependiente bajo un r\'egimen de tratamiento (\texttt{T}) o control (\texttt{C}). Como ya sabemos, este TE es ``naive'' en el sentido de que es una cantidad de inter\'es no observada: es imposible observar los dos estados para el mismo sujeto $i$. O ves uno o ves el otro. Esto es lo que de manera muy conocida \textcite[947]{Holland1986a} ha llamado el \emph{fundamental problem of causal inference}.
+
+\paragraph{}Es por esto que nosotros trabajamos con el \emph{average treatment effect} (ATE).
+
+\begin{equation}\label{eqMETH:2}
+\text{ATE} = \frac{1}{n}\sum^{n}_{i=1} E[Y_{i}^{\texttt{T}}-Y_{i}^{\texttt{C}} \;|\; X_{i} ]
+\end{equation}
+
+
+Como ves, el efecto causal ``{\bf average}'' es la resta del grupo que fue tratado  (\texttt{T})  menos el grupo que no fue tratado (\texttt{C}) \parencite[204]{Ho2006}.
+
+La l\'ogica experimental indica que en vez de controlar por \emph{covariados} (como se hace en una regresi\'on lineal tipo OLS), controlas por nada \parencite[6]{Guo:2009il}. Lo que termina ``controlando'' es la aleatorizaci\'on del r\'egimen experimental (\texttt{T} o \texttt{C}). {\color{red}Por qu\'e?} Lo que logra la randomizaci\'on, de manera m\'as formal, es lo siguiente:
+
+\begin{equation}\label{eqMETH:5b}
+i \independent \text{\texttt{C}}, \text{\texttt{T}}
+\end{equation}
+
+En palabras, la asignaci\'on de la unidad $i$ a uno de los dos r\'egimenes es \emph{independiente} (``$\independent$'') de las c\'aracteristicas de la unidad $i$. {\color{red}Por qu\'e esto es importante?}.
+
+Aunque es claro que todos quisi\'eramos realizar experimentos para poder calcular el ATE en \autoref{eqMETH:2}, esto s\'olo es posible en contextos experimentales. En el resto de las veces (observacional), esto no ser\'a posible. Muchas veces los experimentos no est\'an disponibles debido a la imposibilidad de hacer uno (costo, criterios \'eticos, etc.). {\bf C\'omo podemos ``simular'' un experimento cuando no podemos conseguir uno?} Una t\'ecnica posible es el ``{\bf matching}''.
+
+\paragraph{``Covariate Balance''} Lo que la randomizaci\'on experimental logra es \emph{covariate balance}, es decir, que \emph{{\bf TODAS}} las caracter\'isticas \emph{pre-treatment} sean balanceadas en los dos reg\'imenes experimentales. Es decir, todo lo que observamos de $i$ (y lo que \emph{no} observamos tambi\'en) estar\'a distribuido de igual manera (i.e. ``balanceado'') en ambos reg\'imenes. El \emph{covariate balance} es fundamental porque hace que las caracter\'isticas de todos los $i$ (genero, ingresos, ideolog\'ia, etc.) est\'en distribuidas de igual maneras. Lo importante es que cuando eso ocurre, las diferencias (entre genero, por ejemplo) se cancelar\'an entre ellas. Lo mismo ocurre con todo el resto de carecter\'isticas (observables y no-observables). {\color{red}Qu\'e ventajas trae esto en relaci\'on a la regresi\'on?}
+
+Lo que hace el {\bf matching} es encontrar \emph{pares similares} (o ``matches'') entre el grupo \texttt{C} y el grupo \texttt{T}. La idea es lograr ({\bf usando datos observacionales}) el \emph{covariate balance} que logra un experimento (sin tener uno). 
+
+\paragraph{Propensity Score Matching} Las t\'ecnicas de \emph{matching} trabajan con {\bf distancias} que indican cu\'an iguales o diferentes son las unidades $i$.\footnote{Hay varias clases de distancias. En esta clase s\'olo veremos el \emph{propensisty score}.} Es sobre esas distancias que determinamos si una unidad $i_{\texttt{T}}$ encuentra su ``\emph{match}'' $i_{\texttt{C}}$. La distancia m\'as usada es el ``\emph{propensity score}'' (PS). {\bf El PS es la probabilidad de $i$ de ser asignado al r\'egimen \texttt{T}}. Si conocemos estas probabilidades, podemos tratar de imitar un experimento (pero usando datos observacionales), espec\'ificamente, en lo que respecta al \emph{covariate balance}. Si conocemos la probabilidad de ser asignado al tratamiento (que es la definici\'on del PS), podemos balancear nuestros datos y {\bf botar} todas las observaciones que no encuentren su \emph{match} (en funci\'on de la probabilidad del PS). Al botar observaciones que no tengan pares similares en cuanto al PS estaremos {\bf balanceando nuestros datos}. Y es que de esta manera imitamos un experimento cuando no podemos realizar uno.
+
+
+M\'as formalmente, lo que nosotros queremos lograr es que la variable dependiente $y$ sea ``ortogonal'' (o independiente, i.e. $\independent$) del mecanismo de asignaci\'on al tratamiento $\tau$---un experimento logra eso de manera natural, no as\'i un dise\~no observacional donde puede que exista una correlaci\'on $\text{Corr}(y,\tau)>0$. El PS ayuda a que, cuando es condicionado en el \emph{propensity score} (o ``\emph{balancing score}'') $b(X)$ $y$ sea ortogonal a $\tau$, de manera tal que,
+
+\begin{equation}\label{eqMETH:7}
+y_{i} \independent \tau_{i} | x_{i} \equiv y_{i} \independent \tau_{i} | b(X)_{i}
+\end{equation}
+
+Estad\'istiamente, lo que ocurre al balancear $y_{i}$ en cuanto al PS $b(X)_{i}$ es que ambas distribuciones se hacen indistinguibles. {\color{red}Por qu\'e?} Y eso es justamente lo que buscamos: que ambos grupos \texttt{T} y \texttt{C} sean iguales, excepto en $\tau_{i}$. Piensa en un experimento: ambos grupos (\texttt{T}, \texttt{C}) son iguales (por el efecto de la randomizaci\'on), {\bf \emph{excepto}} en que un $i_{\texttt{T}}$ es tratado y el otro $i_{\texttt{C}}$ no es tratado. 
+
+Claramente, todo esto supone que nosotros conocemos (o al menos, podemos construir) el PS. Para hacerlo, debemos estimar una regresi\'on log\'istica. La variable dependiente es el vector $\tau_{0,1}$ y las variables independientes est\'an compuestas por una matriz $x$ que contenga caracter\'isticas \emph{pre-treatment}. Formalmente, necesitamos estimar,
+
+\begin{equation}\label{logit.structural}
+\tau = \boldsymbol{x_{i}}\boldsymbol{\beta} + \epsilon_{i}
+\end{equation}
+
+donde $\boldsymbol{x_{i}}$ es la matriz $x$ que contiene caracter\'isticas \emph{pre-treatment}. Nota que $\tau \sim \text{Logistic}(\mu, \frac{\sigma^{2}\pi^{2}}{3})$, y donde $\sigma^{2}$ es proporcional a la desviaci\'on est\'andard.
+
+\paragraph{``\emph{Matching} as a Preprocessing Tool''} \textcite{Ho2006} explica que {\bf \emph{matching} se debe ocupar como una herramienta para pre-procesar los datos}. Recuerda que \emph{matching}, lo que esencialmente hace, es botar observaciones. \emph{Matching} no es una herramienta de inferencia estad\'istica propiamente tal. En consecuencia, los autores recomiendan hacer \emph{matching} {\bf antes} de estimar cualquier modelo param\'etrico. La idea es primero obtener datos quasi-experimentales (v\'ia \emph{matching}) y despu\'es estimar modelos OLS o GLM (u otros). 
+
+\begin{itemize}
+\item {\bf Ventajas}:
+		\begin{enumerate}
+			\item Una base de datos pre-procesada es menos dependiente del modelo. {\color{red}Por qu\'e es esto importante?}
+			\item Nos acercamos a un dise\~no experimental.
+		\end{enumerate}
+\item {\bf Desventajas}:
+		\begin{enumerate}
+			\item El PS es altamente dependiente de los \emph{pre-treatment covariates} $x$. 
+			\item El PS ``se vende'' como no-parametrico, i.e. libre de supuestos distribucionales e inferenciales. {\color{red}Es?}
+			\item Matching selecciona en observables. La experimentaci\'on en observables y no-observables.
+			\item Existen muchas distancias: poca claridad de un metodo unico de \emph{matching}. Cacofon\'ia.
+		\end{enumerate}
+\end{itemize}
+
+\subsection{Estimaci\'on}
+
+Estimemos modelos sin \emph{matching} (``raw'') y con \emph{matching}. Simulemos unos datos.
+
+
+<<sim:1, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=8, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+set.seed(2020) # seed
+#
+e = rnorm(1100, 0) # residuo 
+x1 = rnorm(1100, -10) # x1
+x2 = rnorm(1100, 20) # x2
+# mecanismo de asignacion a tratamiento sesgado: depende de x1 y una constante.
+t <- as.numeric(1 + 0.02*x1) 
+pr = as.numeric(1/(1+exp(-t))) # poner t en una funcion logit invertida
+z = rbinom(1100,1,pr) # crear z como funcion binomial basado en el vector de prob's
+#
+y <- as.numeric(1*z + 1*x1 + 2*x2 + e) # y es combinacion lineal de factores
+#
+dat = as.data.frame(cbind(y, x1, x2,z)) # crear base de datos
+@
+
+Veamos la distribuci\'on de $z$. 
+
+<<sim:2, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=8, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+library(lattice)
+histogram(z)
+@
+
+Veamos el \emph{imbalance} de los covariados.
+
+<<sim:3, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=8, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+library(lattice)
+densityplot(x1, groups = z, data = dat)
+densityplot(x2, groups = z, data = dat)
+@
+
+Hagamos matching.
+
+<<sim:4, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=8, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+# install.packages("MatchIt", dependencies = T)
+library("MatchIt")
+m.out = matchit(z ~ x1 + x2, 
+data = dat, 
+method = "nearest", # nearest: "nearest neighbor"
+discard = "both",  # botar obs en ambas (T y C)
+distance = "logit", 
+caliper = .1 # ventana de comparacion entre T y C
+)
+@
+
+Veamos si hubo mejoras.
+
+<<sim:5, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=8, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+summary(m.out) # inspeccionar balance y obs botadas
+@
+
+Sigamos inspeccionando de manera visual.
+
+<<sim:6, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=8, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+plot(m.out, type = "jitter", interactive = FALSE, col = "blue")
+plot(m.out, type = "hist")
+plot(m.out, type = "qq", interactive = FALSE)
+@
+
+OK. Ahora, botemos las observaciones creando una base de datos nueva \texttt{m.data}.
+
+<<sim:7, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=8, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+m.data = match.data(m.out, distance = "prop.score", drop.unmatched = T) # construir DF
+@
+
+Ahora, estimemos dos modelos, uno con todos los datos (``\emph{raw}'') y otro con los datos \emph{matcheados} (``\emph{matched}'').
+
+<<sim:8, echo = TRUE, results='asis', warning = FALSE, message = F, fig.align='center', fig.width=8, fig.height=6,dpi=1000,cache=F, include = TRUE>>=
+raw.m = lm(y ~ z + x1 + x2, data = dat) # OLS (Raw)
+matched.m = lm(y ~ z + x1 + x2, data = m.data) # OLS (Matched)
+library(texreg)
+texreg(list(raw.m, matched.m))
+@
+
+
+
+
+<<output, echo = TRUE, warning = FALSE, message = F, fig.align='center', fig.width=6, fig.height=3,dpi=1000,cache=F, include = TRUE>>=
+knitr::purl('Matching.Rnw')
+Stangle('Matching.Rnw')
+@
+
+
+\newpage
+\paragraph{}
+\paragraph{}
+\pagenumbering{Roman}
+\setcounter{page}{1}
+\printbibliography
+
+
+
+\end{document}
+

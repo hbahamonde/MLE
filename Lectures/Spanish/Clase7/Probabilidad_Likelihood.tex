@@ -1,0 +1,275 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[10pt]{article}
+\usepackage{lipsum} % Package to generate dummy text throughout this template
+
+%\usepackage[light, math]{iwona}
+%\usepackage[sc]{mathpazo} % Use the Palatino font
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\linespread{1.05} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+\usepackage{bm} % bold math
+
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
+\usepackage{multicol} % Used for the two-column layout of the document
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+\usepackage{float} % Required for tables and figures in the multi-column environment - they need to be placed in specific locations with the [H] (e.g. \begin{table}[H])
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+\usepackage{paralist} % Used for the compactitem environment which makes bullet points with less space between them
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\Roman{subsection}} % Roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancybox, fancyvrb, calc}
+\usepackage[svgnames]{xcolor}
+
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT ID (Department, Professor, Course, etc.) 
+%----------------------------------------------------------------------------------------
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{Probabilidad y Likelihood} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+%----------------------------------------------------------------------------------------
+%	MY PACKAGES 
+%----------------------------------------------------------------------------------------
+
+\usepackage{amsmath}	
+\usepackage[makeroom]{cancel}
+%\usepackage{rotating}
+\usepackage{textcomp}
+\usepackage{caption}
+\usepackage{etex}
+%\usepackage[export]{adjustbox}
+%\usepackage{afterpage}
+%\usepackage{filecontents}
+\usepackage{color}
+\usepackage{latexsym}
+\usepackage{lscape}				%\begin{landscape} and \end{landscape}
+\usepackage{amsfonts}
+%\usepackage{mathabx}
+\usepackage{amssymb}
+%\usepackage{dashrule}
+%\usepackage{txfonts}
+%\usepackage{pgfkeys}
+%\usepackage{framed}
+\usepackage{tree-dvips}
+\usepackage{caption}
+%\usepackage{fancyvrb}
+%\usepackage{pgffor}
+\usepackage{xcolor}
+%\usepackage{pxfonts}
+\usepackage{wasysym}
+\usepackage{authblk}
+%\usepackage{paracol}
+\usepackage{setspace}
+%\usepackage{qtree}
+%\usepackage{tree-dvips}
+\usepackage{sgame}				% shouldn't have neither array nor tabularx packages
+\usepackage{tikz}
+%\usetikzlibrary{trees}
+\usepackage[latin1]{inputenc}
+%\label{tab:1} 		%\autoref{tab:1}	%ocupar para citar.
+% \hyperlik{table1}	\hypertarget{table1} 
+% \textquoteright			%apostrofe
+\usepackage{hyperref} 		%desactivar para link rojos
+
+
+
+
+
+%----------------------------------------------------------------------------------------
+%	Other ADDS-ON
+%----------------------------------------------------------------------------------------
+
+% independence symbol \independent
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+
+% VERBATIM WITH BACKGROUND COLOR
+\newenvironment{colframe}{%
+  \begin{Sbox}
+    \begin{minipage}
+      {\columnwidth%-\leftmargin-\rightmargin-6pt
+      }
+    }{%
+    \end{minipage}
+  \end{Sbox}
+  \begin{center}
+    \colorbox{LightSteelBlue}{\TheSbox}
+  \end{center}
+}
+
+
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat$'$s bookmarks
+    pdftoolbar=true,        % show Acrobat$'$s toolbar?
+    pdfmenubar=true,        % show Acrobat$'$s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={My title},    % title
+    pdfauthor={Author},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={keyword1} {key2} {key3}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=ForestGreen,          % color of internal links (change box color with linkbordercolor)
+    citecolor=ForestGreen,        % color of links to bibliography
+    filecolor=ForestGreen,      % color of file links
+    urlcolor=ForestGreen           % color of external links
+}
+
+
+% PROPOSITIONS
+\newtheorem{proposition}{Proposition}
+
+%\linespread{1.5}
+
+\usepackage[american]{babel}
+\usepackage{csquotes}
+\usepackage[backend=biber,style=authoryear,dashed=false,doi=false,isbn=false,url=false,arxiv=false]{biblatex}
+%\DeclareLanguageMapping{american}{american-apa}
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/library.bib} 
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/Bahamonde_BibTex2013.bib} 
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+%\title{\vspace{-15mm}\fontsize{18pt}{7pt}\selectfont\textbf{Experimental Economists and Psychologists: Two Worlds Apart}} % Article title
+
+%\author[1]{
+%\large
+%\textsc{H\'ector Bahamonde}\\ 
+%\thanks{}
+%\normalsize Political Science Dpt. $\bullet$ Rutgers University \\ % Your institution
+%\normalsize \texttt{e:}\href{mailto:hector.bahamonde@rutgers.edu}{\texttt{hector.bahamonde@rutgers.edu}}\\
+%\normalsize \texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.hectorbahamonde.com}}
+%\vspace{-5mm}
+%}
+%\date{\today}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%\maketitle % Insert title
+
+
+\thispagestyle{fancy} % All pages have headers and footers
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------------------
+
+%\begin{abstract}
+%	ABSTRACT
+%\end{abstract}
+
+
+%----------------------------------------------------------------------------------------
+%	CONTENT
+%----------------------------------------------------------------------------------------
+
+%\graphicspath{
+%{/Users/hectorbahamonde/RU/Term5/Experiments_Redlawsk/Experiment/Data/}
+%}
+\hspace{-5mm}{\bf Profesor}: H\'ector Bahamonde, PhD.\\
+\texttt{e:}\href{mailto:hector.bahamonde@uoh.cl}{\texttt{hector.bahamonde@uoh.cl}}\\
+\texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.hectorbahamonde.com}}\\
+{\bf Curso}: MLE.\\
+\hspace{-5mm}{\bf TA}: Gonzalo Barr\'ia.
+
+
+\section*{Probabilidad y Likelihood}
+
+Usualmente, nosotros estimamos la relaci\'on entre $x$ e $y$ v\'ia un modelo lineal OLS (\autoref{ols}).
+
+\begin{equation}\label{ols}
+y_{i} = \alpha + \beta_{1}x_{1} + \epsilon_{i}
+\end{equation}
+
+\paragraph{} En este setup, siempre hablamos de ``probabilidad''. Es claro que \autoref{ols} nos muestra que los valores de $y_{i}$ dependen de $\bm{x}$ (que es una matrix que contiene $\alpha$ y todos los $x$'s), m\'as el residuo $\epsilon$. Cada par\'ametro tiene un statement de probabilidad (recuerden el \emph{p-value}). 
+
+\paragraph{} Es decir, la probabilidad de $y$ depende de $\bm{x}$, lo que significa que en este paradigma, ${\mathbf y}$ {\bf depende de un modelo} ($M$). Recuerda que cada vez que pones una $x$ a la mano derecha de la igualdad, est\'as haciendo un modelo (est\'as especificando que la realidad depende de ciertas variables independientes). M\'as formalmente, esta noci\'on se demuestra en \autoref{prob}:
+
+\begin{equation} \label{prob}
+Pr(y|M) = Pr(\text{datos}|\text{modelo})
+\end{equation}
+
+donde en \autoref{prob} $M$  es asumido ``fijo'' o ``conocido'' (``fixed'') y los datos ``random''. \emph{Lo son?} Recuerda que incluso existe la noci\'on del \emph{true model} (un modelo verdadero que existe ``por ah\'i'', pero que es inaccesible para nosotros).  \textcite[16]{King1998} explica que cuando ``$M$ is treated as given is a problem because uncertainty in inference lies with the model, not the data.'' 
+
+\begin{itemize}
+  \item {\bf $M$: no puede ser tratado como conocido}. Los modelos se construyen. Nadie viene a darnos el modelo correcto.
+  \item {\bf datos}: no pueden ser \emph{random}. La naturaleza ya ha producido los datos. Es m\'as, y por esta misma raz\'on, los datos debieran ser considerados como ``dados'' o ``conocidos''. No? 
+\end{itemize}
+
+\paragraph{} Qu\'e diferencias existen entre los conceptos de \emph{probabilidad} y \emph{likelihood}?
+
+\subsection*{Probabilidad: Incertidumbre Absoluta}
+
+Las probabilidades, todas, ``viven'' entre el 0 y 1. 
+
+\begin{equation} \label{prob:model}
+\begin{split}
+Y & \sim f(y|\theta, \alpha) \\
+\bm{\theta} & = g(\bm{X}, \bm{\beta})
+\end{split}
+\end{equation}
+
+donde la primera linea see lee ``$y$ se distribuye como una funci\'on de $y$ que depende de $\bm{\theta}$ (que es $\hat{y}$, o el valor esperado de $y_{i}$, y $\alpha$''. El valor $\alpha$ se puede entender como parametro que est\'a presente s\'olo en algunos modelos GLMs, o est\'a dado por otros factores. Por ejemplo, $\sigma^{2}$ (la varianza) est\'a dada, no se estima (pero se asume que es {\bf constante}). La segunda l\'inea es una implicaci\'on de la primera, y se lee asi: ``donde $\bm{\theta}$ es igual a una funcion $g$, donde metemos los datos observados $\bm{X}$ y calculamos los parametros $\bm{\beta}$''.
+
+\paragraph{} Lo unico que estamos haciendo, es hacer la transici\'on a la notaci\'on de MLE. En este caso, estamos viendo d\'onde ``viven'' los par\'ametros y los datos observados y predichos, pero en lenguaje MLE. Si te fijas, $\bm{\theta}$ (la caja que contiene $\bm{X}$ y $\bm{\beta}$) es tomado como ``true parameter''. {\color{red}Si el modelo es tomado como ``verdadero'', qu\'e implicancias tiene el estimado $\beta$? Piensa en los intervalos de confianza}.
+
+\subsection*{\emph{Likelihood}: Incertidumbre Relativa}
+
+En lenguaje de likelihood (que se expresa con el car\'acter griego $\bm{\theta}$) se refiere a un par\'ametro $\theta_{i}$ de los infinitos par\'ametros $\bm{\theta}$ entre todos los modelos posibles ($\bm{\tilde{\theta}}$). Recuerda, en \autoref{prob:model} $\bm{\beta}$ se refiere a los ``true values''. Eso quiere decir que OLS y MLE tienen llegadas distintas: en MLE existen tantos $\bm{\theta}$ como hay datos. Esto implica que la incertidumbre en MLE est\'a anclada a los datos (no al modelo). En otras palabras, en likelihood la incertidumbre es \emph{relativa} porque el likelihood $\theta$ no depende del modelo ($\bm{\tilde{\theta}}$) sino que de los datos. Es por esto que en likelihood uno piensa en t\'erminos de qu\'e modelo ($\tilde{\theta}$) \emph{{\bf maximiza}} el likelihood de haber creado los datos $y$. {\bf A diferencia del lenguaje de probabilidad, los datos no son tomados como ``dados''.}
+
+
+ 
+
+
+\begin{equation} \label{lik:model}
+\begin{split}
+L(\tilde{\theta}|y) & =  k(y)Pr(y|\tilde{\theta})\\
+& \propto Pr(y|\tilde{\theta})
+%\theta & = g(X, \beta)
+\end{split}
+\end{equation}
+
+donde $k(y)$ es una funci\'on constante positiva desconocida que depende de $y$ (y cambia cada vez que $y$ cambia). Si te fijas, en probabilidad (\autoref{prob}) la probabilidad es $Pr(y|M)$, pero en likelihood (\autoref{lik:model}) la probabilidad de $Pr(y|\tilde{\theta})$ es ``proporcional'' (i.e. $\propto$) a $L(\tilde{\theta}|y)$. F\'ijate c\'omo se invierten los t\'erminos.
+
+\paragraph{} Esto implica que los likelihoods de dos modelos pueden ser comparados, pero s\'olo si bienen de los mismos datos (recuerda que $k(y)$ depende de $y$). Al contrario, en probabilidad, la probabilidad de que algo pase, \emph{siempre} va entre 0 y 1 (independiente de los datos o los modelos usados). En cambio, los likelihoods pueden tomar cualquier n\'umero y no son necesariamente comparables (son como los errores est\'andard en un modelo lineal---s\'olo toman significancia dentro de ese modelo en particular).
+
+
+%\newpage
+\paragraph{}
+\paragraph{}
+\pagenumbering{Roman}
+\setcounter{page}{1}
+\printbibliography
+
+
+\end{document}
+

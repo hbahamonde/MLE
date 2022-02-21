@@ -1,0 +1,312 @@
+\documentclass[onesided]{article}
+\usepackage[T1]{fontenc}
+\linespread{1.5} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[hmarginratio=1:1,columnsep=20pt]{geometry} % Document margins
+%\usepackage{multicol} % Used for the two-column layout of the document
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+\usepackage{float} % Required for tables and figures in the multi-column environment - they need to be placed in specific locations with the [H] (e.g. \begin{table}[H])
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+\usepackage{paralist} % Used for the compactitem environment which makes bullet points with less space between them
+
+% to ignore texts: good for thank messages and paper submissions.
+      % \fbox{\phantom{This text will be invisible too, but a box will be printed arround it.}}
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+%\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage[]{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\Roman{subsection}} % Roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancybox, fancyvrb, calc}
+\usepackage[svgnames]{xcolor}
+\usepackage{epigraph}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{graphics}
+\usepackage{pbox} % \pbox{20cm}{This is the first \\ cell}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{rotating}
+\usepackage{paracol}
+\usepackage{textcomp}
+\usepackage[export]{adjustbox}
+\usepackage{afterpage}
+\usepackage{filecontents}
+\usepackage{color}
+\usepackage{latexsym}
+\usepackage{lscape}       %\begin{landscape} and \end{landscape}
+\usepackage{wasysym}
+\usepackage{dashrule}
+
+\usepackage{framed}
+\usepackage{tree-dvips}
+\usepackage{pgffor}
+\usepackage[]{authblk}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage[latin1]{inputenc}
+\usepackage{hyperref}     %desactivar para link rojos
+\usepackage{graphicx}
+\usepackage{dcolumn} % for R tables
+\usepackage{multirow} % For multirow in tables
+\usepackage{pifont}
+\usepackage{listings}
+
+
+
+
+% hypothesis / theorem package begin
+\usepackage{amsthm}
+\usepackage{thmtools}
+\declaretheoremstyle[
+spaceabove=6pt, spacebelow=6pt,
+headfont=\normalfont\bfseries,
+notefont=\mdseries, notebraces={(}{)},
+bodyfont=\normalfont,
+postheadspace=0.6em,
+headpunct=:
+]{mystyle}
+\declaretheorem[style=mystyle, name=Hypothesis, preheadhook={\renewcommand{\thehyp}{H\textsubscript{\arabic{hyp}}}}]{hyp}
+
+\usepackage{cleveref}
+\crefname{hyp}{hypothesis}{hypotheses}
+\Crefname{hyp}{Hypothesis}{Hypotheses}
+% hypothesis / theorem package end
+
+
+%----------------------------------------------------------------------------------------
+% Other ADDS-ON
+%----------------------------------------------------------------------------------------
+
+% independence symbol \independent
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+
+
+
+
+
+
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat's bookmarks
+    pdftoolbar=true,        % show Acrobat's toolbar?
+    pdfmenubar=true,        % show Acrobat's menu?
+    pdffitwindow=true,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={My title},    % title
+    pdfauthor={Author},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={keyword1} {key2} {key3}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=ForestGreen,          % color of internal links (change box color with linkbordercolor)
+    citecolor=ForestGreen,        % color of links to bibliography
+    filecolor=ForestGreen,      % color of file links
+    urlcolor=ForestGreen           % color of external links
+}
+
+%\usepackage[nodayofweek,level]{datetime} % to have date within text
+
+\newcommand{\LETT}[3][]{\lettrine[lines=4,loversize=.2,#1]{\smash{#2}}{#3}} % letrine customization
+
+
+
+% comments on margin
+  % Select what to do with todonotes: 
+  % \usepackage[disable]{todonotes} % notes not showed
+  \usepackage[draft]{todonotes}   % notes showed
+  % usage: \todo{This is a note at margin}
+
+\usepackage{cooltooltips}
+
+%%% bib begin
+\usepackage[american]{babel}
+\usepackage{csquotes}
+\usepackage[backend=biber,style=authoryear,dashed=false,doi=false,isbn=false,url=false,arxiv=false]{biblatex}
+%\DeclareLanguageMapping{american}{american-apa}
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/library.bib} 
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/Bahamonde_BibTex2013.bib} 
+
+% USAGES
+%% use \textcite to cite normal
+%% \parencite to cite in parentheses
+%% \footcite to cite in footnote
+%% the default can be modified in autocite=FOO, footnote, for ex. 
+%%% bib end
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{Propiedades Estad\'isticas y Num\'ericas del Likelihood} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+
+\begin{document}
+% DOCUMENT ID
+%----------------------------------------------------------------------------------------
+%	CONTENT
+%----------------------------------------------------------------------------------------
+
+%\graphicspath{
+%{/Users/hectorbahamonde/RU/Term5/Experiments_Redlawsk/Experiment/Data/}
+%}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% begin knitr stuff
+<<setup, include=FALSE, cache=F>>=
+if (!require("pacman")) install.packages("pacman"); library(pacman)
+p_load(knitr)
+set.seed(2020)
+options(scipen=9999999)
+if (!require("pacman")) install.packages("pacman"); library(pacman) 
+
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\hspace{-5mm}{\bf Profesor}: H\'ector Bahamonde, PhD.\\
+\texttt{e:}\href{mailto:hector.bahamonde@uoh.cl}{\texttt{hector.bahamonde@uoh.cl}}\\
+\texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.hectorbahamonde.com}}\\
+{\bf Curso}: MLE.\\
+\hspace{-5mm}{\bf TA}: Gonzalo Barr\'ia.
+
+\section{Propiedades de los Estimadores MLE}
+
+\begin{enumerate}
+	\item Invariance to reparameterization: estimaciones se pueden transformar y no alteran su valor substantivo. Por ej., tomar un log o elevar al cuadrado.
+	\item Invariance to sampling size: debido a que los estimadores dependen de los datos usados (son particulares a ellos, y no son generales). Es por esto que variando el tama\~no de la muestra no var\'ia la calidad de los estimadores.
+	\item $\hat\theta$ no est\'a sesgado. Es decir, en la medida que se repitan los experimentos, $\hat\theta$ no cambia.
+	\item $\hat\theta$ es consistente. Dentro de todo el ``parameter space'', existe un ``spike'' (una punta) que representa el verdadero par\'ametro $\hat\theta$.
+	\item El ``parameter space'' de $\hat\theta$ est\'a normalmente distribuido.
+\end{enumerate}
+
+\section{Precisi\'on de los Estimadores MLE}
+
+Pensar en la presici\'on es pensar en cu\'an bien (o mal) nuestro estimador $\hat\theta$ (i.e. ``nuestro $\beta$'') maximice el likelihood de que $E(y)=\pi$. Para esto, debemos recordar que la funci\'on del $LL$ es relativa (depende de los datos). No es como antes en OLS, donde pod\'iamos comparar \emph{p-values}, r$^{2}$ y otros \emph{entre modelos con distintos datasets}. Aqu\'i en MLE no.
+
+En este curso veremos dos tipos de tests, el LLR y el Wald Test. Ambos usan la distribuci\'on del log-likelihood para estimar lo mismo, pero ``por lados diferentes''. Ve la figura 2.1 de \textcite[37]{Ward2018}.
+
+{\centering \includegraphics[width=\maxwidth]{wald_llr.png} 
+
+}
+
+\paragraph{Lagrange Multiplier (LM)}
+
+Este test prueba si el la pendiente del log-likelihood es cero. Recuerda que cuando la pendiente (i.e. el cambio) es cero, eso significa que hemos llegado a la m\'axima de la funci\'on. M\'as formalmente, el test prueba si la derivada con respecto a los par\'ametros es 0.
+
+
+\paragraph{Likelihodd Ratio Test (LLR)}
+
+\begin{equation}
+\begin{split}
+\Re & = 2 \text{ln} (\frac{L_{R_{\star}}}{L_{\star}})\\
+    & = 2(\text{ln} L_{\star} - L_{R_{\star}})
+\end{split}
+\end{equation}
+
+donde $L_{\star}$ es el likelihood del modelo ``entero'' y $L_{R_{\star}}$ es el likelihood del modelo ``restringido''. ``Entero'' significa que tiene todos los efectos estimados, mientras que el ``restringido'' tiene los efectos \emph{restringidos} a 0. 
+
+\paragraph{} Volvamos a usar el lenguaje OLS para ver qu\'e significa ``entero'' y ``restringido''. Supongamos que tenemos dos modelos compitiendo; {\bf ambos se construyeron usando la misma base de datos} (entonces, los podemos comparar).
+
+
+\begin{equation}\label{entero}
+\begin{split}
+y_{i} & = \beta_{0} + {\color{red}\beta_{1}}x_{1} + \beta_{2}x_{2} + \epsilon_{i}
+\end{split}
+\end{equation}
+
+\begin{equation}\label{restringido}
+\begin{split}
+y_{i} & = \beta_{0} + {\color{red}0}x_{1} + \beta_{2}x_{2} + \epsilon_{i}\\
+y_{i} & = \beta_{0} + 0 + \beta_{2}x_{2} + \epsilon_{i}
+\end{split}
+\end{equation}
+
+Aqu\'i lo que hemos hecho es que el modelo en \autoref{entero} est\'a ``entero''. Sin embargo, el modelo en la \autoref{restringido} est\'a ``restringido''; hemos ``restringido'' el valor de $\beta_{1}=0$. Nota que $0\times x_{1}=0$. La pregunta que nos ayuda a resolver el LLR es \emph{qu\'e modelo es mejor}? \emph{El restringido o el entero?} {\color{red}Por qu\'e es importante esta pregunta?} Comparemos sus respectivos LLRs.
+
+\paragraph{}Si $L_{\star} = L_{R_{\star}}$ entonces $\Re = 1$. Pero si el likelihood del modelo ``entero'' $L_{\star}$ es mejor, entonces $\Re\ge1$. Por ejemplo, si $L_{\star}=-72.86$ y $L_{R_{\star}}=-81.27$, entonces,
+
+
+\begin{equation}
+\begin{split}
+\Re & = 2 \text{ln} (\frac{L_{R_{\star}}}{L_{\star}})\\
+    & = 2(\text{ln} -72.86 - -81.27)\\
+    & = 16.8
+\end{split}
+\end{equation}
+
+Aqui podemos concluir que el modelo ``entero'' es mejor, y que debemos quedarnos con este.
+
+\paragraph{Wald Test}
+
+El LRT funciona cuando mejor cuando tenemos un n\'umero limitado de hip\'otesis. En el ejemplo anterior contrastamos la hip\'otesis donde \autoref{entero} era mejor que \autoref{restringido} (y concluimos que \autoref{entero} era mejor). \emph{Qu\'e pasa cuando tienes muchas hip\'otesis y resulta complicado restringir varios parametros a cero?} Para eso usamos el \emph{Wald test}. La ventaja de este test es que ``only the unrestricted model need be estimated; from that model, one can perform tests against any number of alternatives'' \parencite[87]{King1998}.
+
+El Wald test es un tipo de t-test. De nuestro conocimiento de OLS sabemos que una vez obtenido el t-test, es posible calcular el p-value. 
+
+Recordemos primero el t-test:
+
+\begin{equation}\label{ttest}
+\begin{split}
+t & =  \frac{\hat\mu_{\text{s}}-\tilde\mu_{\text{p}}}{\frac{\hat\sigma}{\sqrt{n}}}
+\end{split}
+\end{equation}
+
+donde $\hat\mu_{\text{s}}$ es el \emph{sample mean} (lo que observamos), $\tilde\mu_{\text{p}}$ es el \emph{population mean} (lo que no observamos), y $\hat\sigma$ es la desviaci\'on est\'andar estimada. Ahora veamos el Wald test,
+
+\begin{equation}\label{waldtest}
+\begin{split}
+\mathbb{W} & = \frac{\hat\beta-\tilde\beta}{\hat\sigma}
+\end{split}
+\end{equation}
+
+donde, de manera an\'aloga al t-test en \autoref{ttest}, $\hat\beta$ es el valor promedio estimado (lo que observamos), y a diferencia del t-test, $\tilde\beta$ es un posible valor de $\beta$, mientras que $\hat\sigma$ es el error est\'andar de $\hat\beta$. 
+
+Veamos el siguiente ejemplo, donde de nuevo trataremos de testear la diferencia entre nuestro modelo ``entero'' (\autoref{entero}) y nuestro modelo ``restringido'' (\autoref{restringido}). Supongamos que nuestro modelo OLS en la \autoref{entero} $\hat\beta_{1}=-2.30$ (con error estand\'ar estimado de $\hat\sigma=0.5$), y que nosotros queremos testear si $\hat\beta_{1}=0$, o m\'as precisamente, que uno de los posibles valores de $\hat\beta_{1}$ es $\tilde\beta_{1}=0$. Para eso, restringimos nuestro modelo (como en \autoref{restringido}).
+
+
+\begin{equation}\label{waldtest:1}
+\begin{split}
+\mathbb{W} & = \frac{\hat\beta_{1}-\tilde\beta_{1}}{\hat\sigma}\\
+\mathbb{W} & = \frac{-2.30-0}{0.5}\\
+\mathbb{W} & = -4.60
+\end{split}
+\end{equation}
+
+Dado que $\mathbb{W}=-4.60$, podemos sugerir que el modelo restringido (\autoref{restringido}) esta $-4.60$ {\bf desviaciones est\'andar lejos} del modelo entero (\autoref{entero})---es decir, ambos son substancialmente diferentes. Si realmente $\hat\beta_{1}=0$, entonces $\tilde\beta_{1}=0$, lo que hubiera implicado que $\mathbb{W}=0$, pero en este caso es $-4.60$. Esto significa que debemos rechazar la idea de que $\hat\beta_{1}=0$ (rechazando as\'i el modelo restringido, \autoref{restringido}), y qued\'andose con el modelo entero (\autoref{entero}) donde $\hat\beta_{1}=-2.30$.
+
+\begin{itemize}
+\item La ventaja del Wald test es que podemos testear si m\'ultiples par\'ametros son iguales a cero (u otro valor). 
+\item Debiera ser claro en este momento que ultimamente, lo que busca este test, es sugerir si un par\'ametro aporta al modelo (mejorando su likelihood) o no. 
+\end{itemize}
+
+
+%\newpage
+\paragraph{}
+\paragraph{}
+\pagenumbering{Roman}
+\setcounter{page}{1}
+\printbibliography
+
+\end{document}
+
+

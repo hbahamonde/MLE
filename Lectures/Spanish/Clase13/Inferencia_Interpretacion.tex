@@ -1,0 +1,740 @@
+\documentclass[onesided]{article}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage[T1]{fontenc}
+\linespread{1.5} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[hmarginratio=1:1,columnsep=20pt]{geometry} % Document margins
+%\usepackage{multicol} % Used for the two-column layout of the document
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+\usepackage{float} % Required for tables and figures in the multi-column environment - they need to be placed in specific locations with the [H] (e.g. \begin{table}[H])
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+\usepackage{paralist} % Used for the compactitem environment which makes bullet points with less space between them
+
+% to ignore texts: good for thank messages and paper submissions.
+      % \fbox{\phantom{This text will be invisible too, but a box will be printed arround it.}}
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+%\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage[]{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\Roman{subsection}} % Roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancybox, fancyvrb, calc}
+\usepackage[svgnames]{xcolor}
+\usepackage{physics}
+\usepackage{bm}
+\usepackage{epigraph}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{graphics}
+\usepackage{pbox} % \pbox{20cm}{This is the first \\ cell}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{rotating}
+\usepackage{paracol}
+\usepackage{textcomp}
+\usepackage[export]{adjustbox}
+\usepackage{afterpage}
+\usepackage{filecontents}
+\usepackage{color}
+\usepackage{latexsym}
+\usepackage{lscape}       %\begin{landscape} and \end{landscape}
+\usepackage{wasysym}
+\usepackage{dashrule}
+\usepackage{marvosym} % face package
+\usepackage{framed}
+\usepackage{tree-dvips}
+\usepackage{pgffor}
+\usepackage[]{authblk}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage[latin1]{inputenc}
+\usepackage{hyperref}     %desactivar para link rojos
+\usepackage{graphicx}
+\usepackage{dcolumn} % for R tables
+\usepackage{multirow} % For multirow in tables
+\usepackage{pifont}
+\usepackage{listings}
+
+
+
+
+% hypothesis / theorem package begin
+\usepackage{amsthm}
+\usepackage{thmtools}
+\declaretheoremstyle[
+spaceabove=6pt, spacebelow=6pt,
+headfont=\normalfont\bfseries,
+notefont=\mdseries, notebraces={(}{)},
+bodyfont=\normalfont,
+postheadspace=0.6em,
+headpunct=:
+]{mystyle}
+\declaretheorem[style=mystyle, name=Hypothesis, preheadhook={\renewcommand{\thehyp}{H\textsubscript{\arabic{hyp}}}}]{hyp}
+
+\usepackage{cleveref}
+\crefname{hyp}{hypothesis}{hypotheses}
+\Crefname{hyp}{Hypothesis}{Hypotheses}
+% hypothesis / theorem package end
+
+
+%----------------------------------------------------------------------------------------
+% Other ADDS-ON
+%----------------------------------------------------------------------------------------
+
+% independence symbol \independent
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+
+
+
+
+
+
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat's bookmarks
+    pdftoolbar=true,        % show Acrobat's toolbar?
+    pdfmenubar=true,        % show Acrobat's menu?
+    pdffitwindow=true,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={My title},    % title
+    pdfauthor={Author},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={keyword1} {key2} {key3}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=ForestGreen,          % color of internal links (change box color with linkbordercolor)
+    citecolor=ForestGreen,        % color of links to bibliography
+    filecolor=ForestGreen,      % color of file links
+    urlcolor=ForestGreen           % color of external links
+}
+
+%\usepackage[nodayofweek,level]{datetime} % to have date within text
+
+\newcommand{\LETT}[3][]{\lettrine[lines=4,loversize=.2,#1]{\smash{#2}}{#3}} % letrine customization
+
+
+
+% comments on margin
+  % Select what to do with todonotes: 
+  % \usepackage[disable]{todonotes} % notes not showed
+  \usepackage[draft]{todonotes}   % notes showed
+  % usage: \todo{This is a note at margin}
+
+\usepackage{cooltooltips}
+
+%%% bib begin
+\usepackage[american]{babel}
+\usepackage{csquotes}
+\usepackage[backend=biber,style=authoryear,dashed=false,doi=false,isbn=false,url=false,arxiv=false]{biblatex}
+%\DeclareLanguageMapping{american}{american-apa}
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/library.bib} 
+\addbibresource{/Users/hectorbahamonde/Bibliografia_PoliSci/Bahamonde_BibTex2013.bib} 
+
+% USAGES
+%% use \textcite to cite normal
+%% \parencite to cite in parentheses
+%% \footcite to cite in footnote
+%% the default can be modified in autocite=FOO, footnote, for ex. 
+%%% bib end
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{MLE para Outcomes Binarios: Inferencia e Interpretaci\'on} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+% DOCUMENT ID
+%----------------------------------------------------------------------------------------
+%	CONTENT
+%----------------------------------------------------------------------------------------
+
+%\graphicspath{
+%{/Users/hectorbahamonde/RU/Term5/Experiments_Redlawsk/Experiment/Data/}
+%}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% begin knitr stuff
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\hspace{-5mm}{\bf Profesor}: H\'ector Bahamonde, PhD.\\
+\texttt{e:}\href{mailto:hector.bahamonde@uoh.cl}{\texttt{hector.bahamonde@uoh.cl}}\\
+\texttt{w:}\href{http://www.hectorbahamonde.com}{\texttt{www.hectorbahamonde.com}}\\
+{\bf Curso}: MLE.\\
+\hspace{-5mm}{\bf TA}: Gonzalo Barr\'ia.
+
+\section{Inferencia e Interpretaci\'on}
+
+Los GLMs no se pueden interpretar usando la tabla. Los coeficientes no significan lo que significaban en nuestro mundo OLS. Para interpretarlos, debemos usar otras herramientas. 
+
+
+\paragraph{Intervalos de confianza}
+
+Ya sabemos lo que un intervalo de confianza significa: si nuestra confianza es al 95\%, sabemos que el ``true value'' de la estimaci\'on caer\'a el 95\% de las veces dentro del margen de los intervalos de confianza. Es en base a esto que antes habl\'abamos de ``significancia estad\'istica''.
+
+Carguemos los datos.
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Data}
+\hlstd{mydata} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlstr{"https://stats.idre.ucla.edu/stat/data/binary.csv"}\hlstd{)}
+\hlkwd{head}\hlstd{(mydata)}
+\end{alltt}
+\begin{verbatim}
+##   admit gre  gpa rank
+## 1     0 380 3.61    3
+## 2     1 660 3.67    3
+## 3     1 800 4.00    1
+## 4     1 640 3.19    4
+## 5     0 520 2.93    4
+## 6     1 760 3.00    2
+\end{verbatim}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(mydata)}
+\end{alltt}
+\begin{verbatim}
+##      admit             gre             gpa             rank      
+##  Min.   :0.0000   Min.   :220.0   Min.   :2.260   Min.   :1.000  
+##  1st Qu.:0.0000   1st Qu.:520.0   1st Qu.:3.130   1st Qu.:2.000  
+##  Median :0.0000   Median :580.0   Median :3.395   Median :2.000  
+##  Mean   :0.3175   Mean   :587.7   Mean   :3.390   Mean   :2.485  
+##  3rd Qu.:1.0000   3rd Qu.:660.0   3rd Qu.:3.670   3rd Qu.:3.000  
+##  Max.   :1.0000   Max.   :800.0   Max.   :4.000   Max.   :4.000
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Estimemos el primer modelo
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{logit.1} \hlkwb{<-} \hlkwd{glm}\hlstd{(admit} \hlopt{~} \hlstd{gre} \hlopt{+} \hlstd{gpa,} \hlkwc{data} \hlstd{= mydata,} \hlkwc{family} \hlstd{=} \hlkwd{binomial}\hlstd{(}\hlkwc{link} \hlstd{=} \hlstr{"logit"}\hlstd{))}
+\hlkwd{summary}\hlstd{(logit.1)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = admit ~ gre + gpa, family = binomial(link = "logit"), 
+##     data = mydata)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.2730  -0.8988  -0.7206   1.3013   2.0620  
+## 
+## Coefficients:
+##              Estimate Std. Error z value   Pr(>|z|)    
+## (Intercept) -4.949378   1.075093  -4.604 0.00000415 ***
+## gre          0.002691   0.001057   2.544     0.0109 *  
+## gpa          0.754687   0.319586   2.361     0.0182 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 499.98  on 399  degrees of freedom
+## Residual deviance: 480.34  on 397  degrees of freedom
+## AIC: 486.34
+## 
+## Number of Fisher Scoring iterations: 4
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Y ahora, estimemos los intervalos de confianza. Los intervalos de confianza son sencillos de calcular. Si queremos un 95\% de confianza, miramos la tabla con los valores Z. Para ese porcentaje es $1.960$ (para un 90\% es 1.645). 
+
+\begin{equation}
+\hat\theta \pm 1.960 \times \text{SE}_{\hat\theta}
+\end{equation}
+
+donde $\hat\theta$ es la estimaci\'on (el par\'ametro), $1.960$ es el valor $z$ para el 95\% y $\text{SE}_{\hat\theta}$ es el ``standard error'' del par\'ametro estimado $\hat\theta$. Si te fijas, tenemos el signo $\pm$ que implica que debemos restar para obtener el rango m\'inimo del intervalo de confianza, y sumar para obtener el rango m\'aximo del intervalo de confianza asociado a $\hat\theta$.
+
+Por ejemplo, el coeficiente de ``gre'' es $\hat\theta_{\text{GRE}}=0.0026907$, el $SE_{\hat{\text{GRE}}}$ = 0.0010575. Entonces, $0.0026907 + 1.96*0.0010575$ = 0.0048 para el intervalo superior, y $0.0026907 - 1.96*0.0010575$ = 0.0006 para el intervalo inferior. 
+
+Usemos un paquete.
+
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{confint}\hlstd{(logit.1)}
+\end{alltt}
+\begin{verbatim}
+##                     2.5 %       97.5 %
+## (Intercept) -7.1092205752 -2.886726963
+## gre          0.0006373958  0.004791712
+## gpa          0.1347509288  1.390131131
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Tambi\'en podemos graficar:
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{p_load}\hlstd{(jtools,ggstance,broom.mixed)}
+\hlkwd{plot_summs}\hlstd{(logit.1)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/ci:plot-1} 
+
+}
+
+
+
+\end{knitrout}
+
+\paragraph{Odds Ratios (``Radios de Posibilidad'')}
+
+Esta manera de interpretar solo funciona con los \emph{link function} tipo logit (logit, multinomial logit, etc.), no probit links (i.e. probit, multinomial probit). Formalmente, 
+
+\begin{equation}\label{odd:ratio}
+\begin{split}
+ln \Omega(\text{x}) & = \text{x}\beta \\
+\Omega(\text{x}) & = \frac{\text{Pr}(\text{y}=1 | \text{x})}{\text{Pr}(\text{y}=0 | \text{x})} 
+\end{split}
+\end{equation}
+
+donde \autoref{odd:ratio} es el \emph{odd ratio} de que $y$ sea 1 dado $x$, relativo a que $y$ sea 0 dado $x$. Es un ratio, una fracci\'on. Su interpretaci\'on es intuitiva: ``cuando $x$ cambia, cu\'anto cambia el logit estimado ($\hat\theta$) manteniendo los otros par\'ametros constantes''?
+
+{\bf Lo bueno} de esta interpretaci\'on es que podemos observar el cambio de la variable dependiente. Ten en cuenta que los \emph{odds ratios} son comparables s\'olo con la misma variable. {\bf Lo malo} es que seguimos en unidades de la escala logit (que sigue siendo poco interpretable).
+
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{p_load}\hlstd{(oddsratio)}
+\hlcom{#}
+\hlstd{odds} \hlkwb{=} \hlkwd{or_glm}\hlstd{(}\hlkwc{data} \hlstd{= mydata,}
+       \hlkwc{model} \hlstd{= logit.1,}
+       \hlkwc{incr} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{gre} \hlstd{=} \hlkwd{mean}\hlstd{(mydata}\hlopt{$}\hlstd{gre),} \hlkwc{gpa} \hlstd{=} \hlkwd{mean}\hlstd{(mydata}\hlopt{$}\hlstd{gpa)} \hlopt{+} \hlkwd{sd}\hlstd{(mydata}\hlopt{$}\hlstd{gpa)))}
+\hlstd{odds}
+\end{alltt}
+\begin{verbatim}
+##   predictor oddsratio ci_low (2.5) ci_high (97.5)  increment
+## 1       gre     4.861        1.454         16.711 587.700000
+## 2       gpa    17.211        1.662        188.943   3.770467
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Aqu\'i vemos que la variable dependiente (\texttt{admit}) es 17.211 veces m\'as ``\emph{posible}'' de ocurrir cuando la variable independiente \texttt{gpa} incrementa una desviaci\'on estandard, es decir, se mueve desde su promedio (3.3899) en 0.3805668 puntos de \texttt{gpa}.
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{par}\hlstd{(}\hlkwc{mfrow}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{))}
+\hlkwd{hist}\hlstd{(mydata}\hlopt{$}\hlstd{gpa,} \hlkwc{main} \hlstd{=} \hlstr{"GPA"}\hlstd{)}
+\hlkwd{hist}\hlstd{(mydata}\hlopt{$}\hlstd{gre,} \hlkwc{main} \hlstd{=} \hlstr{"GRE"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/od:plot-1} 
+
+}
+
+
+
+\end{knitrout}
+
+C\'omo interpretamos \texttt{GRE}?
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{mean}\hlstd{(mydata}\hlopt{$}\hlstd{gpa)}
+\end{alltt}
+\begin{verbatim}
+## [1] 3.3899
+\end{verbatim}
+\begin{alltt}
+\hlkwd{mean}\hlstd{(mydata}\hlopt{$}\hlstd{gre)}
+\end{alltt}
+\begin{verbatim}
+## [1] 587.7
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\paragraph{Lo malo} Si bien es cierto que ganamos interpretaci\'on del modelo, lo malo es seguimos hablando con poca precisi\'on. Decir que algo es 17.211 veces m\'as ``\emph{posible}'' es interesante, pero no s\'e si tan ``cient\'ifico''.
+
+
+\paragraph{\emph{Partial/Marginal Changes} in y}
+
+Los ``cambios parciales'' son muy parecidos a los \emph{odds ratios}. Son parecidos porque nos muestra ``cu\'anto cambia $\hat y$ cuando cambia $x$''. Formalmente, 
+
+\begin{equation}\label{part:chan:1}
+\frac{\partial \hat y}{\partial x_{k}} = \beta_{k}
+\end{equation}
+
+lo que significa ``por un cambio en $x_{k}$, se espera que $\hat y$ cambie $\beta_{k}$'' (manteniendo todas las otras variables constantes en su media). Sin embargo, debido a que la varianza de $\hat y$ es desconocida (la varianza es un \emph{population parameter}), entonces, esto complica la interpretaci\'on de $\beta_{k}$. Para resolver esto, lo que hacemos es pensar en coeficientes $\beta_{k}$ estandarizados. Siguiendo \autoref{part:chan:1}, lo que pensamos es en ``por un cambio en $x_{k}$, se espera que $\hat y$ cambie $\beta_{k}$ {\bf desviaciones est\'andard}''. Formalmente, 
+
+\begin{equation}\label{part:chan:2}
+\beta_{k}^{S} = \frac{\sigma_{k} \beta_{k}}{\sigma_{\hat y}} = \sigma_{k}\beta_{k}^{S_{\hat y}}
+\end{equation}
+
+Nota que \autoref{part:chan:2} tambi\'en estandariza $\hat y$. Debido a que $\hat\sigma_{\hat y} = \sigma_{\hat y}$ (i.e. podemos estimar la varianza estandarizada de los datos), 
+
+\begin{equation}%\label{part:chan}
+{\hat\sigma_{\hat y}} = \beta^{\top}\hat\sigma(x)\beta + \sigma(\epsilon).
+\end{equation}
+
+Calculemos dos escenarios. Uno donde el estudiante le iba muy bien en el colegio (\texttt{max(mydata\$gpa)}), pero tuvo un p\'esimo puntaje GRE que es la prueba de admisi\'on de doctorado (\texttt{min(mydata\$gre)}).
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{p_load}\hlstd{(margins)}
+\hlkwd{summary}\hlstd{(}\hlkwd{margins}\hlstd{(logit.1,}
+        \hlkwc{at} \hlstd{=} \hlkwd{list}\hlstd{(}
+          \hlkwc{gre} \hlstd{=} \hlkwd{min}\hlstd{(mydata}\hlopt{$}\hlstd{gre),}
+          \hlkwc{gpa} \hlstd{=} \hlkwd{max}\hlstd{(mydata}\hlopt{$}\hlstd{gpa))}
+        \hlstd{))}
+\end{alltt}
+\begin{verbatim}
+##  factor      gre    gpa    AME     SE      z      p   lower  upper
+##     gpa 220.0000 4.0000 0.1242 0.0808 1.5364 0.1244 -0.0342 0.2827
+##     gre 220.0000 4.0000 0.0004 0.0001 5.9659 0.0000  0.0003 0.0006
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Ahora calculemos un escenario donde el estudiante era regular en el colegio (\texttt{mean(mydata\$gpa)}) pero le fue s\'uper bien en el GRE (\texttt{max(mydata\$gre)}):
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(}\hlkwd{margins}\hlstd{(logit.1,}
+        \hlkwc{at} \hlstd{=} \hlkwd{list}\hlstd{(}
+          \hlkwc{gre} \hlstd{=} \hlkwd{max}\hlstd{(mydata}\hlopt{$}\hlstd{gre),}
+          \hlkwc{gpa} \hlstd{=} \hlkwd{mean}\hlstd{(mydata}\hlopt{$}\hlstd{gpa))}
+          \hlstd{))}
+\end{alltt}
+\begin{verbatim}
+##  factor      gre    gpa    AME     SE      z      p  lower  upper
+##     gpa 800.0000 3.3899 0.1860 0.0770 2.4157 0.0157 0.0351 0.3369
+##     gre 800.0000 3.3899 0.0007 0.0003 2.3899 0.0169 0.0001 0.0012
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Aqu\'i vemos en \texttt{factor} cu\'anto cambia (en unidades de log-likelihood, segun sale en \texttt{lower} y \texttt{upper}) $\hat y$, y si es significativo o no (\texttt{p}).
+
+
+Es muy \'util establecer valores seg\'un ciertos perfiles t\'ipicos o ``escenarios''. Sin embargo, esto asume que conocemos estos perfiles (lo que puede que no sea cierto todas las veces). Para compensar  por esto, podemos graficar los cambios marginales para todo el rango de $x$ e $y$. 
+
+Grafiquemos:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{par}\hlstd{(}\hlkwc{mfrow}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{))}
+\hlkwd{cplot}\hlstd{(logit.1,} \hlstr{"gre"}\hlstd{,} \hlkwc{what} \hlstd{=} \hlstr{"effect"}\hlstd{)} \hlcom{# effect para mostrar cambios marginales}
+\hlkwd{cplot}\hlstd{(logit.1,} \hlstr{"gpa"}\hlstd{,} \hlkwc{what} \hlstd{=} \hlstr{"effect"}\hlstd{)} \hlcom{# effect para mostrar cambios marginales}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/sc3-1} 
+
+}
+
+
+
+\end{knitrout}
+
+
+\paragraph{Predicted Probabilities: Gr\'aficos}
+
+Quiz\'as esta sea la manera m\'as usada para poder interpretar: graficando (o mostrando en una tabla) ``la probabilidad de que $y$ sea $1$ a distintos valores de $x$'', o de manera m\'as formal, 
+
+\begin{equation}%\label{part:chan}
+\hat{\text{Pr}}(y_{i}=1|{\mathbf x}_{i}) = f({\mathbf x}_{i}{\boldsymbol{\hat\beta}})
+\end{equation}
+
+F\'ijate que ${\mathbf x}$ y $\boldsymbol{\hat{\beta}}$ son matrices. {\color{red}Por que?} 
+
+Aqu\'i lo que queremos saber es c\'omo se comporta la probabilidad de que $y_{i}=1$ a medida que nos movemos en una de las $x$'s. {\bf Lo bueno}, es que tenemos un lenguaje f\'acil de entender: todos entienden probabilidades, y adem\'as, estas var\'ian entre 0 y 1. {\color{red}Pero qu\'e hacemos con el resto de las x's?}
+
+
+Lo que estamos tratando de comunicar es $\hat y_{i}$ que est\'a en escala logit. Ve\'amos c\'omo se ve $\hat y_{i}$ en escala logit usando el comando \texttt{predict}:
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{head}\hlstd{(}\hlkwd{predict}\hlstd{(logit.1))}
+\end{alltt}
+\begin{verbatim}
+##          1          2          3          4          5          6 
+## -1.2024987 -0.4038261  0.2219162 -0.8198895 -1.3389901 -0.6403980
+\end{verbatim}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(}\hlkwd{predict}\hlstd{(logit.1))}
+\end{alltt}
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -2.2217 -1.1517 -0.7954 -0.8098 -0.4333  0.2219
+\end{verbatim}
+\begin{alltt}
+\hlkwd{plot}\hlstd{(}\hlkwd{predict}\hlstd{(logit.1))} \hlcom{# logit scale}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/predict:1-1} 
+
+}
+
+
+
+\end{knitrout}
+
+
+Como la escala logit no es facilmente entendible (\texttt{predict(logit.1)}), debemos mapear $\hat y_{i}$ en una funci\'on que que retorne $\hat y_{i}$ pero en escala de probabilidades (entre 0 y 1). 
+
+Asumiendo que $\hat y_{i}$ est\'a en escala logit, la funci\'on es la siguiente:
+
+\begin{equation}\label{logit:prob}
+Pr(y_{i}=1) = \frac{exp(\hat y_{i})}{1+exp(\hat y_{i}}
+\end{equation}
+
+y que se logra as\'i:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{logit.scale} \hlkwb{=} \hlkwd{as.numeric}\hlstd{(}\hlkwd{predict}\hlstd{(logit.1))} \hlcom{# extraer vector y'}
+\hlstd{prob.scale} \hlkwb{=} \hlkwd{exp}\hlstd{(logit.scale)}\hlopt{/}\hlstd{(}\hlnum{1}\hlopt{+}\hlkwd{exp}\hlstd{(logit.scale))} \hlcom{# exponenciar}
+\hlkwd{head}\hlstd{(prob.scale)} \hlcom{# ve como se ve y' en formato prob}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.2310310 0.4003934 0.5552525 0.3057871 0.2076762 0.3451566
+\end{verbatim}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(prob.scale)} \hlcom{# resumen de y' en formato prob (bounded)}
+\end{alltt}
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## 0.09782 0.24018 0.31100 0.31750 0.39334 0.55525
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Despu\'es de eso, se pueden hacer gr\'aficos:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{par}\hlstd{(}\hlkwc{mfrow}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{))} \hlcom{# divide el panel de graf's en dos}
+\hlkwd{plot}\hlstd{(mydata}\hlopt{$}\hlstd{gre, prob.scale)} \hlcom{# para gre}
+\hlkwd{plot}\hlstd{(mydata}\hlopt{$}\hlstd{gpa, prob.scale)} \hlcom{# para gpa}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/logit:prob:2-1} 
+
+}
+
+
+
+\end{knitrout}
+
+Afortunadamente se puede hacer de manera m\'as simple. Usando la librer\'ia \texttt{effects}, podemos obtener $\hat y_{i}$ expresado en probabilidades. Aqu\'i tomamos $\hat y_{i}$ que est\'a en escala logit (que es tambi\'en lo que est\'a en la tabla de la regresi\'on log\'istica) y lo mapeamos en la funci\'on que retorna probabilidades entre 0 y 1 (\autoref{logit:prob}).
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{p_load}\hlstd{(}\hlstr{"effects"}\hlstd{)}
+\hlkwd{plot}\hlstd{(}\hlkwd{predictorEffects}\hlstd{(logit.1))} \hlcom{# Todo el modelo }
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/predict:2-1} 
+
+}
+
+
+
+\end{knitrout}
+
+Nota que incluye autom\'aticamente intervalos de confianza. {\color{red}De qu\'e dependen?}
+
+\paragraph{Predicted Probabilities: Tablas}
+
+La otra alternativa es poder generar tablas con \emph{predicted prob's}. La idea es ir generando ``perfiles'' que hagan sentido desde un punto de vista substantivo. 
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# generar los rangos de los perfiles deseados}
+\hlstd{gpa.bajo} \hlkwb{<-} \hlkwd{with}\hlstd{(mydata,}
+                \hlkwd{data.frame}\hlstd{(}
+                        \hlkwc{gre} \hlstd{=} \hlkwd{c}\hlstd{(}\hlkwd{min}\hlstd{(mydata}\hlopt{$}\hlstd{gre),} \hlkwd{max}\hlstd{(mydata}\hlopt{$}\hlstd{gre)),}
+                        \hlkwc{gpa} \hlstd{=} \hlkwd{min}\hlstd{(mydata}\hlopt{$}\hlstd{gpa))}
+                \hlstd{)}
+\hlstd{gpa.medio} \hlkwb{<-} \hlkwd{with}\hlstd{(mydata,}
+                 \hlkwd{data.frame}\hlstd{(}
+                         \hlkwc{gre} \hlstd{=} \hlkwd{c}\hlstd{(}\hlkwd{min}\hlstd{(mydata}\hlopt{$}\hlstd{gre),} \hlkwd{max}\hlstd{(mydata}\hlopt{$}\hlstd{gre)),}
+                         \hlkwc{gpa} \hlstd{=} \hlkwd{mean}\hlstd{(mydata}\hlopt{$}\hlstd{gpa,} \hlkwc{na.rm} \hlstd{= T))}
+                         \hlstd{)}
+\hlstd{gpa.alto} \hlkwb{<-} \hlkwd{with}\hlstd{(mydata,}
+                      \hlkwd{data.frame}\hlstd{(}
+                              \hlkwc{gre} \hlstd{=} \hlkwd{c}\hlstd{(}\hlkwd{min}\hlstd{(mydata}\hlopt{$}\hlstd{gre),} \hlkwd{max}\hlstd{(mydata}\hlopt{$}\hlstd{gre)),}
+                              \hlkwc{gpa} \hlstd{=} \hlkwd{max}\hlstd{(mydata}\hlopt{$}\hlstd{gpa))}
+                              \hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# usar funcion predict}
+\hlkwd{predict}\hlstd{(logit.1, gpa.bajo,} \hlkwc{type}\hlstd{=}\hlstr{"response"}\hlstd{)} \hlcom{# gpa.bajo}
+\end{alltt}
+\begin{verbatim}
+##          1          2 
+## 0.06587598 0.25138506
+\end{verbatim}
+\begin{alltt}
+\hlkwd{predict}\hlstd{(logit.1, gpa.medio,} \hlkwc{type}\hlstd{=}\hlstr{"response"}\hlstd{)} \hlcom{# gpa.medio}
+\end{alltt}
+\begin{verbatim}
+##         1         2 
+## 0.1419589 0.4406515
+\end{verbatim}
+\begin{alltt}
+\hlkwd{predict}\hlstd{(logit.1, gpa.alto,} \hlkwc{type}\hlstd{=}\hlstr{"response"}\hlstd{)} \hlcom{# gpa.alto}
+\end{alltt}
+\begin{verbatim}
+##         1         2 
+## 0.2077272 0.5552525
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+
+
+
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\multicolumn{2}{|c|}{\textbf{GPA Bajo}} & \multicolumn{2}{c|}{\textbf{GPA Medio}} & \multicolumn{2}{c|}{\textbf{GPA Alto}} \\ \hline
+\textit{Gre Min}   & \textit{Gre Max}   & \textit{Gre Min}   & \textit{Gre Max}   & \textit{Gre Min}   & \textit{Gre Max}  \\ \hline
+0.07 & 0.25 &                    
+0.14 & 0.44 &                    
+0.21 & 0.56 \\ \hline
+\end{tabular}
+\end{table}
+
+
+{\color{red}Cu\'al es el problema?}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{knitr}\hlopt{::}\hlkwd{purl}\hlstd{(}\hlstr{'Inferencia_Interpretacion.Rnw'}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in parse\_block(g[-1], g[1], params.src, markdown\_mode): Duplicate chunk label 'setup', which has been used for the chunk:\\\#\# if (!require("{}pacman"{})) install.packages("{}pacman"{}); library(pacman)\\\#\# p\_load(knitr)\\\#\# set.seed(2020)\\\#\# options(scipen=9999999)}}\begin{alltt}
+\hlkwd{Stangle}\hlstd{(}\hlstr{'Inferencia_Interpretacion.Rnw'}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## Writing to file Inferencia_Interpretacion.R
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+%\newpage
+%\paragraph{}
+%\paragraph{}
+%\pagenumbering{Roman}
+%\setcounter{page}{1}
+%\printbibliography
+
+
+
+\end{document}
+
+
