@@ -4,6 +4,7 @@ graphics.off()
 
 
 # Hypothesis testing: Wald test, Likelihood Ratio, Lagrange Multiplier (práctico)
+if (!require("pacman")) install.packages("pacman"); library(pacman) 
 options(scipen=100000000)
 set.seed(2020)
 
@@ -18,7 +19,7 @@ mydata$rank <- factor(mydata$rank)
 #############
 
 # modelo 1
-logit.1 <- glm(admit ~ gre + gpa + rank, data = mydata, family = binomial(link = "logit")) # unrestricted
+logit.1 <- glm(admit ~ gre + gpa + rank, data = mydata, family = binomial(link = "logit")) # unrestricted (full)
 summary(logit.1)
 
 # modelo 2: sin rank
@@ -31,33 +32,44 @@ summary(logit.2)
 
 p_load(aod)
 
+# The key assumption is that the coefficients asymptotically follow a (multivariate) normal 
+# distribution with mean = model coefficients and variance = their var-cov matrix. 
+## O SEA, TENEMOS EL VERDADERO MODELO.
+
+# Null Hyp: b=0
+# SI es sign., hay evidencia suficiente para rechazar la nula y aceptar la HA (b es distinto a 0).
+
 # Wald Test en el Intercepto
-aod::wald.test(b = coef(logit.1), Sigma = vcov(logit.1), Terms = 1) # probemos que el primer coef = 0
-# Si da significativo, b0 lo es tambien.
+aod::wald.test(b = coef(logit.1), Sigma = vcov(logit.1), Terms = 2, df= length(coef(logit.1))) 
+# probemos que el segundo coef (gre) = 0
+# Si da significativo, aceptar la HA (b es distinto a 0).
+# Vemos que no es significativo, asi que aceptamos la nula de que b2=0.
 
 
-aod::wald.test(b = coef(logit.1), Sigma = vcov(logit.1), Terms = 1:2) # probemos que el primer y seg coef = 0
-# Si da significativo, b0 Y b1 lo son tambien.
+aod::wald.test(b = coef(logit.1), Sigma = vcov(logit.1), Terms = c(1,6), df= length(coef(logit.1)) ) 
+# probemos que el primer (Intercept) y sexto (rank4) coef son  = 0.
+# Si da significativo, aceptar la HA (b es distinto a 0).
+# Vemos que SI es significativo, asi que RECHAZAMOS la nula de que b1 y b6=0.
+
 
 # Debes ingresar el numero de coeficiente segun como sale en el "call" del modelo.
 # Sigma entrega la matrix de varianza-covarianza de los errores std.
 
 
-
-
-
 #############
-# Likelihood Ratio: comparando log-lilelihoods
+# Likelihood Ratio: comparando log-likelihoods
 #############
-
-lrtest(logit.1, logit.2) # Fijate que aqui no comparamos parametros, si no que LogLik
+p_load(lmtest)
 
 # Extraer Lig Likelihood de cada modelo
-
 logLik(logit.1)
 logLik(logit.2)
 
 # Que modelo es mejor?
+
+
+lrtest(logit.1, logit.2) # Fijate que aqui no comparamos parametros, si no que LogLik's
+
 
 #############
 # Lagrange Multiplier
